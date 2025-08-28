@@ -6,24 +6,11 @@
   <title>Tebak Tebakan - Kuis Seru</title>
   <style>
     :root{
-      --primary-color:#4a6fa5;
-      --secondary-color:#6b8cbc;
-      --accent-color:#ff6b6b;
-      --background-color:#f5f7fa;
-      --text-color:#333;
-      --card-bg:#ffffff;
-      --header-bg:#4a6fa5;
-      --font-weight:600;
+      --primary-color:#4a6fa5; --secondary-color:#6b8cbc; --accent-color:#ff6b6b;
+      --background-color:#f5f7fa; --text-color:#333; --card-bg:#ffffff; --header-bg:#4a6fa5; --font-weight:600;
     }
-    .theme-dark{
-      --primary-color:#2c3e50;
-      --secondary-color:#34495e;
-      --accent-color:#e74c3c;
-      --background-color:#0f172a;
-      --text-color:#e2e8f0;
-      --card-bg:#111827;
-      --header-bg:#1f2937;
-    }
+    .theme-dark{ --primary-color:#2c3e50; --secondary-color:#34495e; --accent-color:#e74c3c;
+      --background-color:#0f172a; --text-color:#e2e8f0; --card-bg:#111827; --header-bg:#1f2937 }
     .theme-light-2{--primary-color:#6d4c41;--secondary-color:#8d6e63;--accent-color:#ff5722;--background-color:#f5f5f5;--text-color:#212121;--card-bg:#fff;--header-bg:#6d4c41}
     .theme-light-3{--primary-color:#388e3c;--secondary-color:#4caf50;--accent-color:#ffc107;--background-color:#e8f5e9;--text-color:#1b5e20;--card-bg:#fff;--header-bg:#388e3c}
     .theme-light-4{--primary-color:#1976d2;--secondary-color:#2196f3;--accent-color:#ff5252;--background-color:#e3f2fd;--text-color:#0d47a1;--card-bg:#fff;--header-bg:#1976d2}
@@ -46,6 +33,7 @@
     .btn{background:var(--primary-color);color:#fff;border:0;padding:10px 18px;border-radius:10px;cursor:pointer;font-weight:800}
     .btn:hover{filter:brightness(.95)}
     .btn-sm{padding:8px 14px;font-size:.92rem;margin:4px}
+    .muted{opacity:.7}
 
     .login-container{display:flex;flex-direction:column;align-items:center;gap:16px}
     .avatar-selection,.theme-selection{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
@@ -171,8 +159,9 @@
 
     <!-- Admin -->
     <div id="admin-page" class="page">
-      <div class="card"><h2>Panel Admin</h2><p>Tambah + hapus soal (tersimpan di LocalStorage)</p></div>
+      <div class="card"><h2>Panel Admin</h2><p>Tambah + hapus soal, serta Impor/Ekspor JSON (tersimpan di LocalStorage)</p></div>
 
+      <!-- Form tambah soal -->
       <div class="card">
         <div style="display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))">
           <div>
@@ -213,9 +202,32 @@
         </div>
       </div>
 
+      <!-- Bank soal + hapus -->
       <div class="card">
         <h3 style="margin-bottom:10px">Bank Soal (Kategori/Level terpilih)</h3>
         <div id="bank-wrap" class="bank"></div>
+      </div>
+
+      <!-- Impor / Ekspor -->
+      <div class="card">
+        <h3 style="margin-bottom:10px">Impor / Ekspor JSON</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">
+          <button id="btn-export-all" class="btn btn-sm">Export Semua</button>
+          <button id="btn-export-current" class="btn btn-sm">Export Kategori/Level</button>
+
+          <input type="file" id="file-import" accept=".json,application/json" style="display:none">
+          <button id="btn-import-file-merge" class="btn btn-sm">Impor File (Gabung)</button>
+          <button id="btn-import-file-replace" class="btn btn-sm">Impor File (Ganti)</button>
+        </div>
+        <p class="muted" style="margin:8px 0">
+          Import menerima: (1) objek penuh seperti <code>{ kategori: { mudah:[], normal:[], sulit:[] } }</code>,
+          atau (2) array soal untuk kategori/level yang sedang dipilih.
+        </p>
+        <textarea id="import-text" rows="6" placeholder='Tempel JSON di sini...' style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px"></textarea>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <button id="btn-import-text-merge" class="btn btn-sm">Impor Teks (Gabung)</button>
+          <button id="btn-import-text-replace" class="btn btn-sm">Impor Teks (Ganti)</button>
+        </div>
       </div>
     </div>
   </div>
@@ -233,7 +245,7 @@
     const ADMIN_PASSWORD = '281105';
     let adminUnlocked = false;
 
-    // Nama file avatar sesuai punyamu
+    // Avatar file sesuai repo kamu
     const AVATAR_FILES = [
       '3f983b9ca5618e87e3734751e643c00a.jpg',
       '23f038cc913bb02b9b58bc7d8418dd6d.jpg',
@@ -245,25 +257,15 @@
       'be6f89e2633168738acf2deb817cfeb6.jpg',
       'a975a06b73c871fd961c088eb19ed64a (1).jpg'
     ];
-
     const PLACEHOLDER = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><rect rx='80' ry='80' width='160' height='160' fill='%23e2e8f0'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='14' fill='%236b7280'>avatar missing</text></svg>";
-
-    // Dir index.html (mis. /tebakz/) → avatar di /tebakz/static/avatars/
-    const REPO_DIR = (function(){
-      const p = location.pathname;
-      return p.endsWith('/') ? p : p.replace(/\/[^\/]*$/, '/');
-    })();
+    const REPO_DIR = (function(){ const p = location.pathname; return p.endsWith('/') ? p : p.replace(/\/[^\/]*$/, '/'); })();
     const AVATAR_DIR = REPO_DIR + 'static/avatars/';
     const AVATAR_URLS = AVATAR_FILES.map(fn => AVATAR_DIR + encodeURIComponent(fn));
 
     const appData = {
       currentPlayer:{name:'Pemain',avatar:AVATAR_URLS[0],theme:'theme-light',score:0},
-      currentQuestions:[],
-      currentQuestionIndex:0,
-      userAnswers:[],
-      currentCategory:'',
-      currentLevel:'',
-      quizStartAt:0,
+      currentQuestions:[], currentQuestionIndex:0, userAnswers:[],
+      currentCategory:'', currentLevel:'', quizStartAt:0,
       scores:[],
       categories:[
         {id:'ipa',name:'IPA',description:'Ilmu Pengetahuan Alam'},
@@ -291,19 +293,13 @@
 
     /* -------------------- SOAL AWAL CONTOH -------------------- */
     const sampleQuestions = {
-      ipa:{
-        mudah:[
+      ipa:{ mudah:[
           {id:1,question:'Planet terdekat dari matahari?',options:{a:'Venus',b:'Bumi',c:'Mars',d:'Merkurius'},correctAnswer:'d',image:''},
           {id:2,question:'Fungsi mitokondria?',options:{a:'Fotosintesis',b:'Pembangkit energi sel',c:'Kontrol aktivitas sel',d:'Sintesis protein'},correctAnswer:'b',image:''}
-        ],
-        normal:[],sulit:[]
-      },
-      it:{
-        mudah:[
+        ], normal:[], sulit:[] },
+      it:{ mudah:[
           {id:1,question:'HTML kepanjangannya?',options:{a:'Hyperlinks and Text Markup Language',b:'HyperText Markup Language',c:'Home Tool Markup Language',d:'Hyper Text Makeup Language'},correctAnswer:'b',image:''}
-        ],
-        normal:[],sulit:[]
-      }
+        ], normal:[], sulit:[] }
     };
 
     /* -------------------- INIT -------------------- */
@@ -328,8 +324,7 @@
           if(p===ADMIN_PASSWORD){ adminUnlocked=true; alert('Akses Admin dibuka.'); }
           else { alert('Password salah.'); return; }
         }
-        showPage('admin-page');
-        renderBank();
+        showPage('admin-page'); renderBank();
       });
 
       document.getElementById('logout-link').addEventListener('click',logout);
@@ -352,65 +347,59 @@
       document.getElementById('add-question-btn').addEventListener('click',addQuestion);
       document.getElementById('question-category').addEventListener('change',renderBank);
       document.getElementById('question-level').addEventListener('change',renderBank);
+
+      // Export / Import
+      document.getElementById('btn-export-all').onclick = ()=> downloadJSON(sampleQuestions,'bank-soal.json');
+      document.getElementById('btn-export-current').onclick = exportCurrent;
+
+      document.getElementById('btn-import-file-merge').onclick   = ()=> triggerFileImport(true);
+      document.getElementById('btn-import-file-replace').onclick = ()=> triggerFileImport(false);
+      document.getElementById('btn-import-text-merge').onclick   = ()=> importFromText(true);
+      document.getElementById('btn-import-text-replace').onclick = ()=> importFromText(false);
     }
 
-    function showPage(id){
-      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
+    function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); }
 
     /* -------------------- LOGIN & HOME -------------------- */
     function renderAvatarOptions(){
-      const c=document.getElementById('avatar-selection');
-      c.innerHTML='';
+      const c=document.getElementById('avatar-selection'); c.innerHTML='';
       appData.avatars.forEach((fullSrc,idx)=>{
         const img=document.createElement('img');
-        img.src=fullSrc; img.alt='Avatar '+(idx+1);
-        img.className='avatar-option';
+        img.src=fullSrc; img.alt='Avatar '+(idx+1); img.className='avatar-option';
         img.onerror = ()=>{ img.src=PLACEHOLDER; img.title='Tidak ditemukan: '+decodeURIComponent(fullSrc); };
         if((idx===0 && !appData.currentPlayer.avatar) || appData.currentPlayer.avatar===fullSrc){
-          appData.currentPlayer.avatar=fullSrc;
-          img.classList.add('selected');
+          appData.currentPlayer.avatar=fullSrc; img.classList.add('selected');
         }
         img.addEventListener('click',()=>{
           document.querySelectorAll('.avatar-option').forEach(i=>i.classList.remove('selected'));
-          img.classList.add('selected');
-          appData.currentPlayer.avatar=fullSrc;
-          saveToLocalStorage();
+          img.classList.add('selected'); appData.currentPlayer.avatar=fullSrc; saveToLocalStorage();
         });
         c.appendChild(img);
       });
     }
 
     function renderThemeOptions(){
-      const c=document.getElementById('theme-selection');
-      c.innerHTML='';
+      const c=document.getElementById('theme-selection'); c.innerHTML='';
       appData.themes.forEach((t)=>{
-        const el=document.createElement('div');
-        el.textContent=t.name;
-        el.className='theme-option';
+        const el=document.createElement('div'); el.textContent=t.name; el.className='theme-option';
         if(appData.currentPlayer.theme===t.class || (!appData.currentPlayer.theme && t.class==='theme-light')){
-          el.classList.add('selected');
-          document.body.classList.add(t.class);
+          el.classList.add('selected'); document.body.classList.add(t.class);
         }
         el.addEventListener('click',()=>{
           document.querySelectorAll('.theme-option').forEach(i=>i.classList.remove('selected'));
           el.classList.add('selected');
           document.body.classList.remove(...appData.themes.map(x=>x.class));
           document.body.classList.add(t.class);
-          appData.currentPlayer.theme=t.class;
-          saveToLocalStorage();
+          appData.currentPlayer.theme=t.class; saveToLocalStorage();
         });
         c.appendChild(el);
       });
     }
 
     function renderCategories(){
-      const grid=document.getElementById('category-grid');
-      grid.innerHTML='';
+      const grid=document.getElementById('category-grid'); grid.innerHTML='';
       appData.categories.forEach(cat=>{
-        const box=document.createElement('div');
-        box.className='category-item';
+        const box=document.createElement('div'); box.className='category-item';
         box.innerHTML = `
           <h3>${cat.name}</h3>
           <p>${cat.description||''}</p>
@@ -429,32 +418,19 @@
     function startGame(){
       const name = (document.getElementById('player-name').value||'').trim();
       if(!name){ alert('Silakan isi nama dulu ya.'); return; }
-      appData.currentPlayer.name=name;
-      document.getElementById('player-greeting').textContent=name;
-      saveToLocalStorage();
-      showPage('home-page');
+      appData.currentPlayer.name=name; document.getElementById('player-greeting').textContent=name;
+      saveToLocalStorage(); showPage('home-page');
     }
 
     /* -------------------- QUIZ -------------------- */
     function startQuiz(category,level){
-      appData.currentCategory=category;
-      appData.currentLevel=level;
-      appData.currentQuestionIndex=0;
-      appData.userAnswers=[];
-      appData.quizStartAt=Date.now();
-
-      let qs=[];
-      if(sampleQuestions[category] && sampleQuestions[category][level] && sampleQuestions[category][level].length){
-        qs=sampleQuestions[category][level];
-      }else{
-        qs=[{id:1,question:`Contoh soal ${category} (${level})`,options:{a:'Opsi A',b:'Opsi B',c:'Opsi C',d:'Opsi D'},correctAnswer:'a',image:''}];
-      }
+      appData.currentCategory=category; appData.currentLevel=level;
+      appData.currentQuestionIndex=0; appData.userAnswers=[]; appData.quizStartAt=Date.now();
+      let qs=[]; if(sampleQuestions[category] && sampleQuestions[category][level] && sampleQuestions[category][level].length){ qs=sampleQuestions[category][level]; }
+      else{ qs=[{id:1,question:`Contoh soal ${category} (${level})`,options:{a:'Opsi A',b:'Opsi B',c:'Opsi C',d:'Opsi D'},correctAnswer:'a',image:''}]; }
       appData.currentQuestions=qs;
-
       document.getElementById('quiz-category').textContent='Kategori: '+category.toUpperCase();
-      document.getElementById('quiz-level').textContent='Level: '+level;
-      showPage('quiz-page');
-      showQuestion(0);
+      document.getElementById('quiz-level').textContent='Level: '+level; showPage('quiz-page'); showQuestion(0);
     }
 
     function showQuestion(i){
@@ -462,100 +438,44 @@
       const q=appData.currentQuestions[i];
       document.getElementById('question-text').textContent=q.question;
       document.getElementById('question-number').textContent=`Soal ${i+1}/${appData.currentQuestions.length}`;
-
-      const qi=document.getElementById('question-image');
-      if(q.image){ qi.src=q.image; qi.style.display='block'; }
-      else { qi.style.display='none'; }
-
+      const qi=document.getElementById('question-image'); if(q.image){ qi.src=q.image; qi.style.display='block'; } else { qi.style.display='none'; }
       document.getElementById('quiz-progress').style.width = (i/appData.currentQuestions.length*100)+'%';
-
       const oc=document.getElementById('options-container'); oc.innerHTML='';
       Object.entries(q.options).forEach(([k,v])=>{
-        const d=document.createElement('div');
-        d.className='option'; d.dataset.option=k; d.innerHTML=`<strong>${k.toUpperCase()}.</strong> ${v}`;
-        if(appData.userAnswers[i]===k) d.classList.add('selected');
-        oc.appendChild(d);
+        const d=document.createElement('div'); d.className='option'; d.dataset.option=k; d.innerHTML=`<strong>${k.toUpperCase()}.</strong> ${v}`;
+        if(appData.userAnswers[i]===k) d.classList.add('selected'); oc.appendChild(d);
       });
     }
-
-    function handleNextQuestion(){
-      if(!appData.userAnswers[appData.currentQuestionIndex]){
-        alert('Pilih jawaban dulu ya!');
-        return;
-      }
-      appData.currentQuestionIndex++;
-      showQuestion(appData.currentQuestionIndex);
-    }
-
+    function handleNextQuestion(){ if(!appData.userAnswers[appData.currentQuestionIndex]){ alert('Pilih jawaban dulu ya!'); return; } appData.currentQuestionIndex++; showQuestion(appData.currentQuestionIndex); }
     function finishQuiz(){
       let score=0; const details=[];
-      appData.currentQuestions.forEach((q,idx)=>{
-        const ua=appData.userAnswers[idx];
-        const ok=ua===q.correctAnswer;
-        if(ok) score++;
-        details.push({q:q.question,u:ua?q.options[ua]:'Tidak dijawab',c:q.options[q.correctAnswer],ok});
-      });
+      appData.currentQuestions.forEach((q,idx)=>{ const ua=appData.userAnswers[idx]; const ok=ua===q.correctAnswer; if(ok) score++; details.push({q:q.question,u:ua?q.options[ua]:'Tidak dijawab',c:q.options[q.correctAnswer],ok}); });
       appData.currentPlayer.score=score;
-
       document.getElementById('score-display').textContent=`Skor Anda: ${score}/${appData.currentQuestions.length}`;
       const wrap=document.getElementById('answer-details'); wrap.innerHTML='';
-      details.forEach((d,i)=>{
-        const e=document.createElement('div');
-        e.style.cssText=`margin:10px 0;padding:10px;border-left:4px solid ${d.ok?'#4caf50':'#f44336'};background:${d.ok?'#e8f5e9':'#ffebee'};border-radius:6px`;
-        e.innerHTML=`<p><strong>Soal ${i+1}:</strong> ${d.q}</p><p><strong>Jawaban Anda:</strong> ${d.u}</p><p><strong>Jawaban Benar:</strong> ${d.c}</p>`;
-        wrap.appendChild(e);
-      });
-
+      details.forEach((d,i)=>{ const e=document.createElement('div'); e.style.cssText=`margin:10px 0;padding:10px;border-left:4px solid ${d.ok?'#4caf50':'#f44336'};background:${d.ok?'#e8f5e9':'#ffebee'};border-radius:6px`; e.innerHTML=`<p><strong>Soal ${i+1}:</strong> ${d.q}</p><p><strong>Jawaban Anda:</strong> ${d.u}</p><p><strong>Jawaban Benar:</strong> ${d.c}</p>`; wrap.appendChild(e); });
       const ms = Math.max(1, Date.now()-appData.quizStartAt);
-      addScore({ name: appData.currentPlayer.name || 'Pemain', score,
-                 total: appData.currentQuestions.length, category: appData.currentCategory,
-                 level: appData.currentLevel, ms, date: new Date().toISOString() });
-
-      showPage('result-page');
-      saveToLocalStorage();
+      addScore({ name: appData.currentPlayer.name || 'Pemain', score, total: appData.currentQuestions.length, category: appData.currentCategory, level: appData.currentLevel, ms, date: new Date().toISOString() });
+      showPage('result-page'); saveToLocalStorage();
     }
 
     /* -------------------- TOP SCORE -------------------- */
     function addScore(rec){
       appData.scores.push(rec);
-      appData.scores.sort((a,b)=>{
-        if(b.score!==a.score) return b.score-a.score;
-        if(a.ms!==b.ms) return a.ms-b.ms;
-        return new Date(a.date)-new Date(b.date);
-      });
-      appData.scores = appData.scores.slice(0,100);
-      saveToLocalStorage();
+      appData.scores.sort((a,b)=>{ if(b.score!==a.score) return b.score-a.score; if(a.ms!==b.ms) return a.ms-b.ms; return new Date(a.date)-new Date(b.date); });
+      appData.scores = appData.scores.slice(0,100); saveToLocalStorage();
     }
-
     function renderTopScores(){
-      const tbody = document.querySelector('#score-table tbody');
-      const empty = document.getElementById('score-empty');
-      tbody.innerHTML='';
-      if(!appData.scores.length){ empty.style.display='block'; return; }
-      empty.style.display='none';
-      appData.scores.forEach((s,idx)=>{
-        const tr=document.createElement('tr');
-        const dur = Math.round(s.ms/1000)+' dtk';
-        const tgl = new Date(s.date).toLocaleString('id-ID');
-        tr.innerHTML = `
-          <td>${idx+1}</td>
-          <td>${escapeHTML(s.name)}</td>
-          <td>${s.score}</td>
-          <td>${s.score}/${s.total}</td>
-          <td>${s.category.toUpperCase()}</td>
-          <td>${s.level}</td>
-          <td>${dur}</td>
-          <td>${tgl}</td>`;
-        tbody.appendChild(tr);
-      });
+      const tbody = document.querySelector('#score-table tbody'); const empty = document.getElementById('score-empty');
+      tbody.innerHTML=''; if(!appData.scores.length){ empty.style.display='block'; return; } empty.style.display='none';
+      appData.scores.forEach((s,idx)=>{ const tr=document.createElement('tr'); const dur = Math.round(s.ms/1000)+' dtk'; const tgl = new Date(s.date).toLocaleString('id-ID');
+        tr.innerHTML = `<td>${idx+1}</td><td>${escapeHTML(s.name)}</td><td>${s.score}</td><td>${s.score}/${s.total}</td><td>${s.category.toUpperCase()}</td><td>${s.level}</td><td>${dur}</td><td>${tgl}</td>`; tbody.appendChild(tr); });
     }
 
-    /* -------------------- ADMIN -------------------- */
+    /* -------------------- ADMIN: tambah/hapus -------------------- */
     function renderCategoryOptionsForAdmin(){
       const sel=document.getElementById('question-category'); sel.innerHTML='';
-      appData.categories.forEach(c=>{
-        const o=document.createElement('option'); o.value=c.id; o.textContent=c.name; sel.appendChild(o);
-      });
+      appData.categories.forEach(c=>{ const o=document.createElement('option'); o.value=c.id; o.textContent=c.name; sel.appendChild(o); });
     }
     function ensureCategory(cat){
       if(!sampleQuestions[cat]) sampleQuestions[cat]={mudah:[],normal:[],sulit:[]};
@@ -575,7 +495,7 @@
 
       if(!qt||!a||!b||!c||!d){ alert('Pertanyaan & semua opsi (A–D) wajib diisi.'); return; }
       ensureCategory(cat);
-      sampleQuestions[cat][lvl].push({id:Date.now(),question:qt,options:{a,b,c,d},correctAnswer:correct,image});
+      sampleQuestions[cat][lvl].push({id:genId(),question:qt,options:{a,b,c,d},correctAnswer:correct,image});
 
       // reset
       document.getElementById('question-text').value='';
@@ -585,43 +505,130 @@
       document.getElementById('option-d').value='';
       document.getElementById('question-image-url').value='';
 
-      saveToLocalStorage();
-      renderBank();
-      alert('Soal ditambahkan!');
+      saveToLocalStorage(); renderBank(); alert('Soal ditambahkan!');
     }
 
     function renderBank(){
-      const {cat,lvl} = getCurrentCatLvl();
-      ensureCategory(cat);
-      const wrap = document.getElementById('bank-wrap');
-      wrap.innerHTML='';
+      const {cat,lvl} = getCurrentCatLvl(); ensureCategory(cat);
+      const wrap = document.getElementById('bank-wrap'); wrap.innerHTML='';
       const list = sampleQuestions[cat][lvl];
       if(!list.length){ wrap.innerHTML = "<div style='padding:14px'>Belum ada soal pada kategori ini.</div>"; return; }
       list.forEach((q,idx)=>{
         const row = document.createElement('div');
-        row.innerHTML = `
-          <div class="q"><strong>${idx+1}.</strong> ${escapeHTML(q.question)}</div>
-          <button class="btn btn-sm" data-act="del" data-id="${q.id}">Hapus</button>`;
+        row.innerHTML = `<div class="q"><strong>${idx+1}.</strong> ${escapeHTML(q.question)}</div>
+                         <button class="btn btn-sm" data-act="del" data-id="${q.id}">Hapus</button>`;
         wrap.appendChild(row);
       });
       wrap.querySelectorAll('button[data-act="del"]').forEach(btn=>{
         btn.onclick = ()=>{
-          const id = Number(btn.dataset.id);
-          const arr = sampleQuestions[cat][lvl];
+          const id = Number(btn.dataset.id); const arr = sampleQuestions[cat][lvl];
           const pos = arr.findIndex(x=>x.id===id);
           if(pos>-1 && confirm('Hapus soal ini?')){ arr.splice(pos,1); saveToLocalStorage(); renderBank(); }
         };
       });
     }
 
+    /* -------------------- IMPORT / EXPORT -------------------- */
+    function downloadJSON(data, filename){
+      const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; a.click();
+      URL.revokeObjectURL(a.href);
+    }
+    function exportCurrent(){
+      const {cat,lvl} = getCurrentCatLvl(); ensureCategory(cat);
+      downloadJSON(sampleQuestions[cat][lvl], `soal-${cat}-${lvl}.json`);
+    }
+    function triggerFileImport(merge=true){
+      const fileInput = document.getElementById('file-import');
+      fileInput.onchange = async ()=>{
+        const f = fileInput.files[0]; if(!f) return;
+        try{
+          const text = await f.text();
+          const json = JSON.parse(text);
+          importPayload(json, merge);
+        }catch(e){ alert('Gagal membaca file JSON: '+e.message); }
+        fileInput.value='';
+      };
+      fileInput.click();
+    }
+    function importFromText(merge=true){
+      const txt = document.getElementById('import-text').value.trim();
+      if(!txt){ alert('Tempel JSON dulu.'); return; }
+      try{
+        const json = JSON.parse(txt);
+        importPayload(json, merge);
+      }catch(e){ alert('JSON tidak valid: '+e.message); }
+    }
+    function importPayload(payload, merge=true){
+      let imported = 0;
+      if(Array.isArray(payload)){
+        // Array soal → apply ke kategori/level terpilih
+        const {cat,lvl} = getCurrentCatLvl(); ensureCategory(cat);
+        const arr = normalizeArrayQuestions(payload);
+        if(!arr.length){ alert('Tidak ada soal valid pada JSON.'); return; }
+        if(merge){ sampleQuestions[cat][lvl].push(...arr); }
+        else{ sampleQuestions[cat][lvl] = arr; }
+        imported = arr.length;
+      }else if(typeof payload === 'object' && payload){
+        // Struktur penuh
+        const norm = normalizeBankObject(payload);
+        if(!norm){ alert('Struktur objek bank soal tidak valid.'); return; }
+        if(merge){
+          Object.keys(norm).forEach(cat=>{
+            ensureCategory(cat);
+            ['mudah','normal','sulit'].forEach(lv=>{
+              sampleQuestions[cat][lv].push(...norm[cat][lv]);
+              imported += norm[cat][lv].length;
+            });
+          });
+        }else{
+          // ganti total
+          for(const k of Object.keys(sampleQuestions)) delete sampleQuestions[k];
+          Object.assign(sampleQuestions, norm);
+          Object.keys(norm).forEach(cat=>['mudah','normal','sulit'].forEach(lv=> imported += norm[cat][lv].length));
+        }
+      }else{
+        alert('Format JSON tidak dikenali.');
+        return;
+      }
+      saveToLocalStorage();
+      renderBank();
+      alert(`Impor selesai. ${imported} soal ditambahkan.`);
+    }
+    function normalizeArrayQuestions(arr){
+      const out=[]; arr.forEach(q=>{
+        const v = validateQuestion(q); if(v) out.push(v);
+      });
+      return out;
+    }
+    function normalizeBankObject(obj){
+      const out={};
+      for(const cat of Object.keys(obj)){
+        const sec = obj[cat]; if(!sec || typeof sec!=='object') continue;
+        const catObj = {mudah:[],normal:[],sulit:[]};
+        ['mudah','normal','sulit'].forEach(lv=>{
+          const arr = Array.isArray(sec[lv]) ? sec[lv] : [];
+          catObj[lv] = normalizeArrayQuestions(arr);
+        });
+        out[cat]=catObj;
+      }
+      return Object.keys(out).length? out : null;
+    }
+    function validateQuestion(q){
+      if(!q || typeof q!=='object') return null;
+      const text = toStr(q.question); const opts=q.options||{};
+      const a=toStr(opts.a), b=toStr(opts.b), c=toStr(opts.c), d=toStr(opts.d);
+      const ca = toStr(q.correctAnswer).toLowerCase();
+      if(!text || !a || !b || !c || !d) return null;
+      if(!['a','b','c','d'].includes(ca)) return null;
+      return { id: q.id? Number(q.id): genId(), question:text, options:{a,b,c,d}, correctAnswer:ca, image: toStr(q.image) };
+    }
+    function toStr(x){ return typeof x==='string'? x.trim() : ''; }
+    function genId(){ return Date.now()+Math.floor(Math.random()*1e6); }
+
     /* -------------------- STORAGE -------------------- */
     function saveToLocalStorage(){
-      const data = {
-        categories: appData.categories,
-        questions: sampleQuestions,
-        player: appData.currentPlayer,
-        scores: appData.scores
-      };
+      const data = { categories: appData.categories, questions: sampleQuestions, player: appData.currentPlayer, scores: appData.scores };
       localStorage.setItem('tebakTebakanData', JSON.stringify(data));
     }
     function loadFromLocalStorage(){
@@ -629,7 +636,7 @@
       try{
         const data=JSON.parse(raw);
         if(data.categories) appData.categories=data.categories;
-        if(data.questions) Object.assign(sampleQuestions, data.questions);
+        if(data.questions) { for(const k of Object.keys(sampleQuestions)) delete sampleQuestions[k]; Object.assign(sampleQuestions, data.questions); }
         if(Array.isArray(data.scores)) appData.scores = data.scores;
         if(data.player){
           appData.currentPlayer=data.player;
@@ -646,16 +653,11 @@
     function logout(){
       if(!confirm('Yakin ingin logout?')) return;
       appData.currentPlayer={name:'Pemain',avatar:AVATAR_URLS[0],theme:'theme-light',score:0};
-      saveToLocalStorage();
-      showPage('login-page');
-      renderAvatarOptions();
-      renderThemeOptions();
+      saveToLocalStorage(); showPage('login-page'); renderAvatarOptions(); renderThemeOptions();
     }
 
     /* -------------------- UTIL -------------------- */
-    function escapeHTML(s=''){
-      return s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
-    }
+    function escapeHTML(s=''){ return s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
   </script>
 </body>
 </html>
