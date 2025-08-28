@@ -77,7 +77,7 @@
       <div class="logo">Tebak Tebakan</div>
       <div class="nav-links">
         <a href="#" id="home-link">Home</a>
-        <a href="#" id="score-link">Top Score</a>
+        <a href="#" id="score-link">Score</a>
         <a href="#" id="admin-link">Admin</a>
         <a href="#" id="logout-link">Logout</a>
       </div>
@@ -173,9 +173,10 @@
 
     <!-- Admin -->
     <div id="admin-page" class="page">
-      <div class="card"><h2>Panel Admin</h2><p>Tambah soal + kelola bank soal</p></div>
-
-      <!-- Admin Card (form + daftar soal + kontrol) -->
+      <div class="card">
+        <h2>Panel Admin</h2>
+        <p>Tambah soal + kelola bank soal</p>
+      </div>
       <div class="card">
         <div style="display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))">
           <div>
@@ -190,17 +191,15 @@
               <option value="sulit">Sulit</option>
             </select>
           </div>
-
           <div style="grid-column:1/-1">
             <label>Pertanyaan</label>
             <textarea id="question-text" rows="3" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px"></textarea>
           </div>
-
           <div><label>Opsi A</label><input id="option-a" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px"></div>
           <div><label>Opsi B</label><input id="option-b" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px"></div>
           <div><label>Opsi C</label><input id="option-c" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px"></div>
           <div><label>Opsi D</label><input id="option-d" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px"></div>
-
+          <div><label>URL Gambar (opsional)</label><input id="admin-image-url" placeholder="https://…/gambar.jpg" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px"></div>
           <div>
             <label>Jawaban Benar</label>
             <select id="correct-answer" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px">
@@ -208,31 +207,17 @@
               <option value="c">C</option><option value="d">D</option>
             </select>
           </div>
-
-          <div>
-            <label>URL Gambar (opsional)</label>
-            <input id="question-image" placeholder="https://…/gambar.jpg" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px">
-          </div>
         </div>
-
         <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
           <button id="add-question-btn" class="btn">Tambah Soal</button>
-          <button id="clear-level-btn" class="btn btn-sm" style="background:#c0392b">Hapus semua soal level ini</button>
-          <button id="export-btn" class="btn btn-sm">Export JSON</button>
-          <button id="import-btn" class="btn btn-sm">Import JSON</button>
-          <input type="file" id="import-file" accept="application/json" style="display:none">
           <button id="clear-scores-btn" class="btn" title="Hapus seluruh top score">Reset Top Score</button>
         </div>
-
-        <hr style="margin:14px 0">
-        <div id="question-stats" style="margin-bottom:8px;font-weight:bold"></div>
-        <div id="question-list" style="display:grid;gap:8px"></div>
       </div>
     </div>
   </div>
 
   <script>
-    /* ---------- Error overlay biar ketahuan kalau ada sintaks salah ---------- */
+    /* ---------- Error overlay biar kelihatan kalo ada sintaks salah ---------- */
     window.onerror = function(msg, src, line, col){
       const b = document.createElement('div');
       b.style.cssText='position:fixed;left:0;right:0;top:0;z-index:99999;background:#ffdddd;color:#900;padding:8px;font:12px monospace';
@@ -240,7 +225,7 @@
       document.body.appendChild(b);
     };
 
-    /* -------------------- STATE DASAR -------------------- */
+    /* -------------------- STATE -------------------- */
     const ADMIN_PASSWORD = '281105';
     let adminUnlocked = false;
 
@@ -276,7 +261,7 @@
         './static/avatars/41bb3d263d7697d065daef857a33bad9.jpg',
         './static/avatars/adad96e29d8f85ab783efedc4bf77339.jpg',
         './static/avatars/b4be2a5c52b166134c6a6b219836dcb1.jpg',
-        './static/avatars/4e339904b7614b9f80ba2d1f65c62ea1.jpg', // monyet
+        './static/avatars/4e339904b7614b9f80ba2d1f65c62ea1.jpg',
         './static/avatars/c69a2653915d4f413e5450f1a87a2bc5.jpg',
         './static/avatars/be6f89e2633168738acf2deb817cfeb6.jpg',
         './static/avatars/a975a06b73c871fd961c088eb19ed64a (1).jpg'
@@ -287,7 +272,7 @@
       ]
     };
 
-    /* -------------------- CONTOH SOAL -------------------- */
+    /* -------------------- BANK SOAL -------------------- */
     const sampleQuestions = {
       ipa:{
         mudah:[
@@ -304,7 +289,7 @@
       }
     };
 
-    /* -------------------- INISIALISASI -------------------- */
+    /* -------------------- INIT -------------------- */
     document.addEventListener('DOMContentLoaded', ()=>{
       setupEventListeners();
       setupAdditionalThemes();
@@ -314,7 +299,6 @@
       renderThemeOptions();
       renderCategories();
       renderCategoryOptionsForAdmin();
-      renderQuestionList(); // tampilkan daftar soal awal di Admin
     });
 
     function setupAdditionalThemes(){
@@ -350,7 +334,6 @@
           else { alert('Password salah.'); return; }
         }
         showPage('admin-page');
-        renderQuestionList();
       });
 
       document.getElementById('logout-link').addEventListener('click',logout);
@@ -362,7 +345,7 @@
         if(confirm('Hapus semua top score?')){ appData.scores=[]; saveToLocalStorage(); renderTopScores(); alert('Top score direset.'); }
       });
 
-      // pilih opsi
+      // klik opsi
       document.addEventListener('click',e=>{
         if(e.target.classList.contains('option')){
           document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
@@ -371,20 +354,8 @@
         }
       });
 
-      // admin form + kontrol
+      // admin add soal
       document.getElementById('add-question-btn').addEventListener('click',addQuestion);
-      const catSel=document.getElementById('question-category');
-      const lvlSel=document.getElementById('question-level');
-      catSel.addEventListener('change', renderQuestionList);
-      lvlSel.addEventListener('change', renderQuestionList);
-      document.getElementById('clear-level-btn').addEventListener('click', clearLevel);
-      document.getElementById('export-btn').addEventListener('click', exportJSON);
-      document.getElementById('import-btn').addEventListener('click', ()=>document.getElementById('import-file').click());
-      document.getElementById('import-file').addEventListener('change',(e)=>{
-        const f=e.target.files && e.target.files[0];
-        if(f) importJSONFile(f);
-        e.target.value='';
-      });
     }
 
     function showPage(id){
@@ -527,7 +498,7 @@
       });
       appData.currentPlayer.score=score;
 
-      // tampilkan ringkasan
+      // ringkasan
       document.getElementById('score-display').textContent=`Skor Anda: ${score}/${appData.currentQuestions.length}`;
       const wrap=document.getElementById('answer-details'); wrap.innerHTML='';
       details.forEach((d,i)=>{
@@ -560,7 +531,6 @@
         if(a.ms!==b.ms) return a.ms-b.ms;
         return new Date(a.date)-new Date(b.date);
       });
-      // simpan 100 teratas
       appData.scores = appData.scores.slice(0,100);
       saveToLocalStorage();
     }
@@ -600,141 +570,60 @@
       });
     }
 
-    // helper untuk bank soal
     function ensureCategory(cat){
-      if(!sampleQuestions[cat]) sampleQuestions[cat]={mudah:[],normal:[],sulit:[]};
+      if(!sampleQuestions[cat]) sampleQuestions[cat] = {mudah:[], normal:[], sulit:[]};
+      ['mudah','normal','sulit'].forEach(lvl=>{
+        if(!sampleQuestions[cat][lvl]) sampleQuestions[cat][lvl] = [];
+      });
     }
+
     function getCurrentCatLvl(){
-      const cat=document.getElementById('question-category').value;
-      const lvl=document.getElementById('question-level').value;
-      ensureCategory(cat);
-      return {cat,lvl};
-    }
-
-    function renderQuestionList(){
-      const {cat,lvl} = getCurrentCatLvl();
-      const list = sampleQuestions[cat][lvl] || [];
-      const box  = document.getElementById('question-list');
-      const stats= document.getElementById('question-stats');
-
-      stats.textContent = `Soal ${cat.toUpperCase()} – ${lvl} : ${list.length} soal`;
-      box.innerHTML = '';
-
-      if(!list.length){
-        box.innerHTML = '<em>Belum ada soal pada level ini.</em>';
-        return;
-      }
-
-      list.forEach((q,idx)=>{
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.style.margin='0';
-        card.innerHTML = `
-          <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start">
-            <div style="max-width:780px">
-              <div style="font-weight:bold;margin-bottom:6px">#${idx+1} — ${q.question}</div>
-              <ol type="A" style="margin-left:18px">
-                <li>${q.options.a}</li>
-                <li>${q.options.b}</li>
-                <li>${q.options.c}</li>
-                <li>${q.options.d}</li>
-              </ol>
-              <div style="margin-top:6px">Jawaban benar: <strong>${q.correctAnswer.toUpperCase()}</strong></div>
-              ${q.image ? `<div style="margin-top:6px"><img src="${q.image}" style="max-width:200px;border-radius:6px"></div>` : ''}
-            </div>
-            <div>
-              <button class="btn btn-sm" data-action="delete" data-idx="${idx}" style="background:#e74c3c">Hapus</button>
-            </div>
-          </div>`;
-        box.appendChild(card);
-      });
-
-      // aksi hapus per soal
-      box.querySelectorAll('[data-action="delete"]').forEach(btn=>{
-        btn.onclick = ()=>{
-          const {cat,lvl} = getCurrentCatLvl();
-          const i = +btn.dataset.idx;
-          if(!confirm('Hapus soal ini?')) return;
-          sampleQuestions[cat][lvl].splice(i,1);
-          saveToLocalStorage();
-          renderQuestionList();
-        };
-      });
+      return {
+        cat: document.getElementById('question-category').value,
+        lvl: document.getElementById('question-level').value
+      };
     }
 
     function addQuestion(){
       const {cat,lvl} = getCurrentCatLvl();
-      const qt=document.getElementById('question-text').value.trim();
-      const a =document.getElementById('option-a').value.trim();
-      const b =document.getElementById('option-b').value.trim();
-      const c =document.getElementById('option-c').value.trim();
-      const d =document.getElementById('option-d').value.trim();
-      const correct=document.getElementById('correct-answer').value;
-      const image=(document.getElementById('question-image').value||'').trim();
 
-      if(!qt||!a||!b||!c||!d){ alert('Pertanyaan & semua opsi (A–D) wajib diisi.'); return; }
+      const qtEl = document.getElementById('question-text');
+      const aEl  = document.getElementById('option-a');
+      const bEl  = document.getElementById('option-b');
+      const cEl  = document.getElementById('option-c');
+      const dEl  = document.getElementById('option-d');
+      const imgField = document.getElementById('admin-image-url');
+
+      const qt = qtEl && qtEl.value ? qtEl.value.trim() : '';
+      const a  = aEl && aEl.value ? aEl.value.trim() : '';
+      const b  = bEl && bEl.value ? bEl.value.trim() : '';
+      const c  = cEl && cEl.value ? cEl.value.trim() : '';
+      const d  = dEl && dEl.value ? dEl.value.trim() : '';
+      const image = imgField && imgField.value ? imgField.value.trim() : '';
+      const correct = document.getElementById('correct-answer').value;
+
+      if(!qt||!a||!b||!c||!d){
+        alert('Pertanyaan & semua opsi (A–D) wajib diisi.');
+        return;
+      }
+
       ensureCategory(cat);
       sampleQuestions[cat][lvl].push({
-        id:Date.now(),question:qt,options:{a,b,c,d},correctAnswer:correct,image
+        id: Date.now(),
+        question: qt,
+        options: {a,b,c,d},
+        correctAnswer: correct,
+        image
       });
 
-      // reset form
-      document.getElementById('question-text').value='';
-      document.getElementById('option-a').value='';
-      document.getElementById('option-b').value='';
-      document.getElementById('option-c').value='';
-      document.getElementById('option-d').value='';
-      document.getElementById('question-image').value='';
+      // reset form (aman walaupun elemen tidak ada)
+      ['question-text','option-a','option-b','option-c','option-d','admin-image-url'].forEach(id=>{
+        const el = document.getElementById(id);
+        if(el) el.value = '';
+      });
 
-      saveToLocalStorage();
-      renderQuestionList();
       alert('Soal ditambahkan!');
-    }
-
-    function clearLevel(){
-      const {cat,lvl} = getCurrentCatLvl();
-      if(!confirm(`Hapus SEMUA soal untuk ${cat.toUpperCase()} – ${lvl}?`)) return;
-      sampleQuestions[cat][lvl] = [];
       saveToLocalStorage();
-      renderQuestionList();
-    }
-
-    function exportJSON(){
-      const blob = new Blob(
-        [JSON.stringify({sampleQuestions}, null, 2)],
-        {type:'application/json'}
-      );
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'tebak-tebakan-data.json';
-      document.body.appendChild(a); a.click(); a.remove();
-      URL.revokeObjectURL(url);
-    }
-
-    function importJSONFile(file){
-      const reader = new FileReader();
-      reader.onload = e=>{
-        try{
-          const parsed = JSON.parse(e.target.result);
-          if(parsed && parsed.sampleQuestions){
-            Object.keys(parsed.sampleQuestions).forEach(cat=>{
-              ensureCategory(cat);
-              ['mudah','normal','sulit'].forEach(lvl=>{
-                const arr = parsed.sampleQuestions[cat][lvl];
-                if(Array.isArray(arr)) sampleQuestions[cat][lvl].push(...arr);
-              });
-            });
-            saveToLocalStorage();
-            renderQuestionList();
-            alert('Import berhasil!');
-          }else{
-            alert('File JSON tidak valid.');
-          }
-        }catch(err){
-          alert('Gagal membaca JSON: '+err.message);
-        }
-      };
-      reader.readAsText(file);
     }
 
     /* -------------------- STORAGE -------------------- */
@@ -753,7 +642,7 @@
       try{
         const data=JSON.parse(raw);
         if(data.categories) appData.categories=data.categories;
-        if(data.questions) Object.assign(sampleQuestions, data.questions);
+        if(data.questions) Object.assign(sampleQuestions, data.questions); // merge ringan
         if(Array.isArray(data.scores)) appData.scores = data.scores;
         if(data.player){
           appData.currentPlayer=data.player;
