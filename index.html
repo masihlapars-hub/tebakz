@@ -34,18 +34,21 @@
     .nav-links{display:flex;gap:16px}
     .nav-links a{color:#fff;text-decoration:none;padding:6px 10px;border-radius:4px}
     .nav-links a:hover{background:var(--secondary-color)}
+
     .page{display:none;min-height:80vh;padding:20px}
     .page.active{display:block}
     .card{background:var(--card-bg);border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,.1);padding:20px;margin-bottom:20px}
     .btn{background:var(--primary-color);color:#fff;border:0;padding:10px 18px;border-radius:6px;cursor:pointer;font-weight:bold}
     .btn:hover{background:var(--secondary-color)}
     .btn-sm{padding:8px 14px;font-size:.9rem;margin:4px}
+
     .login-container{display:flex;flex-direction:column;align-items:center;min-height:60vh;gap:14px}
     .avatar-selection,.theme-selection{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
     .avatar-option{width:72px;height:72px;border-radius:50%;object-fit:cover;cursor:pointer;border:3px solid transparent;transition:.2s}
     .avatar-option.selected{border-color:var(--primary-color);transform:scale(1.06)}
     .theme-option{padding:8px 14px;border:2px solid var(--primary-color);border-radius:6px;cursor:pointer}
     .theme-option.selected{background:var(--primary-color);color:#fff}
+
     .category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:10px}
     .category-item{background:var(--card-bg);border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,.08);padding:16px;text-align:center}
     .category-image{width:96px;height:96px;object-fit:cover;border-radius:10px;margin-bottom:8px}
@@ -58,8 +61,13 @@
     .progress-bar{height:10px;background:#eee;border-radius:6px;margin:10px 0;overflow:hidden}
     .progress{height:100%;background:var(--primary-color);width:0%}
 
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left}
+    th{background:#eef2ff}
+
     @media(max-width:768px){
       .category-grid{grid-template-columns:1fr}
+      .question-image{max-height:200px}
     }
   </style>
 </head>
@@ -107,6 +115,31 @@
       <div id="category-grid" class="category-grid"></div>
     </div>
 
+    <!-- Top Score -->
+    <div id="score-page" class="page">
+      <div class="card">
+        <h2>Top Score</h2>
+        <p id="score-empty" style="display:none;margin:8px 0">Belum ada skor. Main dulu ya!</p>
+        <div style="overflow:auto">
+          <table id="score-table" aria-label="Top Score">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nama</th>
+                <th>Skor</th>
+                <th>Benar/Total</th>
+                <th>Kategori</th>
+                <th>Level</th>
+                <th>Durasi</th>
+                <th>Tanggal</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <!-- Quiz -->
     <div id="quiz-page" class="page">
       <div class="card">
@@ -138,7 +171,7 @@
       </div>
     </div>
 
-    <!-- Admin (ringkas) -->
+    <!-- Admin -->
     <div id="admin-page" class="page">
       <div class="card"><h2>Panel Admin</h2><p>Tambah soal contoh cepat</p></div>
       <div class="card">
@@ -171,13 +204,16 @@
             </select>
           </div>
         </div>
-        <button id="add-question-btn" class="btn" style="margin-top:12px">Tambah Soal</button>
+        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+          <button id="add-question-btn" class="btn">Tambah Soal</button>
+          <button id="clear-scores-btn" class="btn" title="Hapus seluruh top score">Reset Top Score</button>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    // --- Safety overlay biar error kelihatan (opsional tapi membantu)
+    /* ---------- Error overlay biar ketahuan kalau ada sintaks salah ---------- */
     window.onerror = function(msg, src, line, col){
       const b = document.createElement('div');
       b.style.cssText='position:fixed;left:0;right:0;top:0;z-index:99999;background:#ffdddd;color:#900;padding:8px;font:12px monospace';
@@ -185,7 +221,10 @@
       document.body.appendChild(b);
     };
 
-    // --- State dasar
+    /* -------------------- STATE DASAR -------------------- */
+    const ADMIN_PASSWORD = '281105';
+    let adminUnlocked = false;
+
     const appData = {
       currentPlayer:{name:'Pemain',avatar:'',theme:'theme-light',score:0},
       currentQuestions:[],
@@ -193,7 +232,8 @@
       userAnswers:[],
       currentCategory:'',
       currentLevel:'',
-      // Kategori default (kamu bebas tambah/kurangi)
+      quizStartAt:0,
+      scores:[],  // {name, score, total, category, level, ms, date}
       categories:[
         {id:'ipa',name:'IPA',description:'Ilmu Pengetahuan Alam',image:''},
         {id:'ips',name:'IPS',description:'Ilmu Pengetahuan Sosial',image:''},
@@ -207,11 +247,10 @@
         {id:'agama hindu',name:'Agama Hindu',description:'Soal Agama Hindu',image:''},
         {id:'agama buddha',name:'Agama Buddha',description:'Soal Agama Buddha',image:''},
         {id:'agama katolik',name:'Agama Katolik',description:'Soal Agama Katolik',image:''},
-        {id:'agama konghucu',name:'Agama konghucu',description:'Soal Agama konghucu',image:''},
+        {id:'agama konghucu',name:'Agama Konghucu',description:'Soal Agama Konghucu',image:''},
         {id:'agama protestan',name:'Agama Protestan',description:'Soal Agama Protestan',image:''},
         {id:'agama kristen',name:'Agama Kristen',description:'Soal Agama Kristen',image:''}
       ],
-      // Gambar avatar di REPO kamu (termasuk "monyet" 4e3399…)
       avatars:[
         './static/avatars/3f983b9ca5618e87e3734751e643c00a.jpg',
         './static/avatars/23f038cc913bb02b9b58bc7d8418dd6d.jpg',
@@ -229,7 +268,7 @@
       ]
     };
 
-    // Contoh soal
+    /* -------------------- CONTOH SOAL -------------------- */
     const sampleQuestions = {
       ipa:{
         mudah:[
@@ -246,11 +285,12 @@
       }
     };
 
-    // Inisialisasi
+    /* -------------------- INISIALISASI -------------------- */
     document.addEventListener('DOMContentLoaded', ()=>{
       setupEventListeners();
       setupAdditionalThemes();
       loadFromLocalStorage();
+
       renderAvatarOptions();
       renderThemeOptions();
       renderCategories();
@@ -268,7 +308,7 @@
         .theme-dark-4{--primary-color:#00796b;--secondary-color:#009688;--accent-color:#ffeb3b;--background-color:#1a1a1a;--text-color:#b2dfdb;--card-bg:#2d2d2d;--header-bg:#00796b}
       `;
       document.head.appendChild(style);
-      // Tambah ke daftar tema
+
       appData.themes.push(
         {id:'theme-light-2',name:'Terang 2',class:'theme-light-2'},
         {id:'theme-light-3',name:'Terang 3',class:'theme-light-3'},
@@ -280,16 +320,28 @@
     }
 
     function setupEventListeners(){
-      document.getElementById('home-link').addEventListener('click',()=>showPage('home-page'));
-      document.getElementById('score-link').addEventListener('click',()=>alert('Fitur skor global belum dibuat 😊'));
-      document.getElementById('admin-link').addEventListener('click',()=>showPage('admin-page'));
+      document.getElementById('home-link').addEventListener('click',()=>{ showPage('home-page'); });
+      document.getElementById('score-link').addEventListener('click',()=>{ renderTopScores(); showPage('score-page'); });
+
+      document.getElementById('admin-link').addEventListener('click',()=>{
+        if(!adminUnlocked){
+          const p = prompt('Masukkan password Admin:');
+          if(p===ADMIN_PASSWORD){ adminUnlocked=true; alert('Akses Admin dibuka.'); }
+          else { alert('Password salah.'); return; }
+        }
+        showPage('admin-page');
+      });
+
       document.getElementById('logout-link').addEventListener('click',logout);
 
       document.getElementById('start-game-btn').addEventListener('click',startGame);
       document.getElementById('next-question-btn').addEventListener('click',handleNextQuestion);
       document.getElementById('back-to-home-btn').addEventListener('click',()=>showPage('home-page'));
+      document.getElementById('clear-scores-btn').addEventListener('click',()=>{
+        if(confirm('Hapus semua top score?')){ appData.scores=[]; saveToLocalStorage(); renderTopScores(); alert('Top score direset.'); }
+      });
 
-      // klik opsi jawaban
+      // pilih opsi
       document.addEventListener('click',e=>{
         if(e.target.classList.contains('option')){
           document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
@@ -298,7 +350,7 @@
         }
       });
 
-      // admin
+      // admin add soal
       document.getElementById('add-question-btn').addEventListener('click',addQuestion);
     }
 
@@ -307,7 +359,7 @@
       document.getElementById(id).classList.add('active');
     }
 
-    // ---- Login & Home
+    /* -------------------- LOGIN & HOME -------------------- */
     function renderAvatarOptions(){
       const c=document.getElementById('avatar-selection');
       c.innerHTML='';
@@ -380,20 +432,19 @@
       showPage('home-page');
     }
 
-    // ---- Quiz
+    /* -------------------- QUIZ -------------------- */
     function startQuiz(category,level){
       appData.currentCategory=category;
       appData.currentLevel=level;
       appData.currentQuestionIndex=0;
       appData.userAnswers=[];
+      appData.quizStartAt=Date.now();
 
       let qs=[];
       if(sampleQuestions[category] && sampleQuestions[category][level] && sampleQuestions[category][level].length){
         qs=sampleQuestions[category][level];
       }else{
-        qs=[
-          {id:1,question:`Contoh soal ${category} (${level})`,options:{a:'Opsi A',b:'Opsi B',c:'Opsi C',d:'Opsi D'},correctAnswer:'a',image:''}
-        ];
+        qs=[{id:1,question:`Contoh soal ${category} (${level})`,options:{a:'Opsi A',b:'Opsi B',c:'Opsi C',d:'Opsi D'},correctAnswer:'a',image:''}];
       }
       appData.currentQuestions=qs;
 
@@ -408,8 +459,10 @@
       const q=appData.currentQuestions[i];
       document.getElementById('question-text').textContent=q.question;
       document.getElementById('question-number').textContent=`Soal ${i+1}/${appData.currentQuestions.length}`;
+
       const qi=document.getElementById('question-image');
-      if(q.image){ qi.src=q.image; qi.style.display='block'; } else { qi.style.display='none'; }
+      if(q.image){ qi.src=q.image; qi.style.display='block'; }
+      else { qi.style.display='none'; }
 
       document.getElementById('quiz-progress').style.width = (i/appData.currentQuestions.length*100)+'%';
 
@@ -440,6 +493,8 @@
         details.push({q:q.question,u:ua?q.options[ua]:'Tidak dijawab',c:q.options[q.correctAnswer],ok});
       });
       appData.currentPlayer.score=score;
+
+      // tampilkan ringkasan
       document.getElementById('score-display').textContent=`Skor Anda: ${score}/${appData.currentQuestions.length}`;
       const wrap=document.getElementById('answer-details'); wrap.innerHTML='';
       details.forEach((d,i)=>{
@@ -448,11 +503,63 @@
         e.innerHTML=`<p><strong>Soal ${i+1}:</strong> ${d.q}</p><p><strong>Jawaban Anda:</strong> ${d.u}</p><p><strong>Jawaban Benar:</strong> ${d.c}</p>`;
         wrap.appendChild(e);
       });
+
+      // simpan ke Top Score
+      const ms = Math.max(1, Date.now()-appData.quizStartAt);
+      addScore({
+        name: appData.currentPlayer.name || 'Pemain',
+        score, total: appData.currentQuestions.length,
+        category: appData.currentCategory,
+        level: appData.currentLevel,
+        ms, date: new Date().toISOString()
+      });
+
       showPage('result-page');
       saveToLocalStorage();
     }
 
-    // ---- Admin ringkas
+    /* -------------------- TOP SCORE -------------------- */
+    function addScore(rec){
+      appData.scores.push(rec);
+      // sort: skor desc, durasi asc, terbaru terakhir
+      appData.scores.sort((a,b)=>{
+        if(b.score!==a.score) return b.score-a.score;
+        if(a.ms!==b.ms) return a.ms-b.ms;
+        return new Date(a.date)-new Date(b.date);
+      });
+      // simpan 100 teratas
+      appData.scores = appData.scores.slice(0,100);
+      saveToLocalStorage();
+    }
+
+    function renderTopScores(){
+      const tbody = document.querySelector('#score-table tbody');
+      const empty = document.getElementById('score-empty');
+      tbody.innerHTML='';
+      if(!appData.scores.length){
+        empty.style.display='block';
+        return;
+      }
+      empty.style.display='none';
+      appData.scores.forEach((s,idx)=>{
+        const tr=document.createElement('tr');
+        const dur = Math.round(s.ms/1000)+' dtk';
+        const tgl = new Date(s.date).toLocaleString('id-ID');
+        tr.innerHTML = `
+          <td>${idx+1}</td>
+          <td>${escapeHTML(s.name)}</td>
+          <td>${s.score}</td>
+          <td>${s.score}/${s.total}</td>
+          <td>${s.category.toUpperCase()}</td>
+          <td>${s.level}</td>
+          <td>${dur}</td>
+          <td>${tgl}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* -------------------- ADMIN -------------------- */
     function renderCategoryOptionsForAdmin(){
       const sel=document.getElementById('question-category'); sel.innerHTML='';
       appData.categories.forEach(c=>{
@@ -483,36 +590,45 @@
       saveToLocalStorage();
     }
 
-    // ---- Storage (avatars TIDAK disimpan agar konsisten ke semua device)
+    /* -------------------- STORAGE -------------------- */
     function saveToLocalStorage(){
       const data = {
         categories: appData.categories,
         questions: sampleQuestions,
-        player: appData.currentPlayer
+        player: appData.currentPlayer,
+        scores: appData.scores
       };
       localStorage.setItem('tebakTebakanData', JSON.stringify(data));
     }
 
     function loadFromLocalStorage(){
       const raw=localStorage.getItem('tebakTebakanData'); if(!raw) return;
-      const data=JSON.parse(raw);
-      if(data.categories) appData.categories=data.categories;
-      if(data.questions) Object.assign(sampleQuestions, data.questions);
-      if(data.player){
-        appData.currentPlayer=data.player;
-        document.getElementById('player-name').value=appData.currentPlayer.name||'';
-        document.getElementById('player-greeting').textContent=appData.currentPlayer.name||'Pemain';
-        if(appData.currentPlayer.theme){
-          document.body.classList.remove(...appData.themes.map(t=>t.class));
-          document.body.classList.add(appData.currentPlayer.theme);
+      try{
+        const data=JSON.parse(raw);
+        if(data.categories) appData.categories=data.categories;
+        if(data.questions) Object.assign(sampleQuestions, data.questions);
+        if(Array.isArray(data.scores)) appData.scores = data.scores;
+        if(data.player){
+          appData.currentPlayer=data.player;
+          document.getElementById('player-name').value=appData.currentPlayer.name||'';
+          document.getElementById('player-greeting').textContent=appData.currentPlayer.name||'Pemain';
+          if(appData.currentPlayer.theme){
+            document.body.classList.remove(...appData.themes.map(t=>t.class));
+            document.body.classList.add(appData.currentPlayer.theme);
+          }
         }
-      }
+      }catch(e){ console.warn('Parse localStorage gagal:', e); }
     }
 
     function logout(){
       if(!confirm('Yakin ingin logout?')) return;
       appData.currentPlayer={name:'Pemain',avatar:'',theme:'theme-light',score:0};
       showPage('login-page');
+    }
+
+    /* -------------------- UTIL -------------------- */
+    function escapeHTML(s=''){
+      return s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
     }
   </script>
 </body>
