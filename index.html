@@ -1,663 +1,842 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tebak Tebakan - Kuis Seru</title>
-  <style>
-    :root{
-      --primary-color:#4a6fa5; --secondary-color:#6b8cbc; --accent-color:#ff6b6b;
-      --background-color:#f5f7fa; --text-color:#333; --card-bg:#ffffff; --header-bg:#4a6fa5; --font-weight:600;
-    }
-    .theme-dark{ --primary-color:#2c3e50; --secondary-color:#34495e; --accent-color:#e74c3c;
-      --background-color:#0f172a; --text-color:#e2e8f0; --card-bg:#111827; --header-bg:#1f2937 }
-    .theme-light-2{--primary-color:#6d4c41;--secondary-color:#8d6e63;--accent-color:#ff5722;--background-color:#f5f5f5;--text-color:#212121;--card-bg:#fff;--header-bg:#6d4c41}
-    .theme-light-3{--primary-color:#388e3c;--secondary-color:#4caf50;--accent-color:#ffc107;--background-color:#e8f5e9;--text-color:#1b5e20;--card-bg:#fff;--header-bg:#388e3c}
-    .theme-light-4{--primary-color:#1976d2;--secondary-color:#2196f3;--accent-color:#ff5252;--background-color:#e3f2fd;--text-color:#0d47a1;--card-bg:#fff;--header-bg:#1976d2}
-    .theme-dark-2{--primary-color:#7b1fa2;--secondary-color:#9c27b0;--accent-color:#ff4081;--background-color:#0b1020;--text-color:#e1bee7;--card-bg:#151a30;--header-bg:#7b1fa2}
-    .theme-dark-3{--primary-color:#d32f2f;--secondary-color:#f44336;--accent-color:#ff9800;--background-color:#101010;--text-color:#ffcdd2;--card-bg:#1d1d1d;--header-bg:#d32f2f}
-    .theme-dark-4{--primary-color:#00796b;--secondary-color:#009688;--accent-color:#ffeb3b;--background-color:#0f1a1a;--text-color:#b2dfdb;--card-bg:#0d2525;--header-bg:#00796b}
-
-    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif}
-    body{background:var(--background-color);color:var(--text-color);font-weight:var(--font-weight);transition:.3s}
-    header{background:var(--header-bg);color:#fff}
-    nav{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:14px 20px}
-    .logo{font-size:1.4rem;font-weight:800}
-    .nav-links{display:flex;gap:16px}
-    .nav-links a{color:#fff;text-decoration:none;padding:6px 10px;border-radius:6px}
-    .nav-links a:hover{background:rgba(255,255,255,.12)}
-    .container{max-width:1200px;margin:0 auto;padding:20px}
-    .page{display:none;min-height:80vh}
-    .page.active{display:block}
-    .card{background:var(--card-bg);border-radius:12px;box-shadow:0 6px 16px rgba(0,0,0,.12);padding:22px;margin:14px 0}
-    .btn{background:var(--primary-color);color:#fff;border:0;padding:10px 18px;border-radius:10px;cursor:pointer;font-weight:800}
-    .btn:hover{filter:brightness(.95)}
-    .btn-sm{padding:8px 14px;font-size:.92rem;margin:4px}
-    .muted{opacity:.7}
-
-    .login-container{display:flex;flex-direction:column;align-items:center;gap:16px}
-    .avatar-selection,.theme-selection{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
-    .avatar-option{width:78px;height:78px;border-radius:50%;object-fit:cover;cursor:pointer;border:3px solid transparent;transition:.2s;background:#eee;display:block}
-    .avatar-option.selected{border-color:var(--primary-color);transform:scale(1.06)}
-    .theme-option{padding:8px 14px;border:2px solid var(--primary-color);border-radius:10px;cursor:pointer}
-    .theme-option.selected{background:var(--primary-color);color:#fff}
-
-    .category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
-    .category-item{background:var(--card-bg);border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,.08);padding:16px;text-align:center}
-    .level-buttons{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
-
-    .question-image{max-width:100%;max-height:260px;border-radius:8px;margin:12px 0}
-    .options-container{display:flex;flex-direction:column;gap:10px}
-    .option{padding:14px;border:2px solid #cbd5e1;border-radius:10px;cursor:pointer}
-    .option.selected{background:var(--secondary-color);color:#fff;border-color:var(--primary-color)}
-    .progress-bar{height:10px;background:#e2e8f0;border-radius:8px;margin:10px 0;overflow:hidden}
-    .progress{height:100%;background:var(--primary-color);width:0%}
-
-    table{width:100%;border-collapse:collapse}
-    th,td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left}
-    th{background:#eef2ff}
-
-    .bank{margin-top:10px;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden}
-    .bank > div{display:flex;gap:8px;align-items:center;padding:10px;border-bottom:1px solid #e5e7eb}
-    .bank .q{flex:1}
-    .bank button{white-space:nowrap}
-    @media(max-width:768px){.category-grid{grid-template-columns:1fr}}
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tebak Tebakan - Kuis Seru</title>
+<style>
+  :root{
+    --primary-color:#4a6fa5; --secondary-color:#6b8cbc; --accent-color:#ff6b6b;
+    --background-color:#f5f7fa; --text-color:#333; --card-bg:#ffffff; --header-bg:#4a6fa5;
+    --font-weight:600;
+  }
+  .theme-dark{
+    --primary-color:#2c3e50; --secondary-color:#34495e; --accent-color:#e74c3c;
+    --background-color:#1a1a2e; --text-color:#ecf0f1; --card-bg:#16213e; --header-bg:#2c3e50;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial}
+  body{background:var(--background-color);color:var(--text-color);font-weight:var(--font-weight);transition:.25s}
+  .container{max-width:1200px;margin:0 auto;padding:20px}
+  header{background:var(--header-bg);color:#fff;padding:14px 0;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+  nav{display:flex;justify-content:space-between;align-items:center;padding:0 20px}
+  .logo{font-size:1.6rem;font-weight:800}
+  .nav-links{display:flex;gap:16px}
+  .nav-links a{color:#fff;text-decoration:none;padding:6px 10px;border-radius:6px}
+  .nav-links a:hover{background:var(--secondary-color)}
+  .page{display:none;min-height:80vh;padding:20px}
+  .page.active{display:block}
+  .card{background:var(--card-bg);border-radius:10px;box-shadow:0 6px 14px rgba(0,0,0,.08);
+        padding:20px;margin-bottom:20px}
+  .btn{background:var(--primary-color);color:#fff;border:0;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:700}
+  .btn:hover{background:var(--secondary-color)}
+  .btn-sm{padding:8px 12px;font-size:.9rem;margin:4px;border-radius:8px}
+  .muted{opacity:.75}
+  .row{display:flex;gap:12px;flex-wrap:wrap}
+  .login-container{display:flex;flex-direction:column;align-items:center;min-height:60vh;gap:14px}
+  .avatar-selection,.theme-selection{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+  .avatar-option{width:72px;height:72px;border-radius:50%;object-fit:cover;cursor:pointer;border:3px solid transparent;transition:.18s}
+  .avatar-option.selected{border-color:var(--primary-color);transform:scale(1.06)}
+  .theme-option{padding:8px 14px;border:2px solid var(--primary-color);border-radius:8px;cursor:pointer}
+  .theme-option.selected{background:var(--primary-color);color:#fff}
+  .category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-top:10px}
+  .category-item{background:var(--card-bg);border-radius:10px;box-shadow:0 6px 14px rgba(0,0,0,.06);padding:16px;text-align:center}
+  .category-image{width:96px;height:96px;object-fit:cover;border-radius:10px;margin-bottom:8px}
+  .level-buttons{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+  .question-image{max-width:100%;max-height:280px;border-radius:10px;margin:12px 0}
+  .options-container{display:flex;flex-direction:column;gap:10px}
+  .option{padding:14px;border:2px solid #ddd;border-radius:10px;cursor:pointer}
+  .option.selected{background:var(--secondary-color);color:#fff;border-color:var(--primary-color)}
+  .progress-bar{height:10px;background:#eee;border-radius:6px;margin:10px 0;overflow:hidden}
+  .progress{height:100%;background:var(--primary-color);width:0%}
+  table{width:100%;border-collapse:collapse}
+  th,td{padding:10px;border-bottom:1px solid #e5e7eb;text-align:left}
+  th{background:#eef2ff}
+  textarea,input,select{background:var(--card-bg);color:var(--text-color)}
+  @media(max-width:768px){.category-grid{grid-template-columns:1fr}.question-image{max-height:200px}}
+</style>
 </head>
 <body class="theme-light">
-  <header>
-    <nav>
-      <div class="logo">Tebak Tebakan</div>
-      <div class="nav-links">
-        <a href="#" id="home-link">Home</a>
-        <a href="#" id="score-link">Top Score</a>
-        <a href="#" id="admin-link">Admin</a>
-        <a href="#" id="logout-link">Logout</a>
-      </div>
-    </nav>
-  </header>
-
-  <div class="container">
-    <!-- Login -->
-    <div id="login-page" class="page active">
-      <div class="card">
-        <div class="login-container">
-          <h2>Login Pemain</h2>
-          <div style="width:100%;max-width:520px">
-            <label for="player-name" style="display:block;margin:6px 0;font-weight:800">Nama Pemain</label>
-            <input id="player-name" type="text" placeholder="Masukkan nama Anda" style="width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;background:var(--card-bg);color:var(--text-color)"/>
-          </div>
-
-          <h3>Pilih Avatar</h3>
-          <div id="avatar-selection" class="avatar-selection"></div>
-
-          <h3>Pilih Tema</h3>
-          <div id="theme-selection" class="theme-selection"></div>
-
-          <button id="start-game-btn" class="btn">Mulai Bermain</button>
-        </div>
-      </div>
+<header>
+  <nav>
+    <div class="logo">Tebak Tebakan</div>
+    <div class="nav-links">
+      <a href="#" id="home-link">Home</a>
+      <a href="#" id="score-link">Top Score</a>
+      <a href="#" id="admin-link">Admin</a>
+      <a href="#" id="logout-link">Logout</a>
     </div>
+  </nav>
+</header>
 
-    <!-- Home -->
-    <div id="home-page" class="page">
-      <div class="card">
-        <h2>Selamat Datang, <span id="player-greeting">Pemain</span>!</h2>
-        <p>Pilih kategori dan tingkat kesulitan untuk mulai bermain.</p>
-      </div>
-      <div id="category-grid" class="category-grid"></div>
-    </div>
-
-    <!-- Top Score -->
-    <div id="score-page" class="page">
-      <div class="card">
-        <h2>Top Score</h2>
-        <p id="score-empty" style="display:none;margin:8px 0">Belum ada skor. Main dulu ya!</p>
-        <div style="overflow:auto">
-          <table id="score-table" aria-label="Top Score">
-            <thead>
-              <tr>
-                <th>#</th><th>Nama</th><th>Skor</th><th>Benar/Total</th><th>Kategori</th><th>Level</th><th>Durasi</th><th>Tanggal</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
+<div class="container">
+  <!-- Login -->
+  <div id="login-page" class="page active">
+    <div class="card">
+      <div class="login-container">
+        <h2>Login Pemain</h2>
+        <div style="width:100%;max-width:520px">
+          <label for="player-name" style="display:block;margin:6px 0;font-weight:700">Nama Pemain</label>
+          <input id="player-name" type="text" placeholder="Masukkan nama Anda"
+                 style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"/>
         </div>
-      </div>
-    </div>
 
-    <!-- Quiz -->
-    <div id="quiz-page" class="page">
-      <div class="card">
-        <div class="quiz-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <h2 id="quiz-category">Kategori:</h2>
-          <div class="quiz-info" style="display:flex;gap:12px">
-            <span id="quiz-level">Level:</span>
-            <span id="question-number">Soal 1/1</span>
-          </div>
-        </div>
-        <div class="progress-bar"><div id="quiz-progress" class="progress"></div></div>
-        <div class="question-container">
-          <h3 id="question-text">Pertanyaan…</h3>
-          <img id="question-image" class="question-image" style="display:none" alt="Gambar Soal"/>
-        </div>
-        <div id="options-container" class="options-container"></div>
-        <button id="next-question-btn" class="btn" style="margin-top:14px">Selanjutnya</button>
-      </div>
-    </div>
+        <h3>Pilih Avatar</h3>
+        <div id="avatar-selection" class="avatar-selection"></div>
 
-    <!-- Result -->
-    <div id="result-page" class="page">
-      <div class="card">
-        <h2>Hasil Kuis</h2>
-        <p id="score-display">Skor Anda: 0/0</p>
-        <h3 style="margin:10px 0">Detail Jawaban</h3>
-        <div id="answer-details"></div>
-        <button id="back-to-home-btn" class="btn" style="margin-top:14px">Kembali ke Home</button>
-      </div>
-    </div>
+        <h3>Pilih Tema</h3>
+        <div id="theme-selection" class="theme-selection"></div>
 
-    <!-- Admin -->
-    <div id="admin-page" class="page">
-      <div class="card"><h2>Panel Admin</h2><p>Tambah + hapus soal, serta Impor/Ekspor JSON (tersimpan di LocalStorage)</p></div>
-
-      <!-- Form tambah soal -->
-      <div class="card">
-        <div style="display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))">
-          <div>
-            <label>Kategori</label>
-            <select id="question-category" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px"></select>
-          </div>
-          <div>
-            <label>Level</label>
-            <select id="question-level" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
-              <option value="mudah">Mudah</option>
-              <option value="normal">Normal</option>
-              <option value="sulit">Sulit</option>
-            </select>
-          </div>
-          <div style="grid-column:1/-1">
-            <label>Pertanyaan</label>
-            <textarea id="question-text" rows="3" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px"></textarea>
-          </div>
-          <div><label>Opsi A</label><input id="option-a" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px"></div>
-          <div><label>Opsi B</label><input id="option-b" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px"></div>
-          <div><label>Opsi C</label><input id="option-c" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px"></div>
-          <div><label>Opsi D</label><input id="option-d" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px"></div>
-          <div>
-            <label>Jawaban Benar</label>
-            <select id="correct-answer" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
-              <option value="a">A</option><option value="b">B</option>
-              <option value="c">C</option><option value="d">D</option>
-            </select>
-          </div>
-          <div>
-            <label>URL Gambar (opsional)</label>
-            <input id="question-image-url" placeholder="https://..." style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px">
-          </div>
-        </div>
-        <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-          <button id="add-question-btn" class="btn">Tambah Soal</button>
-          <button id="clear-scores-btn" class="btn" title="Hapus seluruh top score">Reset Top Score</button>
-        </div>
-      </div>
-
-      <!-- Bank soal + hapus -->
-      <div class="card">
-        <h3 style="margin-bottom:10px">Bank Soal (Kategori/Level terpilih)</h3>
-        <div id="bank-wrap" class="bank"></div>
-      </div>
-
-      <!-- Impor / Ekspor -->
-      <div class="card">
-        <h3 style="margin-bottom:10px">Impor / Ekspor JSON</h3>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">
-          <button id="btn-export-all" class="btn btn-sm">Export Semua</button>
-          <button id="btn-export-current" class="btn btn-sm">Export Kategori/Level</button>
-
-          <input type="file" id="file-import" accept=".json,application/json" style="display:none">
-          <button id="btn-import-file-merge" class="btn btn-sm">Impor File (Gabung)</button>
-          <button id="btn-import-file-replace" class="btn btn-sm">Impor File (Ganti)</button>
-        </div>
-        <p class="muted" style="margin:8px 0">
-          Import menerima: (1) objek penuh seperti <code>{ kategori: { mudah:[], normal:[], sulit:[] } }</code>,
-          atau (2) array soal untuk kategori/level yang sedang dipilih.
-        </p>
-        <textarea id="import-text" rows="6" placeholder='Tempel JSON di sini...' style="width:100%;padding:10px;border:1px solid #ddd;border-radius:10px"></textarea>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-          <button id="btn-import-text-merge" class="btn btn-sm">Impor Teks (Gabung)</button>
-          <button id="btn-import-text-replace" class="btn btn-sm">Impor Teks (Ganti)</button>
-        </div>
+        <button id="start-game-btn" class="btn">Mulai Bermain</button>
       </div>
     </div>
   </div>
 
-  <script>
-    /* ---------- Error overlay ---------- */
-    window.onerror = function(msg, src, line, col){
-      const b = document.createElement('div');
-      b.style.cssText='position:fixed;left:0;right:0;top:0;z-index:99999;background:#ffdddd;color:#900;padding:8px;font:12px monospace';
-      b.textContent='JS ERROR: '+msg+' @ '+line+':'+col;
-      document.body.appendChild(b);
-    };
+  <!-- Home -->
+  <div id="home-page" class="page">
+    <div class="card">
+      <h2>Selamat Datang, <span id="player-greeting">Pemain</span>!</h2>
+      <p class="muted">Pilih kategori dan tingkat kesulitan untuk mulai bermain.</p>
+    </div>
+    <div id="category-grid" class="category-grid"></div>
+  </div>
 
-    /* -------------------- STATE -------------------- */
-    const ADMIN_PASSWORD = '281105';
-    let adminUnlocked = false;
+  <!-- Top Score -->
+  <div id="score-page" class="page">
+    <div class="card">
+      <h2>Top Score</h2>
+      <p id="score-empty" style="display:none;margin:8px 0">Belum ada skor. Main dulu ya!</p>
+      <div style="overflow:auto">
+        <table id="score-table" aria-label="Top Score">
+          <thead>
+            <tr>
+              <th>#</th><th>Nama</th><th>Skor</th><th>Benar/Total</th><th>Kategori</th><th>Level</th><th>Durasi</th><th>Tanggal</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
-    // Avatar file sesuai repo kamu
-    const AVATAR_FILES = [
-      '3f983b9ca5618e87e3734751e643c00a.jpg',
-      '23f038cc913bb02b9b58bc7d8418dd6d.jpg',
-      '41bb3d263d7697d065daef857a33bad9.jpg',
-      'adad96e29d8f85ab783efedc4bf77339.jpg',
-      'b4be2a5c52b166134c6a6b219836dcb1.jpg',
-      '4e339904b7614b9f80ba2d1f65c62ea1.jpg',
-      'c69a2653915d4f413e5450f1a87a2bc5.jpg',
-      'be6f89e2633168738acf2deb817cfeb6.jpg',
-      'a975a06b73c871fd961c088eb19ed64a (1).jpg'
-    ];
-    const PLACEHOLDER = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><rect rx='80' ry='80' width='160' height='160' fill='%23e2e8f0'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-size='14' fill='%236b7280'>avatar missing</text></svg>";
-    const REPO_DIR = (function(){ const p = location.pathname; return p.endsWith('/') ? p : p.replace(/\/[^\/]*$/, '/'); })();
-    const AVATAR_DIR = REPO_DIR + 'static/avatars/';
-    const AVATAR_URLS = AVATAR_FILES.map(fn => AVATAR_DIR + encodeURIComponent(fn));
+  <!-- Quiz -->
+  <div id="quiz-page" class="page">
+    <div class="card">
+      <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h2 id="quiz-category">Kategori:</h2>
+        <div class="row"><span id="quiz-level">Level:</span><span id="question-number" style="min-width:92px;text-align:right">Soal 1/1</span></div>
+      </div>
+      <div class="progress-bar"><div id="quiz-progress" class="progress"></div></div>
+      <div class="question-container">
+        <h3 id="question-text">Pertanyaan…</h3>
+        <img id="question-image" class="question-image" style="display:none" alt="Gambar Soal"/>
+      </div>
+      <div id="options-container" class="options-container"></div>
+      <button id="next-question-btn" class="btn" style="margin-top:14px">Selanjutnya</button>
+    </div>
+  </div>
 
-    const appData = {
-      currentPlayer:{name:'Pemain',avatar:AVATAR_URLS[0],theme:'theme-light',score:0},
-      currentQuestions:[], currentQuestionIndex:0, userAnswers:[],
-      currentCategory:'', currentLevel:'', quizStartAt:0,
-      scores:[],
-      categories:[
-        {id:'ipa',name:'IPA',description:'Ilmu Pengetahuan Alam'},
-        {id:'ips',name:'IPS',description:'Ilmu Pengetahuan Sosial'},
-        {id:'utbk',name:'UTBK',description:'Ujian Tulis Berbasis Komputer'},
-        {id:'agama',name:'Agama',description:'Pendidikan Agama'},
-        {id:'tebak-receh',name:'Tebak Receh',description:'Tebakan Receh'},
-        {id:'cpns',name:'CPNS',description:'Tes CPNS'},
-        {id:'logika',name:'Logika',description:'Tes Logika'},
-        {id:'mtk',name:'MTK',description:'Tes Matematika'},
-        {id:'it',name:'IT',description:'Soal IT'}
-      ],
-      avatars: AVATAR_URLS,
-      themes:[
-        {id:'theme-light-1',name:'Terang 1',class:'theme-light'},
-        {id:'theme-dark-1',name:'Gelap 1',class:'theme-dark'},
-        {id:'theme-light-2',name:'Terang 2',class:'theme-light-2'},
-        {id:'theme-light-3',name:'Terang 3',class:'theme-light-3'},
-        {id:'theme-light-4',name:'Terang 4',class:'theme-light-4'},
-        {id:'theme-dark-2',name:'Gelap 2',class:'theme-dark-2'},
-        {id:'theme-dark-3',name:'Gelap 3',class:'theme-dark-3'},
-        {id:'theme-dark-4',name:'Gelap 4',class:'theme-dark-4'}
-      ]
-    };
+  <!-- Result -->
+  <div id="result-page" class="page">
+    <div class="card">
+      <h2>Hasil Kuis</h2>
+      <p id="score-display">Skor Anda: 0/0</p>
+      <h3 style="margin:10px 0">Detail Jawaban</h3>
+      <div id="answer-details"></div>
+      <button id="back-to-home-btn" class="btn" style="margin-top:14px">Kembali ke Home</button>
+    </div>
+  </div>
 
-    /* -------------------- SOAL AWAL CONTOH -------------------- */
-    const sampleQuestions = {
-      ipa:{ mudah:[
-          {id:1,question:'Planet terdekat dari matahari?',options:{a:'Venus',b:'Bumi',c:'Mars',d:'Merkurius'},correctAnswer:'d',image:''},
-          {id:2,question:'Fungsi mitokondria?',options:{a:'Fotosintesis',b:'Pembangkit energi sel',c:'Kontrol aktivitas sel',d:'Sintesis protein'},correctAnswer:'b',image:''}
-        ], normal:[], sulit:[] },
-      it:{ mudah:[
-          {id:1,question:'HTML kepanjangannya?',options:{a:'Hyperlinks and Text Markup Language',b:'HyperText Markup Language',c:'Home Tool Markup Language',d:'Hyper Text Makeup Language'},correctAnswer:'b',image:''}
-        ], normal:[], sulit:[] }
-    };
+  <!-- Admin -->
+  <div id="admin-page" class="page">
+    <div class="card"><h2>Panel Admin</h2><p class="muted">Tambah soal + kelola bank soal (password: 281105)</p></div>
 
-    /* -------------------- INIT -------------------- */
-    document.addEventListener('DOMContentLoaded', ()=>{
-      setupEventListeners();
-      loadFromLocalStorage();
+    <div class="card">
+      <div class="row">
+        <div style="min-width:240px;flex:1">
+          <label>Kategori</label>
+          <select id="question-category" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></select>
+        </div>
+        <div style="min-width:200px">
+          <label>Level</label>
+          <select id="question-level" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+            <option value="mudah">Mudah</option>
+            <option value="normal">Normal</option>
+            <option value="sulit">Sulit</option>
+          </select>
+        </div>
+      </div>
 
-      renderAvatarOptions();
-      renderThemeOptions();
-      renderCategories();
-      renderCategoryOptionsForAdmin();
-      renderBank();
+      <div style="margin-top:10px">
+        <label>Pertanyaan</label>
+        <textarea id="question-text" rows="3" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></textarea>
+      </div>
+
+      <div class="row" style="margin-top:10px">
+        <div style="flex:1;min-width:180px"><label>Opsi A</label><input id="option-a" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></div>
+        <div style="flex:1;min-width:180px"><label>Opsi B</label><input id="option-b" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></div>
+        <div style="flex:1;min-width:180px"><label>Opsi C</label><input id="option-c" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></div>
+        <div style="flex:1;min-width:180px"><label>Opsi D</label><input id="option-d" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px"></div>
+      </div>
+
+      <div class="row" style="margin-top:10px">
+        <div style="flex:1;min-width:220px">
+          <label>URL Gambar (opsional)</label>
+          <input id="admin-image-url" placeholder="https://…/gambar.jpg" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+        </div>
+        <div style="min-width:180px">
+          <label>Jawaban Benar</label>
+          <select id="correct-answer" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px">
+            <option value="a">A</option><option value="b">B</option><option value="c">C</option><option value="d">D</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:12px">
+        <button id="add-question-btn" class="btn">Tambah Soal</button>
+        <button id="auto20-btn" class="btn" title="Mengisi 20 soal untuk kategori+level terpilih (paket/otomatis)">Isi 20 Soal Otomatis</button>
+        <button id="export-btn" class="btn">Export Soal (JSON)</button>
+        <button id="clear-scores-btn" class="btn" title="Hapus seluruh top score">Reset Top Score</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Import Soal (JSON)</h3>
+      <p class="muted">Tempel JSON (format sama seperti <code>sampleQuestions</code>). Klik Import untuk menambah/merge.</p>
+      <textarea id="import-json" rows="8" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px" placeholder='{"ipa":{"mudah":[...]}}'></textarea>
+      <div class="row" style="margin-top:10px">
+        <button id="import-btn" class="btn">Import</button>
+        <span id="bank-count" class="muted" style="align-self:center"></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- Error overlay ---------- */
+window.onerror = function(msg, src, line, col){
+  const b = document.createElement('div');
+  b.style.cssText='position:fixed;left:0;right:0;top:0;z-index:99999;background:#ffdddd;color:#900;padding:8px;font:12px monospace';
+  b.textContent='JS ERROR: '+msg+' @ '+line+':'+col;
+  document.body.appendChild(b);
+};
+
+/* -------------------- STATE -------------------- */
+const ADMIN_PASSWORD = '281105';
+let adminUnlocked = false;
+
+const appData = {
+  currentPlayer:{name:'Pemain',avatar:'',theme:'theme-light',score:0},
+  currentQuestions:[], currentQuestionIndex:0, userAnswers:[],
+  currentCategory:'', currentLevel:'', quizStartAt:0,
+  scores:[], // {name, score, total, category, level, ms, date}
+  categories:[
+    {id:'ipa',name:'IPA',description:'Ilmu Pengetahuan Alam',image:''},
+    {id:'ips',name:'IPS',description:'Ilmu Pengetahuan Sosial',image:''},
+    {id:'utbk',name:'UTBK',description:'Ujian Tulis Berbasis Komputer',image:''},
+    {id:'agama',name:'Pendidikan Agama',description:'Pendidikan Agama',image:''},
+    {id:'tebak-receh',name:'Tebak Receh',description:'Tebakan Receh',image:''},
+    {id:'cpns',name:'CPNS',description:'Tes CPNS',image:''},
+    {id:'logika',name:'Logika',description:'Tes Logika',image:''},
+    {id:'mtk',name:'MTK',description:'Tes Matematika',image:''},
+    {id:'it',name:'IT',description:'Soal IT',image:''},
+    {id:'agama hindu',name:'Agama Hindu',description:'Soal Agama Hindu',image:''},
+    {id:'agama buddha',name:'Agama Buddha',description:'Soal Agama Buddha',image:''},
+    {id:'agama katolik',name:'Agama Katolik',description:'Soal Agama Katolik',image:''},
+    {id:'agama konghucu',name:'Agama Konghucu',description:'Soal Agama Konghucu',image:''},
+    {id:'agama protestan',name:'Agama Protestan',description:'Soal Agama Protestan',image:''},
+    {id:'agama kristen',name:'Agama Kristen',description:'Soal Agama Kristen',image:''}
+  ],
+  avatars:[
+    './static/avatars/3f983b9ca5618e87e3734751e643c00a.jpg',
+    './static/avatars/23f038cc913bb02b9b58bc7d8418dd6d.jpg',
+    './static/avatars/41bb3d263d7697d065daef857a33bad9.jpg',
+    './static/avatars/adad96e29d8f85ab783efedc4bf77339.jpg',
+    './static/avatars/b4be2a5c52b166134c6a6b219836dcb1.jpg',
+    './static/avatars/4e339904b7614b9f80ba2d1f65c62ea1.jpg',
+    './static/avatars/c69a2653915d4f413e5450f1a87a2bc5.jpg',
+    './static/avatars/be6f89e2633168738acf2deb817cfeb6.jpg',
+    './static/avatars/a975a06b73c871fd961c088eb19ed64a (1).jpg'
+  ],
+  themes:[
+    {id:'theme-light-1',name:'Terang 1',class:'theme-light'},
+    {id:'theme-dark-1',name:'Gelap 1',class:'theme-dark'}
+  ]
+};
+
+/* -------------------- BANK SOAL -------------------- */
+// Format: { [kategori]: { mudah:[...], normal:[...], sulit:[...] } }
+const sampleQuestions = {
+  ipa:{
+    mudah:[
+      {id:1,question:'Planet terdekat dari matahari?',options:{a:'Venus',b:'Bumi',c:'Mars',d:'Merkurius'},correctAnswer:'d',image:''},
+      {id:2,question:'Fungsi mitokondria?',options:{a:'Fotosintesis',b:'Pembangkit energi sel',c:'Kontrol aktivitas sel',d:'Sintesis protein'},correctAnswer:'b',image:''},
+      {id:3,question:'Gas terbanyak di atmosfer bumi?',options:{a:'Oksigen',b:'Nitrogen',c:'CO₂',d:'Argon'},correctAnswer:'b',image:''},
+      {id:4,question:'pH netral pada 25°C adalah…',options:{a:'1',b:'7',c:'10',d:'14'},correctAnswer:'b',image:''},
+      {id:5,question:'Alat ukur massa?',options:{a:'Amperemeter',b:'Termometer',c:'Neraca',d:'Higrometer'},correctAnswer:'c',image:''},
+      {id:6,question:'Perubahan padat menjadi cair disebut…',options:{a:'Menguap',b:'Mencair',c:'Membeku',d:'Menyublim'},correctAnswer:'b',image:''},
+      {id:7,question:'Organ pemompa darah?',options:{a:'Paru-paru',b:'Hati',c:'Ginjal',d:'Jantung'},correctAnswer:'d',image:''},
+      {id:8,question:'Indera penglihatan?',options:{a:'Hidung',b:'Mata',c:'Telinga',d:'Kulit'},correctAnswer:'b',image:''},
+      {id:9,question:'Tulang pelindung otak?',options:{a:'Tengkorak',b:'Tulang rusuk',c:'Tulang paha',d:'Tulang ekor'},correctAnswer:'a',image:''},
+      {id:10,question:'Simbol kimia emas?',options:{a:'Ag',b:'Au',c:'Fe',d:'Cu'},correctAnswer:'b',image:''},
+      {id:11,question:'Sumber energi utama Bumi?',options:{a:'Inti Bumi',b:'Matahari',c:'Angin',d:'Gelombang'},correctAnswer:'b',image:''},
+      {id:12,question:'Satelit alami Bumi?',options:{a:'Phobos',b:'Europa',c:'Bulan',d:'Titan'},correctAnswer:'c',image:''},
+      {id:13,question:'Hewan pemakan tumbuhan & hewan?',options:{a:'Herbivora',b:'Karnivora',c:'Omnivora',d:'Insektivora'},correctAnswer:'c',image:''},
+      {id:14,question:'Hukum Newton I tentang…',options:{a:'Aksi-reaksi',b:'Percepatan',c:'Kelembaman',d:'Gravitasi'},correctAnswer:'c',image:''},
+      {id:15,question:'Satuan kecepatan SI?',options:{a:'m/s',b:'km',c:'m',d:'N'},correctAnswer:'a',image:''},
+      {id:16,question:'Satuan tekanan SI?',options:{a:'Joule',b:'Pascal',c:'Watt',d:'Ohm'},correctAnswer:'b',image:''},
+      {id:17,question:'Gas untuk fotosintesis?',options:{a:'CO₂',b:'O₂',c:'N₂',d:'H₂'},correctAnswer:'a',image:''},
+      {id:18,question:'Organel tempat fotosintesis?',options:{a:'Kloroplas',b:'Mitokondria',c:'Ribosom',d:'Lisosom'},correctAnswer:'a',image:''},
+      {id:19,question:'Pembuluh darah dari jantung adalah…',options:{a:'Vena',b:'Aorta',c:'Arteri',d:'Kapiler'},correctAnswer:'c',image:''},
+      {id:20,question:'Bagian tumbuhan tempat stomata banyak?',options:{a:'Akar',b:'Batang',c:'Daun',d:'Bunga'},correctAnswer:'c',image:''}
+    ],
+    normal:[
+      {id:101, question:"Bentuk matematis Hukum Ohm adalah…", options:{a:"V = I × R", b:"P = V / I", c:"I = V + R", d:"R = V × I"}, correctAnswer:"a", image:""},
+      {id:102, question:"Pada rangkaian seri, arus listrik pada setiap komponen bernilai…", options:{a:"sama", b:"nol", c:"berbeda", d:"maksimum"}, correctAnswer:"a", image:""},
+      {id:103, question:"Rumus massa jenis (ρ) yang benar adalah…", options:{a:"ρ = m / V", b:"ρ = V / m", c:"ρ = m × V", d:"ρ = m + V"}, correctAnswer:"a", image:""},
+      {id:104, question:"Energi potensial gravitasi dirumuskan…", options:{a:"Ep = m g h", b:"Ep = 1/2 m v²", c:"Ep = m/v", d:"Ep = F / A"}, correctAnswer:"a", image:""},
+      {id:105, question:"Lensa cembung dikenal sebagai lensa…", options:{a:"divergen", b:"konvergen", c:"cekung", d:"silinder"}, correctAnswer:"b", image:""},
+      {id:106, question:"Menurut Hukum Archimedes, gaya ke atas pada benda sama dengan…", options:{a:"berat benda", b:"berat zat cair dipindahkan", c:"massa benda", d:"gaya tekan"}, correctAnswer:"b", image:""},
+      {id:107, question:"Persamaan kecepatan gelombang adalah…", options:{a:"v = f × λ", b:"v = f / λ", c:"v = λ / f", d:"v = 1 / (f λ)"}, correctAnswer:"a", image:""},
+      {id:108, question:"Bunyi tidak dapat merambat melalui…", options:{a:"benda padat", b:"ruang hampa", c:"air", d:"udara"}, correctAnswer:"b", image:""},
+      {id:109, question:"Gas yang paling banyak di atmosfer Bumi adalah…", options:{a:"Nitrogen", b:"Oksigen", c:"CO₂", d:"Argon"}, correctAnswer:"a", image:""},
+      {id:110, question:"Lapisan atmosfer terdekat dengan permukaan Bumi adalah…", options:{a:"Troposfer", b:"Stratosfer", c:"Mesosfer", d:"Termosfer"}, correctAnswer:"a", image:""},
+      {id:111, question:"Organel tempat fotosintesis berlangsung adalah…", options:{a:"Mitokondria", b:"Kloroplas", c:"Ribosom", d:"Nukleus"}, correctAnswer:"b", image:""},
+      {id:112, question:"Gas yang dibutuhkan tumbuhan pada proses fotosintesis adalah…", options:{a:"O₂", b:"CO₂", c:"N₂", d:"CH₄"}, correctAnswer:"b", image:""},
+      {id:113, question:"Peredaran darah besar membawa darah dari…", options:{a:"bilik kiri ke seluruh tubuh", b:"paru ke jantung", c:"bilik kanan ke paru", d:"atrium ke bilik"}, correctAnswer:"a", image:""},
+      {id:114, question:"Satuan SI untuk gaya adalah…", options:{a:"Newton", b:"Joule", c:"Watt", d:"Pascal"}, correctAnswer:"a", image:""},
+      {id:115, question:"Alat untuk mengukur kuat arus listrik adalah…", options:{a:"Voltmeter", b:"Amperemeter", c:"Ohmmeter", d:"Barometer"}, correctAnswer:"b", image:""},
+      {id:116, question:"Hukum II Newton dapat ditulis…", options:{a:"ΣF = m a", b:"Aksi = Reaksi", c:"v = s/t", d:"ρ = m/V"}, correctAnswer:"a", image:""},
+      {id:117, question:"Gelombang yang tidak memerlukan medium untuk merambat ialah…", options:{a:"gelombang mekanik", b:"gelombang elektromagnetik", c:"gelombang bunyi", d:"gelombang air"}, correctAnswer:"b", image:""},
+      {id:118, question:"Respirasi aerob terutama berlangsung di…", options:{a:"Sitoplasma", b:"Ribosom", c:"Mitokondria", d:"Kloroplas"}, correctAnswer:"c", image:""},
+      {id:119, question:"Dalam rantai makanan, konsumen primer adalah organisme yang…", options:{a:"autotrof", b:"pemakan tumbuhan", c:"pemangsa top", d:"dekomposer"}, correctAnswer:"b", image:""},
+      {id:120, question:"Komponen darah yang berperan mengangkut oksigen adalah…", options:{a:"Leukosit", b:"Trombosit", c:"Eritrosit", d:"Plasma"}, correctAnswer:"c", image:""}
+    ],
+    sulit:[
+      {id:201,question:"Hukum Bernoulli menyatakan bahwa untuk fluida ideal, jumlah tekanan statis, tekanan dinamis, dan… adalah konstan.",options:{a:"energi potensial per volume",b:"massa jenis",c:"kecepatan",d:"viskositas"},correctAnswer:"a",image:""},
+      {id:202,question:"Frekuensi osilasi pegas (massa m, konstanta k) adalah…",options:{a:"f = (1/2π)√(k/m)",b:"f = 2π√(k/m)",c:"f = √(m/k)",d:"f = k/m"},correctAnswer:"a",image:""},
+      {id:203,question:"Energi kinetik partikel bermassa m dan momentum p sama dengan…",options:{a:"p²/2m",b:"m p²",c:"m v²",d:"p/v"},correctAnswer:"a",image:""},
+      {id:204,question:"Panas jenis didefinisikan sebagai…",options:{a:"kalor untuk menaikkan suhu 1 kg sebesar 1°C",b:"kalor laten",c:"kalor total zat",d:"enthalpi reaksi"},correctAnswer:"a",image:""},
+      {id:205,question:"Persamaan gas ideal:",options:{a:"pV = nRT",b:"pV = kT",c:"p/T = nV",d:"V/T = pR"},correctAnswer:"a",image:""},
+      {id:206,question:"pH larutan dengan [H⁺] = 1×10⁻⁴ M adalah…",options:{a:"2",b:"4",c:"6",d:"10"},correctAnswer:"b",image:""},
+      {id:207,question:"Laju reaksi orde satu berbanding…",options:{a:"kali konsentrasi reaktan",b:"kuadrat konsentrasi",c:"kebalikan konsentrasi",d:"konstan"},correctAnswer:"a",image:""},
+      {id:208,question:"Ikatan yang terbentuk saat elektron dipindahkan antar atom disebut…",options:{a:"kovalen",b:"ionik",c:"logam",d:"hidrogen"},correctAnswer:"b",image:""},
+      {id:209,question:"Fotosistem yang menghasilkan O₂ dari fotolisis air adalah…",options:{a:"PS I",b:"PS II",c:"Klorofil b",d:"Siklus Calvin"},correctAnswer:"b",image:""},
+      {id:210,question:"Tahap siklus Krebs yang menghasilkan GTP terjadi pada konversi…",options:{a:"succinyl-CoA → succinate",b:"malate → oxaloacetate",c:"citrate → isocitrate",d:"α-ketoglutarate → succinyl-CoA"},correctAnswer:"a",image:""},
+      {id:211,question:"Persamaan gelombang harmonik y(x,t)=A sin(kx−ωt). Kecepatan fasa v adalah…",options:{a:"ω/k",b:"k/ω",c:"Aω",d:"Ak"},correctAnswer:"a",image:""},
+      {id:212,question:"Laju difusi gas berbanding terbalik dengan √M (Hukum…)",options:{a:"Boyle",b:"Graham",c:"Charles",d:"Gay-Lussac"},correctAnswer:"b",image:""},
+      {id:213,question:"Energi ikatan rata-rata menunjukkan…",options:{a:"enthalpi pembentukan",b:"energi memutus ikatan per mol",c:"kapasitas panas",d:"kestabilan fase"},correctAnswer:"b",image:""},
+      {id:214,question:"Pada lensa tipis, 1/f = 1/s + 1/s'. Jika s=2f, maka s' = …",options:{a:"2f",b:"f",c:"−f",d:"f/2"},correctAnswer:"b",image:""},
+      {id:215,question:"Impuls sama dengan perubahan…",options:{a:"energi",b:"momentum",c:"percepatan",d:"usaha"},correctAnswer:"b",image:""},
+      {id:216,question:"Reaksi eksoterm ditandai dengan ΔH…",options:{a:"=0",b:">0",c:"<0",d:"tak tentu"},correctAnswer:"c",image:""},
+      {id:217,question:"Keanekaragaman gen tampak pada…",options:{a:"variasi sifat dalam satu spesies",b:"jumlah spesies",c:"variasi ekosistem",d:"jaring-jaring makanan"},correctAnswer:"a",image:""},
+      {id:218,question:"Aliran energi dalam ekosistem bersifat…",options:{a:"siklis",b:"satu arah menurun",c:"berbalik",d:"acak"},correctAnswer:"b",image:""},
+      {id:219,question:"Medan magnet di pusat kawat melingkar I, jari-jari R: B = …",options:{a:"μ₀I/2R",b:"μ₀I/4πR",c:"μ₀I/2πR",d:"μ₀IR"},correctAnswer:"a",image:""},
+      {id:220,question:"Efisiensi mesin Carnot hanya bergantung pada…",options:{a:"jenis gas",b:"suhu dua reservoir",c:"tekanan awal",d:"volume awal"},correctAnswer:"b",image:""}
+    ]
+  },
+  // kategori lain awalnya kosong; isi via Admin / Import / Auto20
+  ips:{mudah:[],normal:[],sulit:[]},
+  utbk:{mudah:[],normal:[],sulit:[]},
+  agama:{mudah:[],normal:[],sulit:[]},
+  "tebak-receh":{mudah:[],normal:[],sulit:[]},
+  cpns:{mudah:[],normal:[],sulit:[]},
+  logika:{mudah:[],normal:[],sulit:[]},
+  mtk:{mudah:[],normal:[],sulit:[]},
+  it:{mudah:[],normal:[],sulit:[]},
+  "agama hindu":{mudah:[],normal:[],sulit:[]},
+  "agama buddha":{mudah:[],normal:[],sulit:[]},
+  "agama katolik":{mudah:[],normal:[],sulit:[]},
+  "agama konghucu":{mudah:[],normal:[],sulit:[]},
+  "agama protestan":{mudah:[],normal:[],sulit:[]},
+  "agama kristen":{mudah:[],normal:[],sulit:[]}
+};
+
+/* -------------------- INISIALISASI -------------------- */
+document.addEventListener('DOMContentLoaded', ()=>{
+  setupEventListeners();
+  setupAdditionalThemes();
+  loadFromLocalStorage();
+
+  renderAvatarOptions();
+  renderThemeOptions();
+  renderCategories();
+  renderCategoryOptionsForAdmin();
+  updateBankCount();
+});
+
+function setupAdditionalThemes(){
+  const style=document.createElement('style');
+  style.textContent=`
+    .theme-light-2{--primary-color:#6d4c41;--secondary-color:#8d6e63;--accent-color:#ff5722;--background-color:#f5f5f5;--text-color:#212121;--card-bg:#fff;--header-bg:#6d4c41}
+    .theme-light-3{--primary-color:#388e3c;--secondary-color:#4caf50;--accent-color:#ffc107;--background-color:#e8f5e9;--text-color:#1b5e20;--card-bg:#fff;--header-bg:#388e3c}
+    .theme-light-4{--primary-color:#1976d2;--secondary-color:#2196f3;--accent-color:#ff5252;--background-color:#e3f2fd;--text-color:#0d47a1;--card-bg:#fff;--header-bg:#1976d2}
+    .theme-dark-2{--primary-color:#7b1fa2;--secondary-color:#9c27b0;--accent-color:#ff4081;--background-color:#1a1a1a;--text-color:#e1bee7;--card-bg:#2d2d2d;--header-bg:#7b1fa2}
+    .theme-dark-3{--primary-color:#d32f2f;--secondary-color:#f44336;--accent-color:#ff9800;--background-color:#1a1a1a;--text-color:#ffcdd2;--card-bg:#2d2d2d;--header-bg:#d32f2f}
+    .theme-dark-4{--primary-color:#00796b;--secondary-color:#009688;--accent-color:#ffeb3b;--background-color:#1a1a1a;--text-color:#b2dfdb;--card-bg:#2d2d2d;--header-bg:#00796b}
+  `;
+  document.head.appendChild(style);
+
+  appData.themes.push(
+    {id:'theme-light-2',name:'Terang 2',class:'theme-light-2'},
+    {id:'theme-light-3',name:'Terang 3',class:'theme-light-3'},
+    {id:'theme-light-4',name:'Terang 4',class:'theme-light-4'},
+    {id:'theme-dark-2',name:'Gelap 2',class:'theme-dark-2'},
+    {id:'theme-dark-3',name:'Gelap 3',class:'theme-dark-3'},
+    {id:'theme-dark-4',name:'Gelap 4',class:'theme-dark-4'}
+  );
+}
+
+function setupEventListeners(){
+  document.getElementById('home-link').addEventListener('click',()=>{ showPage('home-page'); });
+  document.getElementById('score-link').addEventListener('click',()=>{ renderTopScores(); showPage('score-page'); });
+
+  document.getElementById('admin-link').addEventListener('click',()=>{
+    if(!adminUnlocked){
+      const p = prompt('Masukkan password Admin:');
+      if(p===ADMIN_PASSWORD){ adminUnlocked=true; alert('Akses Admin dibuka.'); }
+      else { alert('Password salah.'); return; }
+    }
+    showPage('admin-page');
+  });
+
+  document.getElementById('logout-link').addEventListener('click',logout);
+
+  document.getElementById('start-game-btn').addEventListener('click',startGame);
+  document.getElementById('next-question-btn').addEventListener('click',handleNextQuestion);
+  document.getElementById('back-to-home-btn').addEventListener('click',()=>showPage('home-page'));
+  document.getElementById('clear-scores-btn').addEventListener('click',()=>{
+    if(confirm('Hapus semua top score?')){ appData.scores=[]; saveToLocalStorage(); renderTopScores(); alert('Top score direset.'); }
+  });
+
+  // pilih opsi
+  document.addEventListener('click',e=>{
+    if(e.target.classList.contains('option')){
+      document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+      e.target.classList.add('selected');
+      appData.userAnswers[appData.currentQuestionIndex]=e.target.dataset.option;
+    }
+  });
+
+  // Admin actions
+  document.getElementById('add-question-btn').addEventListener('click',addQuestion);
+  document.getElementById('export-btn').addEventListener('click',exportQuestions);
+  document.getElementById('import-btn').addEventListener('click',importQuestions);
+  document.getElementById('auto20-btn').addEventListener('click',autoTwenty);
+}
+
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+/* -------------------- LOGIN & HOME -------------------- */
+function renderAvatarOptions(){
+  const c=document.getElementById('avatar-selection'); c.innerHTML='';
+  appData.avatars.forEach((src,idx)=>{
+    const img=document.createElement('img');
+    img.src=src; img.alt='Avatar '+(idx+1);
+    img.className='avatar-option';
+    if(idx===0 && !appData.currentPlayer.avatar){ appData.currentPlayer.avatar=src; img.classList.add('selected'); }
+    if(appData.currentPlayer.avatar===src){ img.classList.add('selected'); }
+    img.addEventListener('click',()=>{
+      document.querySelectorAll('.avatar-option').forEach(i=>i.classList.remove('selected'));
+      img.classList.add('selected'); appData.currentPlayer.avatar=src;
     });
+    c.appendChild(img);
+  });
+}
 
-    function setupEventListeners(){
-      document.getElementById('home-link').addEventListener('click',()=>{ showPage('home-page'); });
-      document.getElementById('score-link').addEventListener('click',()=>{ renderTopScores(); showPage('score-page'); });
-
-      document.getElementById('admin-link').addEventListener('click',()=>{
-        if(!adminUnlocked){
-          const p = prompt('Masukkan password Admin:');
-          if(p===ADMIN_PASSWORD){ adminUnlocked=true; alert('Akses Admin dibuka.'); }
-          else { alert('Password salah.'); return; }
-        }
-        showPage('admin-page'); renderBank();
-      });
-
-      document.getElementById('logout-link').addEventListener('click',logout);
-
-      document.getElementById('start-game-btn').addEventListener('click',startGame);
-      document.getElementById('next-question-btn').addEventListener('click',handleNextQuestion);
-      document.getElementById('back-to-home-btn').addEventListener('click',()=>showPage('home-page'));
-      document.getElementById('clear-scores-btn').addEventListener('click',()=>{
-        if(confirm('Hapus semua top score?')){ appData.scores=[]; saveToLocalStorage(); renderTopScores(); alert('Top score direset.'); }
-      });
-
-      document.addEventListener('click',e=>{
-        if(e.target.classList.contains('option')){
-          document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
-          e.target.classList.add('selected');
-          appData.userAnswers[appData.currentQuestionIndex]=e.target.dataset.option;
-        }
-      });
-
-      document.getElementById('add-question-btn').addEventListener('click',addQuestion);
-      document.getElementById('question-category').addEventListener('change',renderBank);
-      document.getElementById('question-level').addEventListener('change',renderBank);
-
-      // Export / Import
-      document.getElementById('btn-export-all').onclick = ()=> downloadJSON(sampleQuestions,'bank-soal.json');
-      document.getElementById('btn-export-current').onclick = exportCurrent;
-
-      document.getElementById('btn-import-file-merge').onclick   = ()=> triggerFileImport(true);
-      document.getElementById('btn-import-file-replace').onclick = ()=> triggerFileImport(false);
-      document.getElementById('btn-import-text-merge').onclick   = ()=> importFromText(true);
-      document.getElementById('btn-import-text-replace').onclick = ()=> importFromText(false);
+function renderThemeOptions(){
+  const c=document.getElementById('theme-selection'); c.innerHTML='';
+  appData.themes.forEach((t,idx)=>{
+    const el=document.createElement('div');
+    el.textContent=t.name; el.className='theme-option'; el.dataset.theme=t.class;
+    if((idx===0 && !appData.currentPlayer.theme) || appData.currentPlayer.theme===t.class){
+      el.classList.add('selected'); document.body.classList.add(t.class);
     }
+    el.addEventListener('click',()=>{
+      document.querySelectorAll('.theme-option').forEach(i=>i.classList.remove('selected'));
+      el.classList.add('selected');
+      document.body.classList.remove(...appData.themes.map(x=>x.class));
+      document.body.classList.add(t.class);
+      appData.currentPlayer.theme=t.class;
+    });
+    c.appendChild(el);
+  });
+}
 
-    function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+function renderCategories(){
+  const grid=document.getElementById('category-grid'); grid.innerHTML='';
+  appData.categories.forEach(cat=>{
+    const box=document.createElement('div');
+    box.className='category-item';
+    box.innerHTML = `
+      ${cat.image?`<img class="category-image" src="${cat.image}" alt="${cat.name}"/>`:''}
+      <h3>${cat.name}</h3>
+      <p class="muted">${cat.description||''}</p>
+      <div class="level-buttons">
+        <button class="btn btn-sm" data-category="${cat.id}" data-level="mudah">Mudah</button>
+        <button class="btn btn-sm" data-category="${cat.id}" data-level="normal">Normal</button>
+        <button class="btn btn-sm" data-category="${cat.id}" data-level="sulit">Sulit</button>
+      </div>`;
+    grid.appendChild(box);
+    box.querySelectorAll('.level-buttons button').forEach(b=>{
+      b.addEventListener('click',()=>startQuiz(b.dataset.category,b.dataset.level));
+    });
+  });
+}
 
-    /* -------------------- LOGIN & HOME -------------------- */
-    function renderAvatarOptions(){
-      const c=document.getElementById('avatar-selection'); c.innerHTML='';
-      appData.avatars.forEach((fullSrc,idx)=>{
-        const img=document.createElement('img');
-        img.src=fullSrc; img.alt='Avatar '+(idx+1); img.className='avatar-option';
-        img.onerror = ()=>{ img.src=PLACEHOLDER; img.title='Tidak ditemukan: '+decodeURIComponent(fullSrc); };
-        if((idx===0 && !appData.currentPlayer.avatar) || appData.currentPlayer.avatar===fullSrc){
-          appData.currentPlayer.avatar=fullSrc; img.classList.add('selected');
-        }
-        img.addEventListener('click',()=>{
-          document.querySelectorAll('.avatar-option').forEach(i=>i.classList.remove('selected'));
-          img.classList.add('selected'); appData.currentPlayer.avatar=fullSrc; saveToLocalStorage();
-        });
-        c.appendChild(img);
-      });
-    }
+function startGame(){
+  const name = (document.getElementById('player-name').value||'').trim();
+  if(!name){ alert('Silakan isi nama dulu ya.'); return; }
+  appData.currentPlayer.name=name;
+  document.getElementById('player-greeting').textContent=name;
+  saveToLocalStorage();
+  showPage('home-page');
+}
 
-    function renderThemeOptions(){
-      const c=document.getElementById('theme-selection'); c.innerHTML='';
-      appData.themes.forEach((t)=>{
-        const el=document.createElement('div'); el.textContent=t.name; el.className='theme-option';
-        if(appData.currentPlayer.theme===t.class || (!appData.currentPlayer.theme && t.class==='theme-light')){
-          el.classList.add('selected'); document.body.classList.add(t.class);
-        }
-        el.addEventListener('click',()=>{
-          document.querySelectorAll('.theme-option').forEach(i=>i.classList.remove('selected'));
-          el.classList.add('selected');
-          document.body.classList.remove(...appData.themes.map(x=>x.class));
-          document.body.classList.add(t.class);
-          appData.currentPlayer.theme=t.class; saveToLocalStorage();
-        });
-        c.appendChild(el);
-      });
-    }
+/* -------------------- QUIZ -------------------- */
+function startQuiz(category,level){
+  appData.currentCategory=category;
+  appData.currentLevel=level;
+  appData.currentQuestionIndex=0;
+  appData.userAnswers=[];
+  appData.quizStartAt=Date.now();
 
-    function renderCategories(){
-      const grid=document.getElementById('category-grid'); grid.innerHTML='';
-      appData.categories.forEach(cat=>{
-        const box=document.createElement('div'); box.className='category-item';
-        box.innerHTML = `
-          <h3>${cat.name}</h3>
-          <p>${cat.description||''}</p>
-          <div class="level-buttons">
-            <button class="btn btn-sm" data-category="${cat.id}" data-level="mudah">Mudah</button>
-            <button class="btn btn-sm" data-category="${cat.id}" data-level="normal">Normal</button>
-            <button class="btn btn-sm" data-category="${cat.id}" data-level="sulit">Sulit</button>
-          </div>`;
-        grid.appendChild(box);
-        box.querySelectorAll('.level-buttons button').forEach(b=>{
-          b.addEventListener('click',()=>startQuiz(b.dataset.category,b.dataset.level));
-        });
-      });
-    }
+  let qs=[];
+  if(sampleQuestions[category] && sampleQuestions[category][level] && sampleQuestions[category][level].length){
+    qs=sampleQuestions[category][level];
+  }else{
+    qs=[{id:1,question:`Belum ada soal untuk ${category.toUpperCase()} (${level}). Tambahkan via Admin.`,options:{a:'—',b:'—',c:'—',d:'—'},correctAnswer:'a',image:''}];
+  }
+  appData.currentQuestions=qs;
 
-    function startGame(){
-      const name = (document.getElementById('player-name').value||'').trim();
-      if(!name){ alert('Silakan isi nama dulu ya.'); return; }
-      appData.currentPlayer.name=name; document.getElementById('player-greeting').textContent=name;
-      saveToLocalStorage(); showPage('home-page');
-    }
+  document.getElementById('quiz-category').textContent='Kategori: '+category.toUpperCase();
+  document.getElementById('quiz-level').textContent='Level: '+level;
+  showPage('quiz-page');
+  showQuestion(0);
+}
 
-    /* -------------------- QUIZ -------------------- */
-    function startQuiz(category,level){
-      appData.currentCategory=category; appData.currentLevel=level;
-      appData.currentQuestionIndex=0; appData.userAnswers=[]; appData.quizStartAt=Date.now();
-      let qs=[]; if(sampleQuestions[category] && sampleQuestions[category][level] && sampleQuestions[category][level].length){ qs=sampleQuestions[category][level]; }
-      else{ qs=[{id:1,question:`Contoh soal ${category} (${level})`,options:{a:'Opsi A',b:'Opsi B',c:'Opsi C',d:'Opsi D'},correctAnswer:'a',image:''}]; }
-      appData.currentQuestions=qs;
-      document.getElementById('quiz-category').textContent='Kategori: '+category.toUpperCase();
-      document.getElementById('quiz-level').textContent='Level: '+level; showPage('quiz-page'); showQuestion(0);
-    }
+function showQuestion(i){
+  if(i>=appData.currentQuestions.length){ finishQuiz(); return; }
+  const q=appData.currentQuestions[i];
+  document.getElementById('question-text').textContent=q.question;
+  document.getElementById('question-number').textContent=`Soal ${i+1}/${appData.currentQuestions.length}`;
 
-    function showQuestion(i){
-      if(i>=appData.currentQuestions.length){ finishQuiz(); return; }
-      const q=appData.currentQuestions[i];
-      document.getElementById('question-text').textContent=q.question;
-      document.getElementById('question-number').textContent=`Soal ${i+1}/${appData.currentQuestions.length}`;
-      const qi=document.getElementById('question-image'); if(q.image){ qi.src=q.image; qi.style.display='block'; } else { qi.style.display='none'; }
-      document.getElementById('quiz-progress').style.width = (i/appData.currentQuestions.length*100)+'%';
-      const oc=document.getElementById('options-container'); oc.innerHTML='';
-      Object.entries(q.options).forEach(([k,v])=>{
-        const d=document.createElement('div'); d.className='option'; d.dataset.option=k; d.innerHTML=`<strong>${k.toUpperCase()}.</strong> ${v}`;
-        if(appData.userAnswers[i]===k) d.classList.add('selected'); oc.appendChild(d);
-      });
-    }
-    function handleNextQuestion(){ if(!appData.userAnswers[appData.currentQuestionIndex]){ alert('Pilih jawaban dulu ya!'); return; } appData.currentQuestionIndex++; showQuestion(appData.currentQuestionIndex); }
-    function finishQuiz(){
-      let score=0; const details=[];
-      appData.currentQuestions.forEach((q,idx)=>{ const ua=appData.userAnswers[idx]; const ok=ua===q.correctAnswer; if(ok) score++; details.push({q:q.question,u:ua?q.options[ua]:'Tidak dijawab',c:q.options[q.correctAnswer],ok}); });
-      appData.currentPlayer.score=score;
-      document.getElementById('score-display').textContent=`Skor Anda: ${score}/${appData.currentQuestions.length}`;
-      const wrap=document.getElementById('answer-details'); wrap.innerHTML='';
-      details.forEach((d,i)=>{ const e=document.createElement('div'); e.style.cssText=`margin:10px 0;padding:10px;border-left:4px solid ${d.ok?'#4caf50':'#f44336'};background:${d.ok?'#e8f5e9':'#ffebee'};border-radius:6px`; e.innerHTML=`<p><strong>Soal ${i+1}:</strong> ${d.q}</p><p><strong>Jawaban Anda:</strong> ${d.u}</p><p><strong>Jawaban Benar:</strong> ${d.c}</p>`; wrap.appendChild(e); });
-      const ms = Math.max(1, Date.now()-appData.quizStartAt);
-      addScore({ name: appData.currentPlayer.name || 'Pemain', score, total: appData.currentQuestions.length, category: appData.currentCategory, level: appData.currentLevel, ms, date: new Date().toISOString() });
-      showPage('result-page'); saveToLocalStorage();
-    }
+  const qi=document.getElementById('question-image');
+  if(q.image){ qi.src=q.image; qi.style.display='block'; }
+  else { qi.style.display='none'; }
 
-    /* -------------------- TOP SCORE -------------------- */
-    function addScore(rec){
-      appData.scores.push(rec);
-      appData.scores.sort((a,b)=>{ if(b.score!==a.score) return b.score-a.score; if(a.ms!==b.ms) return a.ms-b.ms; return new Date(a.date)-new Date(b.date); });
-      appData.scores = appData.scores.slice(0,100); saveToLocalStorage();
-    }
-    function renderTopScores(){
-      const tbody = document.querySelector('#score-table tbody'); const empty = document.getElementById('score-empty');
-      tbody.innerHTML=''; if(!appData.scores.length){ empty.style.display='block'; return; } empty.style.display='none';
-      appData.scores.forEach((s,idx)=>{ const tr=document.createElement('tr'); const dur = Math.round(s.ms/1000)+' dtk'; const tgl = new Date(s.date).toLocaleString('id-ID');
-        tr.innerHTML = `<td>${idx+1}</td><td>${escapeHTML(s.name)}</td><td>${s.score}</td><td>${s.score}/${s.total}</td><td>${s.category.toUpperCase()}</td><td>${s.level}</td><td>${dur}</td><td>${tgl}</td>`; tbody.appendChild(tr); });
-    }
+  document.getElementById('quiz-progress').style.width = (i/appData.currentQuestions.length*100)+'%';
 
-    /* -------------------- ADMIN: tambah/hapus -------------------- */
-    function renderCategoryOptionsForAdmin(){
-      const sel=document.getElementById('question-category'); sel.innerHTML='';
-      appData.categories.forEach(c=>{ const o=document.createElement('option'); o.value=c.id; o.textContent=c.name; sel.appendChild(o); });
-    }
-    function ensureCategory(cat){
-      if(!sampleQuestions[cat]) sampleQuestions[cat]={mudah:[],normal:[],sulit:[]};
-      ['mudah','normal','sulit'].forEach(lv=>{ if(!Array.isArray(sampleQuestions[cat][lv])) sampleQuestions[cat][lv]=[]; });
-    }
-    function getCurrentCatLvl(){ return {cat:document.getElementById('question-category').value,lvl:document.getElementById('question-level').value}; }
+  const oc=document.getElementById('options-container'); oc.innerHTML='';
+  Object.entries(q.options).forEach(([k,v])=>{
+    const d=document.createElement('div');
+    d.className='option'; d.dataset.option=k; d.innerHTML=`<strong>${k.toUpperCase()}.</strong> ${v}`;
+    if(appData.userAnswers[i]===k) d.classList.add('selected');
+    oc.appendChild(d);
+  });
+}
 
-    function addQuestion(){
-      const {cat,lvl} = getCurrentCatLvl();
-      const qt = (document.getElementById('question-text').value||'').trim();
-      const a  = (document.getElementById('option-a').value||'').trim();
-      const b  = (document.getElementById('option-b').value||'').trim();
-      const c  = (document.getElementById('option-c').value||'').trim();
-      const d  = (document.getElementById('option-d').value||'').trim();
-      const correct = document.getElementById('correct-answer').value;
-      const image = (document.getElementById('question-image-url').value||'').trim();
+function handleNextQuestion(){
+  if(!appData.userAnswers[appData.currentQuestionIndex]){
+    alert('Pilih jawaban dulu ya!');
+    return;
+  }
+  appData.currentQuestionIndex++;
+  showQuestion(appData.currentQuestionIndex);
+}
 
-      if(!qt||!a||!b||!c||!d){ alert('Pertanyaan & semua opsi (A–D) wajib diisi.'); return; }
+function finishQuiz(){
+  let score=0; const details=[];
+  appData.currentQuestions.forEach((q,idx)=>{
+    const ua=appData.userAnswers[idx];
+    const ok=ua===q.correctAnswer;
+    if(ok) score++;
+    details.push({q:q.question,u:ua?q.options[ua]:'Tidak dijawab',c:q.options[q.correctAnswer],ok});
+  });
+  appData.currentPlayer.score=score;
+
+  document.getElementById('score-display').textContent=`Skor Anda: ${score}/${appData.currentQuestions.length}`;
+  const wrap=document.getElementById('answer-details'); wrap.innerHTML='';
+  details.forEach((d,i)=>{
+    const e=document.createElement('div');
+    e.style.cssText=`margin:10px 0;padding:10px;border-left:4px solid ${d.ok?'#4caf50':'#f44336'};background:${d.ok?'#e8f5e9':'#ffebee'};border-radius:8px`;
+    e.innerHTML=`<p><strong>Soal ${i+1}:</strong> ${d.q}</p><p><strong>Jawaban Anda:</strong> ${d.u}</p><p><strong>Jawaban Benar:</strong> ${d.c}</p>`;
+    wrap.appendChild(e);
+  });
+
+  const ms = Math.max(1, Date.now()-appData.quizStartAt);
+  addScore({
+    name: appData.currentPlayer.name || 'Pemain',
+    score, total: appData.currentQuestions.length,
+    category: appData.currentCategory,
+    level: appData.currentLevel,
+    ms, date: new Date().toISOString()
+  });
+
+  showPage('result-page');
+  saveToLocalStorage();
+}
+
+/* -------------------- TOP SCORE -------------------- */
+function addScore(rec){
+  appData.scores.push(rec);
+  appData.scores.sort((a,b)=>{
+    if(b.score!==a.score) return b.score-a.score;
+    if(a.ms!==b.ms) return a.ms-b.ms;
+    return new Date(a.date)-new Date(b.date);
+  });
+  appData.scores = appData.scores.slice(0,100);
+  saveToLocalStorage();
+}
+function renderTopScores(){
+  const tbody = document.querySelector('#score-table tbody');
+  const empty = document.getElementById('score-empty');
+  tbody.innerHTML='';
+  if(!appData.scores.length){
+    empty.style.display='block'; return;
+  }
+  empty.style.display='none';
+  appData.scores.forEach((s,idx)=>{
+    const tr=document.createElement('tr');
+    const dur = Math.round(s.ms/1000)+' dtk';
+    const tgl = new Date(s.date).toLocaleString('id-ID');
+    tr.innerHTML = `
+      <td>${idx+1}</td>
+      <td>${escapeHTML(s.name)}</td>
+      <td>${s.score}</td>
+      <td>${s.score}/${s.total}</td>
+      <td>${s.category.toUpperCase()}</td>
+      <td>${s.level}</td>
+      <td>${dur}</td>
+      <td>${tgl}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+/* -------------------- ADMIN -------------------- */
+function renderCategoryOptionsForAdmin(){
+  const sel=document.getElementById('question-category'); sel.innerHTML='';
+  appData.categories.forEach(c=>{
+    const o=document.createElement('option'); o.value=c.id; o.textContent=c.name; sel.appendChild(o);
+  });
+}
+
+function ensureCategory(cat){
+  if(!sampleQuestions[cat]) sampleQuestions[cat]={mudah:[],normal:[],sulit:[]};
+  if(!Array.isArray(sampleQuestions[cat].mudah)) sampleQuestions[cat].mudah = [];
+  if(!Array.isArray(sampleQuestions[cat].normal)) sampleQuestions[cat].normal = [];
+  if(!Array.isArray(sampleQuestions[cat].sulit)) sampleQuestions[cat].sulit = [];
+}
+
+function addQuestion(){
+  const catSel = document.getElementById('question-category');
+  const lvlSel = document.getElementById('question-level');
+  const cat = catSel ? catSel.value : 'ipa';
+  const lvl = lvlSel ? lvlSel.value : 'normal';
+
+  const val = id => ((document.getElementById(id)?.value) ?? '').trim();
+
+  const qt = val('question-text');
+  const a  = val('option-a');
+  const b  = val('option-b');
+  const c  = val('option-c');
+  const d  = val('option-d');
+  const correct = (document.getElementById('correct-answer')?.value ?? 'a').trim();
+  const image = val('admin-image-url');
+
+  if([qt,a,b,c,d].some(x => !x)){
+    alert('Pertanyaan & semua opsi (A–D) wajib diisi.');
+    return;
+  }
+
+  ensureCategory(cat);
+  sampleQuestions[cat][lvl].push({ id: Date.now(), question: qt, options:{a,b,c,d}, correctAnswer:correct, image });
+
+  // reset form
+  ['question-text','option-a','option-b','option-c','option-d','admin-image-url']
+    .forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+
+  alert('Soal ditambahkan!');
+  updateBankCount();
+  saveToLocalStorage();
+}
+
+function qCount(){
+  const sumLevel = obj => (obj.mudah?.length||0)+(obj.normal?.length||0)+(obj.sulit?.length||0);
+  let total=0;
+  for(const k in sampleQuestions){ total += sumLevel(sampleQuestions[k]); }
+  return total;
+}
+function updateBankCount(){
+  const el=document.getElementById('bank-count');
+  if(el) el.textContent = 'Total soal tersimpan: '+qCount();
+}
+
+function exportQuestions(){
+  const blob = new Blob([JSON.stringify(sampleQuestions)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'bank-soal.json';
+  a.click(); URL.revokeObjectURL(a.href);
+}
+
+function importQuestions(){
+  const raw = document.getElementById('import-json').value.trim();
+  if(!raw){ alert('Tempel JSON dulu.'); return; }
+  try{
+    const data = JSON.parse(raw);
+    for(const cat in data){
       ensureCategory(cat);
-      sampleQuestions[cat][lvl].push({id:genId(),question:qt,options:{a,b,c,d},correctAnswer:correct,image});
-
-      // reset
-      document.getElementById('question-text').value='';
-      document.getElementById('option-a').value='';
-      document.getElementById('option-b').value='';
-      document.getElementById('option-c').value='';
-      document.getElementById('option-d').value='';
-      document.getElementById('question-image-url').value='';
-
-      saveToLocalStorage(); renderBank(); alert('Soal ditambahkan!');
-    }
-
-    function renderBank(){
-      const {cat,lvl} = getCurrentCatLvl(); ensureCategory(cat);
-      const wrap = document.getElementById('bank-wrap'); wrap.innerHTML='';
-      const list = sampleQuestions[cat][lvl];
-      if(!list.length){ wrap.innerHTML = "<div style='padding:14px'>Belum ada soal pada kategori ini.</div>"; return; }
-      list.forEach((q,idx)=>{
-        const row = document.createElement('div');
-        row.innerHTML = `<div class="q"><strong>${idx+1}.</strong> ${escapeHTML(q.question)}</div>
-                         <button class="btn btn-sm" data-act="del" data-id="${q.id}">Hapus</button>`;
-        wrap.appendChild(row);
-      });
-      wrap.querySelectorAll('button[data-act="del"]').forEach(btn=>{
-        btn.onclick = ()=>{
-          const id = Number(btn.dataset.id); const arr = sampleQuestions[cat][lvl];
-          const pos = arr.findIndex(x=>x.id===id);
-          if(pos>-1 && confirm('Hapus soal ini?')){ arr.splice(pos,1); saveToLocalStorage(); renderBank(); }
-        };
-      });
-    }
-
-    /* -------------------- IMPORT / EXPORT -------------------- */
-    function downloadJSON(data, filename){
-      const blob = new Blob([JSON.stringify(data,null,2)], {type:'application/json'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = filename; a.click();
-      URL.revokeObjectURL(a.href);
-    }
-    function exportCurrent(){
-      const {cat,lvl} = getCurrentCatLvl(); ensureCategory(cat);
-      downloadJSON(sampleQuestions[cat][lvl], `soal-${cat}-${lvl}.json`);
-    }
-    function triggerFileImport(merge=true){
-      const fileInput = document.getElementById('file-import');
-      fileInput.onchange = async ()=>{
-        const f = fileInput.files[0]; if(!f) return;
-        try{
-          const text = await f.text();
-          const json = JSON.parse(text);
-          importPayload(json, merge);
-        }catch(e){ alert('Gagal membaca file JSON: '+e.message); }
-        fileInput.value='';
-      };
-      fileInput.click();
-    }
-    function importFromText(merge=true){
-      const txt = document.getElementById('import-text').value.trim();
-      if(!txt){ alert('Tempel JSON dulu.'); return; }
-      try{
-        const json = JSON.parse(txt);
-        importPayload(json, merge);
-      }catch(e){ alert('JSON tidak valid: '+e.message); }
-    }
-    function importPayload(payload, merge=true){
-      let imported = 0;
-      if(Array.isArray(payload)){
-        // Array soal → apply ke kategori/level terpilih
-        const {cat,lvl} = getCurrentCatLvl(); ensureCategory(cat);
-        const arr = normalizeArrayQuestions(payload);
-        if(!arr.length){ alert('Tidak ada soal valid pada JSON.'); return; }
-        if(merge){ sampleQuestions[cat][lvl].push(...arr); }
-        else{ sampleQuestions[cat][lvl] = arr; }
-        imported = arr.length;
-      }else if(typeof payload === 'object' && payload){
-        // Struktur penuh
-        const norm = normalizeBankObject(payload);
-        if(!norm){ alert('Struktur objek bank soal tidak valid.'); return; }
-        if(merge){
-          Object.keys(norm).forEach(cat=>{
-            ensureCategory(cat);
-            ['mudah','normal','sulit'].forEach(lv=>{
-              sampleQuestions[cat][lv].push(...norm[cat][lv]);
-              imported += norm[cat][lv].length;
-            });
-          });
-        }else{
-          // ganti total
-          for(const k of Object.keys(sampleQuestions)) delete sampleQuestions[k];
-          Object.assign(sampleQuestions, norm);
-          Object.keys(norm).forEach(cat=>['mudah','normal','sulit'].forEach(lv=> imported += norm[cat][lv].length));
+      for(const lvl of ['mudah','normal','sulit']){
+        if(Array.isArray(data[cat][lvl])){
+          sampleQuestions[cat][lvl] = sampleQuestions[cat][lvl].concat(data[cat][lvl]);
         }
-      }else{
-        alert('Format JSON tidak dikenali.');
-        return;
       }
-      saveToLocalStorage();
-      renderBank();
-      alert(`Impor selesai. ${imported} soal ditambahkan.`);
     }
-    function normalizeArrayQuestions(arr){
-      const out=[]; arr.forEach(q=>{
-        const v = validateQuestion(q); if(v) out.push(v);
-      });
-      return out;
-    }
-    function normalizeBankObject(obj){
-      const out={};
-      for(const cat of Object.keys(obj)){
-        const sec = obj[cat]; if(!sec || typeof sec!=='object') continue;
-        const catObj = {mudah:[],normal:[],sulit:[]};
-        ['mudah','normal','sulit'].forEach(lv=>{
-          const arr = Array.isArray(sec[lv]) ? sec[lv] : [];
-          catObj[lv] = normalizeArrayQuestions(arr);
-        });
-        out[cat]=catObj;
-      }
-      return Object.keys(out).length? out : null;
-    }
-    function validateQuestion(q){
-      if(!q || typeof q!=='object') return null;
-      const text = toStr(q.question); const opts=q.options||{};
-      const a=toStr(opts.a), b=toStr(opts.b), c=toStr(opts.c), d=toStr(opts.d);
-      const ca = toStr(q.correctAnswer).toLowerCase();
-      if(!text || !a || !b || !c || !d) return null;
-      if(!['a','b','c','d'].includes(ca)) return null;
-      return { id: q.id? Number(q.id): genId(), question:text, options:{a,b,c,d}, correctAnswer:ca, image: toStr(q.image) };
-    }
-    function toStr(x){ return typeof x==='string'? x.trim() : ''; }
-    function genId(){ return Date.now()+Math.floor(Math.random()*1e6); }
+    alert('Import sukses!');
+    updateBankCount();
+    saveToLocalStorage();
+  }catch(e){
+    alert('Format JSON salah: '+e.message);
+  }
+}
 
-    /* -------------------- STORAGE -------------------- */
-    function saveToLocalStorage(){
-      const data = { categories: appData.categories, questions: sampleQuestions, player: appData.currentPlayer, scores: appData.scores };
-      localStorage.setItem('tebakTebakanData', JSON.stringify(data));
-    }
-    function loadFromLocalStorage(){
-      const raw=localStorage.getItem('tebakTebakanData'); if(!raw) return;
-      try{
-        const data=JSON.parse(raw);
-        if(data.categories) appData.categories=data.categories;
-        if(data.questions) { for(const k of Object.keys(sampleQuestions)) delete sampleQuestions[k]; Object.assign(sampleQuestions, data.questions); }
-        if(Array.isArray(data.scores)) appData.scores = data.scores;
-        if(data.player){
-          appData.currentPlayer=data.player;
-          document.getElementById('player-name').value=appData.currentPlayer.name||'';
-          document.getElementById('player-greeting').textContent=appData.currentPlayer.name||'Pemain';
-          if(appData.currentPlayer.theme){
-            document.body.classList.remove(...appData.themes.map(t=>t.class));
-            document.body.classList.add(appData.currentPlayer.theme);
+/* -------------------- GENERATOR 20 SOAL OTOMATIS -------------------- */
+function autoTwenty(){
+  const cat=document.getElementById('question-category').value;
+  const lvl=document.getElementById('question-level').value;
+  ensureCategory(cat);
+
+  let pack = [];
+  if(cat==='ipa'){ // sudah ada 60, skip jika mau
+    if(confirm('IPA sudah disediakan. Tambah lagi 20 contoh generik?')) pack = genMathPack('ipa-'+lvl);
+  }else if(cat==='logika' || cat==='cpns' || cat==='utbk' || cat==='mtk'){
+    pack = genMathPack(cat+'-'+lvl);
+  }else if(cat==='tebak-receh'){
+    pack = genRecehPack(lvl);
+  }else{
+    // kategori lain: bikin paket generik (pilihan ganda singkat)
+    pack = genGenericPack(cat+'-'+lvl);
+  }
+
+  sampleQuestions[cat][lvl] = sampleQuestions[cat][lvl].concat(pack);
+  alert(`Ditambahkan ${pack.length} soal ke ${cat.toUpperCase()} (${lvl}).`);
+  updateBankCount();
+  saveToLocalStorage();
+}
+
+function genChoice(id,q,a,b,c,d,ans){return {id,question:q,options:{a,b,c,d},correctAnswer:ans,image:''};}
+
+function genMathPack(tag){
+  // Generator deret/aritmetika/operasi cepat – aman untuk Logika/CPNS/UTBK/MTK
+  const arr=[];
+  let id=Date.now();
+  // 10 deret aritmetika
+  for(let k=1;k<=10;k++){
+    const a = 2*k, d = k+1;
+    const seq = [a, a+d, a+2*d, a+3*d];
+    const next = a+4*d;
+    const wrong = [next+d, next-2, next+3];
+    arr.push(genChoice(id++,
+      `Lanjutan deret: ${seq.join(', ')}, … ?`,
+      String(wrong[0]), String(next), String(wrong[1]), String(wrong[2]), 'b'));
+  }
+  // 5 operasi cepat
+  for(let k=1;k<=5;k++){
+    const x = 10+k, y = 3+k;
+    const res = x*y;
+    arr.push(genChoice(id++,`Hasil ${x} × ${y} = ?`, String(res-1), String(res), String(res+2), String(res-3),'b'));
+  }
+  // 5 logika perbandingan
+  for(let k=1;k<=5;k++){
+    const x=2*k+1, y=3*k;
+    const ans = (x%2===1 && y%3===0)?'Cocok':'Tidak';
+    arr.push(genChoice(id++,`Jika A=${x} ganjil dan B=${y} kelipatan 3, pernyataan "A ganjil & B kelipatan 3" adalah…`, 'Salah','Benar','Benar','Salah','b'));
+  }
+  return arr.slice(0,20);
+}
+
+function genRecehPack(lvl){
+  const base=[
+    ['Kalau ayam berkokok: kukuruyuk. Kalau ayam ketawa?', 'kukuruyuk', 'hahaha', 'meong', 'wanita', 'b'],
+    ['Kenapa komputer suka ngopi?', 'biar ngoding', 'biar nge-lag', 'karena ada Java', 'karena panas', 'c'],
+    ['Huruf apa yang paling sabar?', 'Q', 'S', 'T', 'R', 'c'],
+    ['Kalau hujan turun ke mana?', 'ke bawah', 'ke atas', 'ke samping', 'ke situ', 'a'],
+    ['Apa kebalikan dari maju mundur?', 'mundur maju', 'diam', 'geser', 'ngesot', 'b'],
+    ['Mobil apa yang paling religius?', 'Avanza', 'Alphard', 'Amin', 'Ayla', 'c'],
+    ['Apa bedanya kamu dan kalender?', 'kamu dicoret', 'kalender ada tanggalnya', 'kamu bikin rindu', 'nggak ada', 'b'],
+    ['Ikan apa yang bisa terbang?', 'ikan paus', 'ikan terbang', 'ikan asin', 'ikan sarden', 'b'],
+    ['Bulan apa yang nggak ada di kalender?', 'bulan puasa', 'bulan depan', 'bulan sabit', 'bulan malam', 'b'],
+    ['Kopi apa yang jahat?', 'kopit', 'kopling', 'kopi nyolong', 'kopi hitam', 'c'],
+  ];
+  const arr=[]; let id=Date.now();
+  for(let i=0;i<20;i++){
+    const x = base[i%base.length];
+    arr.push(genChoice(id++,x[0],x[1],x[2],x[3],x[4],x[5]));
+  }
+  return arr;
+}
+
+function genGenericPack(tag){
+  const arr=[]; let id=Date.now();
+  const qs=[
+    ['Ibu kota Indonesia?', 'Bandung','Surabaya','Jakarta','Medan','c'],
+    ['Lambang sila ke-5 Pancasila?', 'Padi & kapas','Bintang','Rantai','Kepala banteng','a'],
+    ['Benua terbesar?', 'Afrika','Asia','Eropa','Australia','b'],
+    ['Samudra terdalam?', 'Hindia','Atlantik','Pasifik','Arktik','c'],
+    ['Organ penafasan manusia?', 'Paru-paru','Hati','Ginjal','Lambung','a']
+  ];
+  for(let i=0;i<20;i++){
+    const x=qs[i%qs.length];
+    arr.push(genChoice(id++,x[0],x[1],x[2],x[3],x[4],x[5]));
+  }
+  return arr;
+}
+
+/* -------------------- STORAGE -------------------- */
+function saveToLocalStorage(){
+  const data = { categories: appData.categories, questions: sampleQuestions, player: appData.currentPlayer, scores: appData.scores };
+  localStorage.setItem('tebakTebakanData', JSON.stringify(data));
+}
+function loadFromLocalStorage(){
+  const raw=localStorage.getItem('tebakTebakanData'); if(!raw) return;
+  try{
+    const data=JSON.parse(raw);
+    if(data.categories) appData.categories=data.categories;
+    if(data.questions) {
+      // merge tanpa menghapus seed IPA
+      for(const k in data.questions){
+        ensureCategory(k);
+        for(const lvl of ['mudah','normal','sulit']){
+          if(Array.isArray(data.questions[k][lvl])){
+            sampleQuestions[k][lvl] = data.questions[k][lvl];
           }
         }
-      }catch(e){ console.warn('Parse localStorage gagal:', e); }
+      }
     }
-
-    function logout(){
-      if(!confirm('Yakin ingin logout?')) return;
-      appData.currentPlayer={name:'Pemain',avatar:AVATAR_URLS[0],theme:'theme-light',score:0};
-      saveToLocalStorage(); showPage('login-page'); renderAvatarOptions(); renderThemeOptions();
+    if(Array.isArray(data.scores)) appData.scores = data.scores;
+    if(data.player){
+      appData.currentPlayer=data.player;
+      document.getElementById('player-name').value=appData.currentPlayer.name||'';
+      document.getElementById('player-greeting').textContent=appData.currentPlayer.name||'Pemain';
+      if(appData.currentPlayer.theme){
+        document.body.classList.remove(...appData.themes.map(t=>t.class));
+        document.body.classList.add(appData.currentPlayer.theme);
+      }
     }
+  }catch(e){ console.warn('Parse localStorage gagal:', e); }
+}
 
-    /* -------------------- UTIL -------------------- */
-    function escapeHTML(s=''){ return s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
-  </script>
+function logout(){
+  if(!confirm('Yakin ingin logout?')) return;
+  appData.currentPlayer={name:'Pemain',avatar:'',theme:'theme-light',score:0};
+  showPage('login-page');
+}
+
+/* -------------------- UTIL -------------------- */
+function escapeHTML(s=''){ return s.replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m])); }
+</script>
 </body>
 </html>
