@@ -1,591 +1,513 @@
-<script>
-// =========================
-//  DATA & KONFIGURASI
-// =========================
-const appData = {
-  currentPlayer: { name: "Pemain", avatar: "", theme: "theme-light", score: 0 },
-  questions: [],
-  currentQuestionIndex: 0,
-  userAnswers: [],
-  currentCategory: "",
-  currentLevel: "",
-
-  // KATEGORI (boleh tambah di sini)
-  categories: [
-    { id: "ipa",   name: "IPA",   description: "Ilmu Pengetahuan Alam", image: "" },
-    { id: "ips",   name: "IPS",   description: "Ilmu Pengetahuan Sosial", image: "" },
-    { id: "utbk",  name: "UTBK",  description: "Ujian Tulis Berbasis Komputer", image: "" },
-    { id: "agama", name: "Agama", description: "Pendidikan Agama", image: "" },
-    { id: "tebak-receh", name: "Tebak Receh", description: "Tebakan Receh", image: "" },
-    { id: "cpns",  name: "CPNS",  description: "Tes CPNS", image: "" },
-    { id: "logika",name: "Logika",description: "Tes Logika", image: "" },
-    { id: "mtk",   name: "MTK",   description: "Tes Matematika", image: "" }
-  ],
-
-  // GUNAKAN GAMBAR DI REPO KAMU (path relatif)
-  avatars: [
-    "./static/avatars/3f983b9ca5618e87e3734751e643c00a.jpg",
-    "./static/avatars/23f038cc913bb02b9b58bc7d8418dd6d.jpg",
-    "./static/avatars/41bb3d263d7697d065daef857a33bad9.jpg",
-    "./static/avatars/adad96e29d8f85ab783efedc4bf77339.jpg",
-    "./static/avatars/b4be2a5c52b166134c6a6b219836dcb1.jpg",
-    "./static/avatars/4e339904b7614b9f80ba2d1f65c62ea1.jpg",
-    "./static/avatars/c69a2653915d4f413e5450f1a87a2bc5.jpg",
-    "./static/avatars/be6f89e2633168738acf2deb817cfeb6.jpg",
-    "./static/avatars/a975a06b73c871fd961c088eb19ed64a (1).jpg"
-  ],
-
-  // Tema (kelas CSS)
-  themes: [
-    { id: "theme-light-1", name: "Terang 1", class: "theme-light" },
-    { id: "theme-light-2", name: "Terang 2", class: "theme-light-2" },
-    { id: "theme-light-3", name: "Terang 3", class: "theme-light-3" },
-    { id: "theme-light-4", name: "Terang 4", class: "theme-light-4" },
-    { id: "theme-dark-1",  name: "Gelap 1",  class: "theme-dark" },
-    { id: "theme-dark-2",  name: "Gelap 2",  class: "theme-dark-2" },
-    { id: "theme-dark-3",  name: "Gelap 3",  class: "theme-dark-3" },
-    { id: "theme-dark-4",  name: "Gelap 4",  class: "theme-dark-4" }
-  ],
-
-  adminPassword: "281105",
-  isAdminLoggedIn: false
-};
-
-// Bank soal contoh (boleh ditambah)
-const sampleQuestions = {
-  ipa: {
-    mudah: [
-      {
-        id: 1,
-        question: "Apa yang dimaksud dengan fotosintesis?",
-        options: {
-          a: "Proses tanaman mengeluarkan cahaya",
-          b: "Proses tanaman menghasilkan makanan menggunakan cahaya matahari",
-          c: "Proses tanaman menghisap air",
-          d: "Proses tanaman menyerap karbon dioksida"
-        },
-        correctAnswer: "b",
-        image: ""
-      }
-    ],
-    normal: [
-      {
-        id: 1,
-        question: "Fungsi mitokondria adalah...",
-        options: { a:"Fotosintesis", b:"Pembangkit energi sel", c:"Kontrol aktivitas sel", d:"Sintesis protein" },
-        correctAnswer: "b",
-        image: ""
-      }
-    ],
-    sulit: []
-  },
-  utbk: {
-    mudah: [
-      {
-        id: 1,
-        question: "Apa singkatan dari UTBK?",
-        options: { a:"Ujian Tulis Berbasis Komputer", b:"Ujian Tes Bakat Kejuruan", c:"Ujian Tahunan Berbasis Kelas", d:"Ujian Tulis Berbasis Kertas" },
-        correctAnswer: "a",
-        image: ""
-      }
-    ],
-    normal: [],
-    sulit: []
-  }
-};
-// Tambah kategori MTK biar contoh
-sampleQuestions.mtk = {
-  mudah: [
-    { id:1, question:"2 + 3 = ?", options:{a:"4", b:"5", c:"6", d:"7"}, correctAnswer:"b", image:"" }
-  ],
-  normal: [
-    { id:1, question:"12 × 8 = ?", options:{a:"80", b:"88", c:"96", d:"108"}, correctAnswer:"c", image:"" }
-  ],
-  sulit: [
-    { id:1, question:"Akar dari 144 adalah?", options:{a:"10", b:"11", c:"12", d:"13"}, correctAnswer:"c", image:"" }
-  ]
-};
-
-// =========================
-//  BOOTSTRAP / INIT
-// =========================
-document.addEventListener('DOMContentLoaded', () => {
-  try {
-    setupAdditionalThemes();
-    setupEventListeners();
-    loadFromLocalStorage();         // avatars TIDAK di-override
-    renderAvatarOptions();
-    renderThemeOptions();
-    renderCategoryOptions();
-    renderCategoryList();
-    renderAvatarList();
-    renderCategories();
-    console.log("init OK");
-  } catch (e) {
-    console.error(e);
-    alert("Error init: " + e.message);
-  }
-});
-
-// =========================
-//  RENDERING UTAMA
-// =========================
-function renderAvatarOptions(){
-  const container = document.getElementById('avatar-selection');
-  if(!container) return;
-  container.innerHTML = '';
-  appData.avatars.forEach((avatar, index) => {
-    const el = document.createElement('img');
-    el.src = avatar;
-    el.alt = `Avatar ${index+1}`;
-    el.classList.add('avatar-option');
-    el.style.objectFit = 'cover';
-    el.onerror = () => {
-      console.warn('Avatar gagal dimuat:', el.src);
-      // fallback ke salah satu yang pasti ada
-      el.src = "./static/avatars/3f983b9ca5618e87e3734751e643c00a.jpg";
-    };
-    if(index === 0){
-      el.classList.add('selected');
-      appData.currentPlayer.avatar = avatar;
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tebak Tebakan - Kuis Seru</title>
+  <style>
+    :root{
+      --primary-color:#4a6fa5;
+      --secondary-color:#6b8cbc;
+      --accent-color:#ff6b6b;
+      --background-color:#f5f7fa;
+      --text-color:#333;
+      --card-bg:#ffffff;
+      --header-bg:#4a6fa5;
+      --font-weight:bold;
     }
-    el.addEventListener('click', function(){
-      document.querySelectorAll('.avatar-option').forEach(x=>x.classList.remove('selected'));
-      this.classList.add('selected');
-      appData.currentPlayer.avatar = avatar;
-    });
-    container.appendChild(el);
-  });
-}
+    .theme-dark{
+      --primary-color:#2c3e50;
+      --secondary-color:#34495e;
+      --accent-color:#e74c3c;
+      --background-color:#1a1a2e;
+      --text-color:#ecf0f1;
+      --card-bg:#16213e;
+      --header-bg:#2c3e50;
+    }
 
-function renderThemeOptions(){
-  const container = document.getElementById('theme-selection');
-  if(!container) return;
-  container.innerHTML = '';
-  appData.themes.forEach((theme, index) => {
-    const el = document.createElement('div');
-    el.textContent = theme.name;
-    el.classList.add('theme-option');
-    el.dataset.theme = theme.class;
-    if(index===0) el.classList.add('selected');
-    el.addEventListener('click', function(){
-      document.querySelectorAll('.theme-option').forEach(x=>x.classList.remove('selected'));
-      this.classList.add('selected');
-      document.body.classList.remove(...appData.themes.map(t=>t.class));
-      document.body.classList.add(theme.class);
-      appData.currentPlayer.theme = theme.class;
-    });
-    container.appendChild(el);
-  });
-}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif}
+    body{background:var(--background-color);color:var(--text-color);font-weight:var(--font-weight);transition:.3s}
+    .container{max-width:1200px;margin:0 auto;padding:20px}
+    header{background:var(--header-bg);color:#fff;padding:15px 0;box-shadow:0 2px 5px rgba(0,0,0,.1)}
+    nav{display:flex;justify-content:space-between;align-items:center;padding:0 20px}
+    .logo{font-size:1.5rem;font-weight:bold}
+    .nav-links{display:flex;gap:16px}
+    .nav-links a{color:#fff;text-decoration:none;padding:6px 10px;border-radius:4px}
+    .nav-links a:hover{background:var(--secondary-color)}
+    .page{display:none;min-height:80vh;padding:20px}
+    .page.active{display:block}
+    .card{background:var(--card-bg);border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,.1);padding:20px;margin-bottom:20px}
+    .btn{background:var(--primary-color);color:#fff;border:0;padding:10px 18px;border-radius:6px;cursor:pointer;font-weight:bold}
+    .btn:hover{background:var(--secondary-color)}
+    .btn-sm{padding:8px 14px;font-size:.9rem;margin:4px}
+    .login-container{display:flex;flex-direction:column;align-items:center;min-height:60vh;gap:14px}
+    .avatar-selection,.theme-selection{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+    .avatar-option{width:72px;height:72px;border-radius:50%;object-fit:cover;cursor:pointer;border:3px solid transparent;transition:.2s}
+    .avatar-option.selected{border-color:var(--primary-color);transform:scale(1.06)}
+    .theme-option{padding:8px 14px;border:2px solid var(--primary-color);border-radius:6px;cursor:pointer}
+    .theme-option.selected{background:var(--primary-color);color:#fff}
+    .category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:10px}
+    .category-item{background:var(--card-bg);border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,.08);padding:16px;text-align:center}
+    .category-image{width:96px;height:96px;object-fit:cover;border-radius:10px;margin-bottom:8px}
+    .level-buttons{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
 
-function renderCategoryOptions(){
-  const sel = document.getElementById('question-category');
-  if(!sel) return;
-  sel.innerHTML = '';
-  appData.categories.forEach(cat=>{
-    const op = document.createElement('option');
-    op.value = cat.id; op.textContent = cat.name;
-    sel.appendChild(op);
-  });
-}
+    .question-image{max-width:100%;max-height:280px;border-radius:8px;margin:12px 0}
+    .options-container{display:flex;flex-direction:column;gap:10px}
+    .option{padding:14px;border:2px solid #ddd;border-radius:8px;cursor:pointer}
+    .option.selected{background:var(--secondary-color);color:#fff;border-color:var(--primary-color)}
+    .progress-bar{height:10px;background:#eee;border-radius:6px;margin:10px 0;overflow:hidden}
+    .progress{height:100%;background:var(--primary-color);width:0%}
 
-function renderCategoryList(){
-  const container = document.getElementById('category-list');
-  if(!container) return;
-  container.innerHTML = '';
-  appData.categories.forEach(cat=>{
-    const item = document.createElement('div');
-    item.className = 'list-item';
-    const span = document.createElement('span');
-    span.textContent = `${cat.name} - ${cat.description}`;
-    const btn = document.createElement('button');
-    btn.className = 'delete-btn';
-    btn.textContent = 'Hapus';
-    btn.onclick = () => deleteCategory(cat.id);
-    item.append(span, btn);
-    container.appendChild(item);
-  });
-}
-
-function renderAvatarList(){
-  const container = document.getElementById('avatar-list');
-  if(!container) return;
-  container.innerHTML = '';
-  appData.avatars.forEach((src, i)=>{
-    const item = document.createElement('div');
-    item.className = 'list-item';
-    const img = document.createElement('img');
-    img.src = src; img.alt = `Avatar ${i+1}`;
-    img.style.width='30px'; img.style.height='30px'; img.style.borderRadius='50%'; img.style.objectFit='cover';
-    const btn = document.createElement('button');
-    btn.className='delete-btn'; btn.textContent='Hapus';
-    btn.onclick = () => deleteAvatar(i);
-    item.append(img, btn);
-    container.appendChild(item);
-  });
-}
-
-function renderCategories(){
-  const grid = document.getElementById('category-grid');
-  if(!grid) return;
-  grid.innerHTML = '';
-  appData.categories.forEach(cat=>{
-    const card = document.createElement('div');
-    card.className = 'category-item';
-    card.innerHTML = `
-      ${cat.image ? `<img src="${cat.image}" class="category-image" alt="${cat.name}">` : ''}
-      <h3>${cat.name}</h3>
-      <p>${cat.description}</p>
-      <div class="level-buttons">
-        <button class="btn btn-sm" data-category="${cat.id}" data-level="mudah">Mudah</button>
-        <button class="btn btn-sm" data-category="${cat.id}" data-level="normal">Normal</button>
-        <button class="btn btn-sm" data-category="${cat.id}" data-level="sulit">Sulit</button>
+    @media(max-width:768px){
+      .category-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body class="theme-light">
+  <header>
+    <nav>
+      <div class="logo">Tebak Tebakan</div>
+      <div class="nav-links">
+        <a href="#" id="home-link">Home</a>
+        <a href="#" id="score-link">Top Score</a>
+        <a href="#" id="admin-link">Admin</a>
+        <a href="#" id="logout-link">Logout</a>
       </div>
-    `;
-    grid.appendChild(card);
-    card.querySelectorAll('.level-buttons button').forEach(b=>{
-      b.addEventListener('click', function(){
-        startQuiz(this.dataset.category, this.dataset.level);
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- Login -->
+    <div id="login-page" class="page active">
+      <div class="card">
+        <div class="login-container">
+          <h2>Login Pemain</h2>
+          <div style="width:100%;max-width:520px">
+            <label for="player-name" style="display:block;margin:6px 0;font-weight:bold">Nama Pemain</label>
+            <input id="player-name" type="text" placeholder="Masukkan nama Anda" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;background:var(--card-bg);color:var(--text-color)"/>
+          </div>
+
+          <h3>Pilih Avatar</h3>
+          <div id="avatar-selection" class="avatar-selection"></div>
+
+          <h3>Pilih Tema</h3>
+          <div id="theme-selection" class="theme-selection"></div>
+
+          <button id="start-game-btn" class="btn">Mulai Bermain</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Home -->
+    <div id="home-page" class="page">
+      <div class="card">
+        <h2>Selamat Datang, <span id="player-greeting">Pemain</span>!</h2>
+        <p>Pilih kategori dan tingkat kesulitan untuk mulai bermain.</p>
+      </div>
+      <div id="category-grid" class="category-grid"></div>
+    </div>
+
+    <!-- Quiz -->
+    <div id="quiz-page" class="page">
+      <div class="card">
+        <div class="quiz-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <h2 id="quiz-category">Kategori:</h2>
+          <div class="quiz-info" style="display:flex;gap:12px">
+            <span id="quiz-level">Level:</span>
+            <span id="question-number">Soal 1/1</span>
+          </div>
+        </div>
+        <div class="progress-bar"><div id="quiz-progress" class="progress"></div></div>
+        <div class="question-container">
+          <h3 id="question-text">Pertanyaan…</h3>
+          <img id="question-image" class="question-image" style="display:none" alt="Gambar Soal"/>
+        </div>
+        <div id="options-container" class="options-container"></div>
+        <button id="next-question-btn" class="btn" style="margin-top:14px">Selanjutnya</button>
+      </div>
+    </div>
+
+    <!-- Result -->
+    <div id="result-page" class="page">
+      <div class="card">
+        <h2>Hasil Kuis</h2>
+        <p id="score-display">Skor Anda: 0/0</p>
+        <h3 style="margin:10px 0">Detail Jawaban</h3>
+        <div id="answer-details"></div>
+        <button id="back-to-home-btn" class="btn" style="margin-top:14px">Kembali ke Home</button>
+      </div>
+    </div>
+
+    <!-- Admin (ringkas) -->
+    <div id="admin-page" class="page">
+      <div class="card"><h2>Panel Admin</h2><p>Tambah soal contoh cepat</p></div>
+      <div class="card">
+        <div style="display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))">
+          <div>
+            <label>Kategori</label>
+            <select id="question-category" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px"></select>
+          </div>
+          <div>
+            <label>Level</label>
+            <select id="question-level" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px">
+              <option value="mudah">Mudah</option>
+              <option value="normal">Normal</option>
+              <option value="sulit">Sulit</option>
+            </select>
+          </div>
+          <div style="grid-column:1/-1">
+            <label>Pertanyaan</label>
+            <textarea id="question-text" rows="3" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px"></textarea>
+          </div>
+          <div><label>Opsi A</label><input id="option-a" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px"></div>
+          <div><label>Opsi B</label><input id="option-b" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px"></div>
+          <div><label>Opsi C</label><input id="option-c" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px"></div>
+          <div><label>Opsi D</label><input id="option-d" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px"></div>
+          <div>
+            <label>Jawaban Benar</label>
+            <select id="correct-answer" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px">
+              <option value="a">A</option><option value="b">B</option>
+              <option value="c">C</option><option value="d">D</option>
+            </select>
+          </div>
+        </div>
+        <button id="add-question-btn" class="btn" style="margin-top:12px">Tambah Soal</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- Safety overlay biar error kelihatan (opsional tapi membantu)
+    window.onerror = function(msg, src, line, col){
+      const b = document.createElement('div');
+      b.style.cssText='position:fixed;left:0;right:0;top:0;z-index:99999;background:#ffdddd;color:#900;padding:8px;font:12px monospace';
+      b.textContent='JS ERROR: '+msg+' @ '+line+':'+col;
+      document.body.appendChild(b);
+    };
+
+    // --- State dasar
+    const appData = {
+      currentPlayer:{name:'Pemain',avatar:'',theme:'theme-light',score:0},
+      currentQuestions:[],
+      currentQuestionIndex:0,
+      userAnswers:[],
+      currentCategory:'',
+      currentLevel:'',
+      // Kategori default (kamu bebas tambah/kurangi)
+      categories:[
+        {id:'ipa',name:'IPA',description:'Ilmu Pengetahuan Alam',image:''},
+        {id:'ips',name:'IPS',description:'Ilmu Pengetahuan Sosial',image:''},
+        {id:'utbk',name:'UTBK',description:'Ujian Tulis Berbasis Komputer',image:''},
+        {id:'agama',name:'Agama',description:'Pendidikan Agama',image:''},
+        {id:'tebak-receh',name:'Tebak Receh',description:'Tebakan Receh',image:''},
+        {id:'cpns',name:'CPNS',description:'Tes CPNS',image:''},
+        {id:'logika',name:'Logika',description:'Tes Logika',image:''},
+        {id:'mtk',name:'MTK',description:'Tes Matematika',image:''},
+        {id:'it',name:'IT',description:'Soal IT',image:''}
+      ],
+      // Gambar avatar di REPO kamu (termasuk "monyet" 4e3399…)
+      avatars:[
+        './static/avatars/3f983b9ca5618e87e3734751e643c00a.jpg',
+        './static/avatars/23f038cc913bb02b9b58bc7d8418ddd6.jpg',
+        './static/avatars/41bb3d263d7697d065daef857a33bad9.jpg',
+        './static/avatars/adad96e29d8f85ab783efedc4bf77339.jpg',
+        './static/avatars/b4be2a5c52b166134c6a6b219836dcb1.jpg',
+        './static/avatars/4e339904b7614b9f80ba2d1f65c62ea1.jpg', // monyet
+        './static/avatars/c69a2653915d4f413e5450f1a87a2bc5.jpg',
+        './static/avatars/be6f89e2633168738acf2deb817cfeb6.jpg',
+        './static/avatars/a975a06b73c871fd961c088eb19ed64a (1).jpg'
+      ],
+      themes:[
+        {id:'theme-light-1',name:'Terang 1',class:'theme-light'},
+        {id:'theme-dark-1',name:'Gelap 1',class:'theme-dark'}
+      ]
+    };
+
+    // Contoh soal
+    const sampleQuestions = {
+      ipa:{
+        mudah:[
+          {id:1,question:'Planet terdekat dari matahari?',options:{a:'Venus',b:'Bumi',c:'Mars',d:'Merkurius'},correctAnswer:'d',image:''},
+          {id:2,question:'Fungsi mitokondria?',options:{a:'Fotosintesis',b:'Pembangkit energi sel',c:'Kontrol aktivitas sel',d:'Sintesis protein'},correctAnswer:'b',image:''}
+        ],
+        normal:[],sulit:[]
+      },
+      it:{
+        mudah:[
+          {id:1,question:'HTML kepanjangannya?',options:{a:'Hyperlinks and Text Markup Language',b:'HyperText Markup Language',c:'Home Tool Markup Language',d:'Hyper Text Makeup Language'},correctAnswer:'b',image:''}
+        ],
+        normal:[],sulit:[]
+      }
+    };
+
+    // Inisialisasi
+    document.addEventListener('DOMContentLoaded', ()=>{
+      setupEventListeners();
+      setupAdditionalThemes();
+      loadFromLocalStorage();
+      renderAvatarOptions();
+      renderThemeOptions();
+      renderCategories();
+      renderCategoryOptionsForAdmin();
+    });
+
+    function setupAdditionalThemes(){
+      const style=document.createElement('style');
+      style.textContent=`
+        .theme-light-2{--primary-color:#6d4c41;--secondary-color:#8d6e63;--accent-color:#ff5722;--background-color:#f5f5f5;--text-color:#212121;--card-bg:#fff;--header-bg:#6d4c41}
+        .theme-light-3{--primary-color:#388e3c;--secondary-color:#4caf50;--accent-color:#ffc107;--background-color:#e8f5e9;--text-color:#1b5e20;--card-bg:#fff;--header-bg:#388e3c}
+        .theme-light-4{--primary-color:#1976d2;--secondary-color:#2196f3;--accent-color:#ff5252;--background-color:#e3f2fd;--text-color:#0d47a1;--card-bg:#fff;--header-bg:#1976d2}
+        .theme-dark-2{--primary-color:#7b1fa2;--secondary-color:#9c27b0;--accent-color:#ff4081;--background-color:#1a1a1a;--text-color:#e1bee7;--card-bg:#2d2d2d;--header-bg:#7b1fa2}
+        .theme-dark-3{--primary-color:#d32f2f;--secondary-color:#f44336;--accent-color:#ff9800;--background-color:#1a1a1a;--text-color:#ffcdd2;--card-bg:#2d2d2d;--header-bg:#d32f2f}
+        .theme-dark-4{--primary-color:#00796b;--secondary-color:#009688;--accent-color:#ffeb3b;--background-color:#1a1a1a;--text-color:#b2dfdb;--card-bg:#2d2d2d;--header-bg:#00796b}
+      `;
+      document.head.appendChild(style);
+      // Tambah ke daftar tema
+      appData.themes.push(
+        {id:'theme-light-2',name:'Terang 2',class:'theme-light-2'},
+        {id:'theme-light-3',name:'Terang 3',class:'theme-light-3'},
+        {id:'theme-light-4',name:'Terang 4',class:'theme-light-4'},
+        {id:'theme-dark-2',name:'Gelap 2',class:'theme-dark-2'},
+        {id:'theme-dark-3',name:'Gelap 3',class:'theme-dark-3'},
+        {id:'theme-dark-4',name:'Gelap 4',class:'theme-dark-4'}
+      );
+    }
+
+    function setupEventListeners(){
+      document.getElementById('home-link').addEventListener('click',()=>showPage('home-page'));
+      document.getElementById('score-link').addEventListener('click',()=>alert('Fitur skor global belum dibuat 😊'));
+      document.getElementById('admin-link').addEventListener('click',()=>showPage('admin-page'));
+      document.getElementById('logout-link').addEventListener('click',logout);
+
+      document.getElementById('start-game-btn').addEventListener('click',startGame);
+      document.getElementById('next-question-btn').addEventListener('click',handleNextQuestion);
+      document.getElementById('back-to-home-btn').addEventListener('click',()=>showPage('home-page'));
+
+      // klik opsi jawaban
+      document.addEventListener('click',e=>{
+        if(e.target.classList.contains('option')){
+          document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
+          e.target.classList.add('selected');
+          appData.userAnswers[appData.currentQuestionIndex]=e.target.dataset.option;
+        }
       });
-    });
-  });
-}
 
-// =========================
-//  EVENT LISTENERS
-// =========================
-function setupEventListeners(){
-  // Nav
-  const home = document.getElementById('home-link');
-  const score = document.getElementById('score-link');
-  const admin = document.getElementById('admin-link');
-  const logoutBtn = document.getElementById('logout-link');
-  home && home.addEventListener('click', ()=>showPage('home-page'));
-  score && score.addEventListener('click', ()=>showPage('result-page'));
-  admin && admin.addEventListener('click', showAdminPage);
-  logoutBtn && logoutBtn.addEventListener('click', logout);
+      // admin
+      document.getElementById('add-question-btn').addEventListener('click',addQuestion);
+    }
 
-  // Login
-  const start = document.getElementById('start-game-btn');
-  start && start.addEventListener('click', startGame);
+    function showPage(id){
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
 
-  // Question nav
-  const next = document.getElementById('next-question-btn');
-  next && next.addEventListener('click', handleNextQuestion);
-
-  // Result nav
-  const backHome = document.getElementById('back-to-home-btn');
-  backHome && backHome.addEventListener('click', ()=>showPage('home-page'));
-
-  // Admin form
-  const addQ = document.getElementById('add-question-btn');
-  addQ && addQ.addEventListener('click', addQuestion);
-  const addC = document.getElementById('add-category-btn');
-  addC && addC.addEventListener('click', addCategory);
-  const addA = document.getElementById('add-avatar-btn');
-  addA && addA.addEventListener('click', addAvatar);
-
-  // Admin login modal
-  const adminLoginBtn = document.getElementById('admin-login-btn');
-  adminLoginBtn && adminLoginBtn.addEventListener('click', adminLogin);
-  const close = document.querySelector('.close');
-  close && close.addEventListener('click', ()=>{
-    const m = document.getElementById('admin-login-modal');
-    m && m.classList.remove('active');
-  });
-
-  // Upload preview
-  const qi = document.getElementById('question-image-upload');
-  qi && qi.addEventListener('change', e=>handleImagePreview(e,'question-image-preview'));
-  const ci = document.getElementById('category-image-upload');
-  ci && ci.addEventListener('change', e=>handleImagePreview(e,'category-image-preview'));
-  const ai = document.getElementById('avatar-upload');
-  ai && ai.addEventListener('change', e=>handleImagePreview(e,'avatar-preview'));
-}
-
-// =========================
-//  LOGIKA HALAMAN & ADMIN
-// =========================
-function showPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  const el = document.getElementById(id);
-  if(el) el.classList.add('active');
-}
-
-function showAdminPage(){
-  if(appData.isAdminLoggedIn){ showPage('admin-page'); }
-  else {
-    const m = document.getElementById('admin-login-modal');
-    m && m.classList.add('active');
-  }
-}
-
-function adminLogin(){
-  const pass = document.getElementById('admin-password')?.value || "";
-  if(pass === appData.adminPassword){
-    appData.isAdminLoggedIn = true;
-    document.getElementById('admin-login-modal')?.classList.remove('active');
-    showPage('admin-page');
-  } else alert('Password salah!');
-}
-
-// =========================
-//  GAME FLOW
-// =========================
-function startGame(){
-  const name = (document.getElementById('player-name')?.value || "").trim();
-  if(!name) return alert('Silakan masukkan nama Anda!');
-  appData.currentPlayer.name = name;
-  const g = document.getElementById('player-greeting');
-  if(g) g.textContent = name;
-  saveToLocalStorage();
-  showPage('home-page');
-}
-
-function startQuiz(category, level){
-  appData.currentQuestionIndex = 0;
-  appData.userAnswers = [];
-  appData.currentCategory = category;
-  appData.currentLevel = level;
-
-  let qs = [];
-  if(sampleQuestions[category] && sampleQuestions[category][level]) {
-    qs = sampleQuestions[category][level];
-  } else {
-    qs = [
-      { id:1, question:`Contoh soal ${category} level ${level}`, options:{a:"A",b:"B",c:"C",d:"D"}, correctAnswer:"a", image:"" },
-      { id:2, question:`Soal kedua ${category} level ${level}`, options:{a:"A",b:"B",c:"C",d:"D"}, correctAnswer:"b", image:"" }
-    ];
-  }
-  appData.currentQuestions = qs;
-  document.getElementById('quiz-category').textContent = `Kategori: ${category.toUpperCase()}`;
-  document.getElementById('quiz-level').textContent = `Level: ${level}`;
-  showPage('quiz-page');
-  showQuestion(0);
-}
-
-function showQuestion(i){
-  const total = appData.currentQuestions.length;
-  if(i >= total) return finishQuiz();
-  const q = appData.currentQuestions[i];
-  document.getElementById('question-text').textContent = q.question;
-  document.getElementById('question-number').textContent = `Soal ${i+1}/${total}`;
-
-  const img = document.getElementById('question-image');
-  if(q.image){ img.src = q.image; img.style.display = 'block'; }
-  else img.style.display = 'none';
-
-  document.getElementById('quiz-progress').style.width = `${(i/total)*100}%`;
-
-  const box = document.getElementById('options-container');
-  box.innerHTML = '';
-  Object.entries(q.options).forEach(([k,v])=>{
-    const d = document.createElement('div');
-    d.className = 'option';
-    d.dataset.option = k;
-    d.innerHTML = `<strong>${k.toUpperCase()}.</strong> ${v}`;
-    d.addEventListener('click', ()=>{
-      document.querySelectorAll('.option').forEach(o=>o.classList.remove('selected'));
-      d.classList.add('selected');
-      appData.userAnswers[i] = k;
-    });
-    box.appendChild(d);
-  });
-
-  // Restore selection kalau ada
-  const saved = appData.userAnswers[i];
-  if(saved){
-    const sel = box.querySelector(`[data-option="${saved}"]`);
-    sel && sel.classList.add('selected');
-  }
-}
-
-function handleNextQuestion(){
-  if(!appData.userAnswers[appData.currentQuestionIndex]) return alert('Pilih jawaban dulu!');
-  appData.currentQuestionIndex++;
-  showQuestion(appData.currentQuestionIndex);
-}
-
-function finishQuiz(){
-  let score = 0;
-  const details = [];
-  for(let i=0;i<appData.currentQuestions.length;i++){
-    const q = appData.currentQuestions[i];
-    const a = appData.userAnswers[i];
-    const correct = a === q.correctAnswer;
-    if(correct) score++;
-    details.push({
-      question: q.question,
-      user: a ? q.options[a] : "Tidak dijawab",
-      right: q.options[q.correctAnswer],
-      ok: correct
-    });
-  }
-  appData.currentPlayer.score = score;
-  document.getElementById('score-display').textContent = `Skor Anda: ${score}/${appData.currentQuestions.length}`;
-
-  const wrap = document.getElementById('answer-details');
-  wrap.innerHTML = '';
-  details.forEach((d, idx)=>{
-    const div = document.createElement('div');
-    div.className = 'result-item ' + (d.ok ? 'correct' : 'incorrect');
-    div.innerHTML = `
-      <p><strong>Soal ${idx+1}:</strong> ${d.question}</p>
-      <p><strong>Jawaban Anda:</strong> ${d.user}</p>
-      <p><strong>Jawaban Benar:</strong> ${d.right}</p>
-    `;
-    wrap.appendChild(div);
-  });
-
-  showPage('result-page');
-  saveToLocalStorage();
-}
-
-// =========================
-//  ADMIN: CRUD SIMPLE
-// =========================
-function handleImagePreview(e, previewId){
-  const f = e.target.files?.[0];
-  if(!f) return;
-  const r = new FileReader();
-  r.onload = ev => {
-    const img = document.getElementById(previewId);
-    if(img){ img.src = ev.target.result; img.style.display = 'block'; }
-  };
-  r.readAsDataURL(f);
-}
-
-function addQuestion(){
-  const cat = document.getElementById('question-category')?.value;
-  const level = document.getElementById('question-level')?.value;
-  const q = document.getElementById('question-text')?.value;
-  const a = document.getElementById('option-a')?.value;
-  const b = document.getElementById('option-b')?.value;
-  const c = document.getElementById('option-c')?.value;
-  const d = document.getElementById('option-d')?.value;
-  const correct = document.getElementById('correct-answer')?.value;
-  const img = document.getElementById('question-image-preview')?.src || "";
-
-  if(!cat || !level || !q || !a || !b || !c || !d) return alert('Semua field harus diisi!');
-  if(!sampleQuestions[cat]) sampleQuestions[cat] = { mudah:[], normal:[], sulit:[] };
-  if(!sampleQuestions[cat][level]) sampleQuestions[cat][level] = [];
-  sampleQuestions[cat][level].push({
-    id: Date.now(), question: q, options:{a,b,c,d}, correctAnswer: correct, image: img.includes('data:image') ? img : ""
-  });
-
-  // reset form kecil
-  document.getElementById('question-text').value='';
-  ['a','b','c','d'].forEach(k=>document.getElementById(`option-${k}`).value='');
-  const pi = document.getElementById('question-image-preview'); if(pi){ pi.src=''; pi.style.display='none'; }
-  document.getElementById('question-image-upload').value='';
-  alert('Soal ditambahkan!');
-  saveToLocalStorage();
-}
-
-function addCategory(){
-  const name = (document.getElementById('new-category-name')?.value || '').trim();
-  const desc = (document.getElementById('new-category-desc')?.value || '').trim();
-  const img = document.getElementById('category-image-preview')?.src || "";
-  if(!name || !desc) return alert('Nama & deskripsi harus diisi!');
-  const id = name.toLowerCase().replace(/\s+/g,'-');
-  if(appData.categories.some(x=>x.id===id)) return alert('Kategori sudah ada!');
-  appData.categories.push({ id, name, description: desc, image: img.includes('data:image') ? img : "" });
-  document.getElementById('new-category-name').value='';
-  document.getElementById('new-category-desc').value='';
-  const pi = document.getElementById('category-image-preview'); if(pi){ pi.src=''; pi.style.display='none'; }
-  document.getElementById('category-image-upload').value='';
-  renderCategoryOptions(); renderCategoryList(); renderCategories();
-  alert('Kategori ditambahkan!');
-  saveToLocalStorage();
-}
-
-function deleteCategory(id){
-  if(!confirm('Yakin hapus kategori ini?')) return;
-  appData.categories = appData.categories.filter(x=>x.id!==id);
-  delete sampleQuestions[id];
-  renderCategoryOptions(); renderCategoryList(); renderCategories();
-  saveToLocalStorage();
-}
-
-function addAvatar(){
-  const src = document.getElementById('avatar-preview')?.src || "";
-  if(!src || !src.includes('data:image')) return alert('Upload gambar avatar dulu ya!');
-  appData.avatars.push(src);
-  const pi = document.getElementById('avatar-preview'); if(pi){ pi.src=''; pi.style.display='none'; }
-  document.getElementById('avatar-upload').value='';
-  renderAvatarList(); renderAvatarOptions();
-  alert('Avatar ditambahkan!');
-  saveToLocalStorage();
-}
-
-function deleteAvatar(i){
-  if(!confirm('Yakin hapus avatar ini?')) return;
-  appData.avatars.splice(i,1);
-  renderAvatarList(); renderAvatarOptions();
-  saveToLocalStorage();
-}
-
-function logout(){
-  if(!confirm('Apakah Anda yakin ingin logout?')) return;
-  appData.currentPlayer = { name:"Pemain", avatar:"", theme:"theme-light", score:0 };
-  appData.isAdminLoggedIn = false;
-  showPage('login-page');
-}
-
-// =========================
-//  STORAGE (persist lokal)
-// =========================
-function saveToLocalStorage(){
-  const data = {
-    categories: appData.categories,
-    // avatars sengaja TIDAK disimpan agar konsisten lintas device
-    questions: sampleQuestions,
-    player: appData.currentPlayer
-  };
-  localStorage.setItem('tebakTebakanData', JSON.stringify(data));
-}
-
-function loadFromLocalStorage(){
-  try{
-    const raw = localStorage.getItem('tebakTebakanData');
-    if(!raw) return;
-    const data = JSON.parse(raw);
-    if(data.categories) appData.categories = data.categories;
-    // if(data.avatars) appData.avatars = data.avatars;  // JANGAN override avatars!
-    if(data.questions) Object.assign(sampleQuestions, data.questions);
-    if(data.player){
-      appData.currentPlayer = data.player;
-      const pn = document.getElementById('player-name');
-      const pg = document.getElementById('player-greeting');
-      pn && (pn.value = appData.currentPlayer.name || "");
-      pg && (pg.textContent = appData.currentPlayer.name || "Pemain");
-      if(appData.currentPlayer.theme){
-        document.body.classList.remove(...appData.themes.map(t=>t.class));
-        document.body.classList.add(appData.currentPlayer.theme);
-        document.querySelectorAll('.theme-option').forEach(opt=>{
-          opt.classList.toggle('selected', opt.dataset.theme === appData.currentPlayer.theme);
+    // ---- Login & Home
+    function renderAvatarOptions(){
+      const c=document.getElementById('avatar-selection');
+      c.innerHTML='';
+      appData.avatars.forEach((src,idx)=>{
+        const img=document.createElement('img');
+        img.src=src; img.alt='Avatar '+(idx+1);
+        img.className='avatar-option';
+        if(idx===0 && !appData.currentPlayer.avatar){ appData.currentPlayer.avatar=src; img.classList.add('selected'); }
+        if(appData.currentPlayer.avatar===src){ img.classList.add('selected'); }
+        img.addEventListener('click',()=>{
+          document.querySelectorAll('.avatar-option').forEach(i=>i.classList.remove('selected'));
+          img.classList.add('selected');
+          appData.currentPlayer.avatar=src;
         });
+        c.appendChild(img);
+      });
+    }
+
+    function renderThemeOptions(){
+      const c=document.getElementById('theme-selection');
+      c.innerHTML='';
+      appData.themes.forEach((t,idx)=>{
+        const el=document.createElement('div');
+        el.textContent=t.name;
+        el.className='theme-option';
+        el.dataset.theme=t.class;
+        if((idx===0 && !appData.currentPlayer.theme) || appData.currentPlayer.theme===t.class){
+          el.classList.add('selected');
+          document.body.classList.add(t.class);
+        }
+        el.addEventListener('click',()=>{
+          document.querySelectorAll('.theme-option').forEach(i=>i.classList.remove('selected'));
+          el.classList.add('selected');
+          document.body.classList.remove(...appData.themes.map(x=>x.class));
+          document.body.classList.add(t.class);
+          appData.currentPlayer.theme=t.class;
+        });
+        c.appendChild(el);
+      });
+    }
+
+    function renderCategories(){
+      const grid=document.getElementById('category-grid');
+      grid.innerHTML='';
+      appData.categories.forEach(cat=>{
+        const box=document.createElement('div');
+        box.className='category-item';
+        box.innerHTML = `
+          ${cat.image?`<img class="category-image" src="${cat.image}" alt="${cat.name}"/>`:''}
+          <h3>${cat.name}</h3>
+          <p>${cat.description||''}</p>
+          <div class="level-buttons">
+            <button class="btn btn-sm" data-category="${cat.id}" data-level="mudah">Mudah</button>
+            <button class="btn btn-sm" data-category="${cat.id}" data-level="normal">Normal</button>
+            <button class="btn btn-sm" data-category="${cat.id}" data-level="sulit">Sulit</button>
+          </div>`;
+        grid.appendChild(box);
+        box.querySelectorAll('.level-buttons button').forEach(b=>{
+          b.addEventListener('click',()=>startQuiz(b.dataset.category,b.dataset.level));
+        });
+      });
+    }
+
+    function startGame(){
+      const name = (document.getElementById('player-name').value||'').trim();
+      if(!name){ alert('Silakan isi nama dulu ya.'); return; }
+      appData.currentPlayer.name=name;
+      document.getElementById('player-greeting').textContent=name;
+      saveToLocalStorage();
+      showPage('home-page');
+    }
+
+    // ---- Quiz
+    function startQuiz(category,level){
+      appData.currentCategory=category;
+      appData.currentLevel=level;
+      appData.currentQuestionIndex=0;
+      appData.userAnswers=[];
+
+      let qs=[];
+      if(sampleQuestions[category] && sampleQuestions[category][level] && sampleQuestions[category][level].length){
+        qs=sampleQuestions[category][level];
+      }else{
+        qs=[
+          {id:1,question:`Contoh soal ${category} (${level})`,options:{a:'Opsi A',b:'Opsi B',c:'Opsi C',d:'Opsi D'},correctAnswer:'a',image:''}
+        ];
+      }
+      appData.currentQuestions=qs;
+
+      document.getElementById('quiz-category').textContent='Kategori: '+category.toUpperCase();
+      document.getElementById('quiz-level').textContent='Level: '+level;
+      showPage('quiz-page');
+      showQuestion(0);
+    }
+
+    function showQuestion(i){
+      if(i>=appData.currentQuestions.length){ finishQuiz(); return; }
+      const q=appData.currentQuestions[i];
+      document.getElementById('question-text').textContent=q.question;
+      document.getElementById('question-number').textContent=`Soal ${i+1}/${appData.currentQuestions.length}`;
+      const qi=document.getElementById('question-image');
+      if(q.image){ qi.src=q.image; qi.style.display='block'; } else { qi.style.display='none'; }
+
+      document.getElementById('quiz-progress').style.width = (i/appData.currentQuestions.length*100)+'%';
+
+      const oc=document.getElementById('options-container'); oc.innerHTML='';
+      Object.entries(q.options).forEach(([k,v])=>{
+        const d=document.createElement('div');
+        d.className='option'; d.dataset.option=k; d.innerHTML=`<strong>${k.toUpperCase()}.</strong> ${v}`;
+        if(appData.userAnswers[i]===k) d.classList.add('selected');
+        oc.appendChild(d);
+      });
+    }
+
+    function handleNextQuestion(){
+      if(!appData.userAnswers[appData.currentQuestionIndex]){
+        alert('Pilih jawaban dulu ya!');
+        return;
+      }
+      appData.currentQuestionIndex++;
+      showQuestion(appData.currentQuestionIndex);
+    }
+
+    function finishQuiz(){
+      let score=0; const details=[];
+      appData.currentQuestions.forEach((q,idx)=>{
+        const ua=appData.userAnswers[idx];
+        const ok=ua===q.correctAnswer;
+        if(ok) score++;
+        details.push({q:q.question,u:ua?q.options[ua]:'Tidak dijawab',c:q.options[q.correctAnswer],ok});
+      });
+      appData.currentPlayer.score=score;
+      document.getElementById('score-display').textContent=`Skor Anda: ${score}/${appData.currentQuestions.length}`;
+      const wrap=document.getElementById('answer-details'); wrap.innerHTML='';
+      details.forEach((d,i)=>{
+        const e=document.createElement('div');
+        e.style.cssText=`margin:10px 0;padding:10px;border-left:4px solid ${d.ok?'#4caf50':'#f44336'};background:${d.ok?'#e8f5e9':'#ffebee'};border-radius:6px`;
+        e.innerHTML=`<p><strong>Soal ${i+1}:</strong> ${d.q}</p><p><strong>Jawaban Anda:</strong> ${d.u}</p><p><strong>Jawaban Benar:</strong> ${d.c}</p>`;
+        wrap.appendChild(e);
+      });
+      showPage('result-page');
+      saveToLocalStorage();
+    }
+
+    // ---- Admin ringkas
+    function renderCategoryOptionsForAdmin(){
+      const sel=document.getElementById('question-category'); sel.innerHTML='';
+      appData.categories.forEach(c=>{
+        const o=document.createElement('option'); o.value=c.id; o.textContent=c.name; sel.appendChild(o);
+      });
+    }
+
+    function addQuestion(){
+      const cat=document.getElementById('question-category').value;
+      const lvl=document.getElementById('question-level').value;
+      const qt=document.getElementById('question-text').value.trim();
+      const a=document.getElementById('option-a').value.trim();
+      const b=document.getElementById('option-b').value.trim();
+      const c=document.getElementById('option-c').value.trim();
+      const d=document.getElementById('option-d').value.trim();
+      const correct=document.getElementById('correct-answer').value;
+
+      if(!qt||!a||!b||!c||!d){ alert('Semua opsi wajib diisi.'); return; }
+      if(!sampleQuestions[cat]) sampleQuestions[cat]={mudah:[],normal:[],sulit:[]};
+      sampleQuestions[cat][lvl].push({id:Date.now(),question:qt,options:{a,b,c,d},correctAnswer:correct,image:''});
+
+      document.getElementById('question-text').value='';
+      document.getElementById('option-a').value='';
+      document.getElementById('option-b').value='';
+      document.getElementById('option-c').value='';
+      document.getElementById('option-d').value='';
+      alert('Soal ditambahkan!');
+      saveToLocalStorage();
+    }
+
+    // ---- Storage (avatars TIDAK disimpan agar konsisten ke semua device)
+    function saveToLocalStorage(){
+      const data = {
+        categories: appData.categories,
+        questions: sampleQuestions,
+        player: appData.currentPlayer
+      };
+      localStorage.setItem('tebakTebakanData', JSON.stringify(data));
+    }
+
+    function loadFromLocalStorage(){
+      const raw=localStorage.getItem('tebakTebakanData'); if(!raw) return;
+      const data=JSON.parse(raw);
+      if(data.categories) appData.categories=data.categories;
+      if(data.questions) Object.assign(sampleQuestions, data.questions);
+      if(data.player){
+        appData.currentPlayer=data.player;
+        document.getElementById('player-name').value=appData.currentPlayer.name||'';
+        document.getElementById('player-greeting').textContent=appData.currentPlayer.name||'Pemain';
+        if(appData.currentPlayer.theme){
+          document.body.classList.remove(...appData.themes.map(t=>t.class));
+          document.body.classList.add(appData.currentPlayer.theme);
+        }
       }
     }
-  }catch(e){
-    console.warn('LocalStorage diabaikan (korup?):', e);
-  }
-}
 
-// =========================
-//  THEME EXTRA
-// =========================
-function setupAdditionalThemes(){
-  const style = document.createElement('style');
-  style.textContent = `
-    .theme-light-2{--primary-color:#6d4c41;--secondary-color:#8d6e63;--accent-color:#ff5722;--background-color:#f5f5f5;--text-color:#212121;--card-bg:#fff;--header-bg:#6d4c41;}
-    .theme-light-3{--primary-color:#388e3c;--secondary-color:#4caf50;--accent-color:#ffc107;--background-color:#e8f5e9;--text-color:#1b5e20;--card-bg:#fff;--header-bg:#388e3c;}
-    .theme-light-4{--primary-color:#1976d2;--secondary-color:#2196f3;--accent-color:#ff5252;--background-color:#e3f2fd;--text-color:#0d47a1;--card-bg:#fff;--header-bg:#1976d2;}
-    .theme-dark-2{--primary-color:#7b1fa2;--secondary-color:#9c27b0;--accent-color:#ff4081;--background-color:#1a1a1a;--text-color:#e1bee7;--card-bg:#2d2d2d;--header-bg:#7b1fa2;}
-    .theme-dark-3{--primary-color:#d32f2f;--secondary-color:#f44336;--accent-color:#ff9800;--background-color:#1a1a1a;--text-color:#ffcdd2;--card-bg:#2d2d2d;--header-bg:#d32f2f;}
-    .theme-dark-4{--primary-color:#00796b;--secondary-color:#009688;--accent-color:#ffeb3b;--background-color:#1a1a1a;--text-color:#b2dfdb;--card-bg:#2d2d2d;--header-bg:#00796b;}
-  `;
-  document.head.appendChild(style);
-}
-</script>
+    function logout(){
+      if(!confirm('Yakin ingin logout?')) return;
+      appData.currentPlayer={name:'Pemain',avatar:'',theme:'theme-light',score:0};
+      showPage('login-page');
+    }
+  </script>
+</body>
+</html>
