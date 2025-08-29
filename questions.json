@@ -1,138 +1,958 @@
+  
 {
-  "ipa": {
+  "ips": {
     "mudah": [
-      { "id": 30001, "question": "Titik didih air pada tekanan 1 atm adalah …", "options": { "a": "90°C", "b": "95°C", "c": "100°C", "d": "110°C" }, "correctAnswer": "c", "image": "" },
-      { "id": 30002, "question": "Organ utama pernapasan manusia adalah …", "options": { "a": "Jantung", "b": "Paru-paru", "c": "Hati", "d": "Ginjal" }, "correctAnswer": "b", "image": "" },
-      { "id": 30003, "question": "Gas yang diperlukan tumbuhan untuk fotosintesis adalah …", "options": { "a": "Oksigen", "b": "Karbon dioksida", "c": "Nitrogen", "d": "Hidrogen" }, "correctAnswer": "b", "image": "" },
-      { "id": 30004, "question": "Benda cair memiliki bentuk yang …", "options": { "a": "Tetap", "b": "Tanpa volume", "c": "Selalu naik ke atas", "d": "Mengikuti wadahnya" }, "correctAnswer": "d", "image": "" },
-      { "id": 30005, "question": "Sumber energi utama bagi kehidupan di Bumi adalah …", "options": { "a": "Bulan", "b": "Matahari", "c": "Bintang", "d": "Angin" }, "correctAnswer": "b", "image": "" },
-      { "id": 30006, "question": "Bagian tumbuhan yang menyerap air dan mineral adalah …", "options": { "a": "Akar", "b": "Batang", "c": "Daun", "d": "Bunga" }, "correctAnswer": "a", "image": "" },
-      { "id": 30007, "question": "Indra pengecap adalah …", "options": { "a": "Telinga", "b": "Hidung", "c": "Lidah", "d": "Kulit" }, "correctAnswer": "c", "image": "" },
-      { "id": 30008, "question": "Peredaran darah kecil terjadi antara …", "options": { "a": "Jantung–Paru-paru", "b": "Jantung–Otak", "c": "Paru–Hati", "d": "Usus–Lambung" }, "correctAnswer": "a", "image": "" },
-      { "id": 30009, "question": "Perubahan wujud gas menjadi cair disebut …", "options": { "a": "Sublimasi", "b": "Kondensasi", "c": "Evaporasi", "d": "Deposisi" }, "correctAnswer": "b", "image": "" },
-      { "id": 30010, "question": "Alat untuk mengukur suhu adalah …", "options": { "a": "Barometer", "b": "Higrometer", "c": "Termometer", "d": "Anemometer" }, "correctAnswer": "c", "image": "" },
-      { "id": 30011, "question": "Planet terdekat dengan Matahari adalah …", "options": { "a": "Venus", "b": "Bumi", "c": "Mars", "d": "Merkurius" }, "correctAnswer": "d", "image": "" },
-      { "id": 30012, "question": "Zat yang mempercepat reaksi tanpa ikut habis adalah …", "options": { "a": "Katalis", "b": "Reaktan", "c": "Produk", "d": "Pelarut" }, "correctAnswer": "a", "image": "" },
-      { "id": 30013, "question": "Satuan SI untuk kuat arus listrik adalah …", "options": { "a": "Volt", "b": "Ampere", "c": "Ohm", "d": "Watt" }, "correctAnswer": "b", "image": "" },
-      { "id": 30014, "question": "Fungsi hemoglobin pada darah adalah …", "options": { "a": "Mengatur gula darah", "b": "Menghancurkan lemak", "c": "Mengikat oksigen", "d": "Menghasilkan hormon" }, "correctAnswer": "c", "image": "" },
-      { "id": 30015, "question": "Tulang tengkorak berfungsi melindungi organ …", "options": { "a": "Otak", "b": "Jantung", "c": "Paru-paru", "d": "Lambung" }, "correctAnswer": "a", "image": "" },
-      { "id": 30016, "question": "Lapisan atmosfer terdekat dari permukaan Bumi adalah …", "options": { "a": "Stratosfer", "b": "Troposfer", "c": "Mesosfer", "d": "Termosfer" }, "correctAnswer": "b", "image": "" },
-      { "id": 30017, "question": "Perubahan air menjadi uap disebut …", "options": { "a": "Kondensasi", "b": "Evaporasi", "c": "Sublimasi", "d": "Deposisi" }, "correctAnswer": "b", "image": "" },
-      { "id": 30018, "question": "Energi yang dimiliki benda karena ketinggian posisinya adalah …", "options": { "a": "Energi bunyi", "b": "Energi panas", "c": "Energi kinetik", "d": "Energi potensial" }, "correctAnswer": "d", "image": "" },
-      { "id": 30019, "question": "Bagian bunga jantan disebut …", "options": { "a": "Benang sari", "b": "Putik", "c": "Kelopak", "d": "Mahkota" }, "correctAnswer": "a", "image": "" },
-      { "id": 30020, "question": "Penyerapan nutrisi terutama terjadi di …", "options": { "a": "Lambung", "b": "Usus besar", "c": "Usus halus", "d": "Pankreas" }, "correctAnswer": "c", "image": "" }
+      {
+        "id": 40001,
+        "question": "Ibu kota Indonesia adalah ...",
+        "options": {
+          "a": "Jakarta",
+          "b": "Surabaya",
+          "c": "Bandung",
+          "d": "Medan"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40002,
+        "question": "Mata uang negara Indonesia adalah ...",
+        "options": {
+          "a": "Ringgit",
+          "b": "Rupiah",
+          "c": "Dollar",
+          "d": "Peso"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40003,
+        "question": "Peninggalan sejarah berupa bangunan untuk ibadah umat Hindu disebut ...",
+        "options": {
+          "a": "Candi",
+          "b": "Pagoda",
+          "c": "Klenteng",
+          "d": "Masjid"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40004,
+        "question": "Suku yang berasal dari Jawa Barat adalah ...",
+        "options": {
+          "a": "Batak",
+          "b": "Sunda",
+          "c": "Dayak",
+          "d": "Bugis"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40005,
+        "question": "Lagu kebangsaan Indonesia adalah ...",
+        "options": {
+          "a": "Indonesia Jaya",
+          "b": "Garuda Pancasila",
+          "c": "Indonesia Raya",
+          "d": "Halo-Halo Bandung"
+        },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 40006,
+        "question": "Penjajah yang pernah menguasai Indonesia selama 3,5 abad adalah ...",
+        "options": {
+          "a": "Inggris",
+          "b": "Portugis",
+          "c": "Belanda",
+          "d": "Jepang"
+        },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 40007,
+        "question": "Pahlawan nasional dari Aceh adalah ...",
+        "options": {
+          "a": "Diponegoro",
+          "b": "Cut Nyak Dien",
+          "c": "Kartini",
+          "d": "Sudirman"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40008,
+        "question": "Gunung tertinggi di Indonesia adalah ...",
+        "options": {
+          "a": "Semeru",
+          "b": "Rinjani",
+          "c": "Kerinci",
+          "d": "Jaya Wijaya"
+        },
+        "correctAnswer": "d",
+        "image": ""
+      },
+      {
+        "id": 40009,
+        "question": "Pulau terbesar di Indonesia adalah ...",
+        "options": {
+          "a": "Sumatera",
+          "b": "Jawa",
+          "c": "Kalimantan",
+          "d": "Papua"
+        },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 40010,
+        "question": "Hasil laut utama Indonesia adalah ...",
+        "options": {
+          "a": "Beras",
+          "b": "Ikan",
+          "c": "Kopi",
+          "d": "Karet"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40011,
+        "question": "Lembaga yang membuat undang-undang di Indonesia adalah ...",
+        "options": {
+          "a": "Eksekutif",
+          "b": "DPR",
+          "c": "Yudikatif",
+          "d": "DPD"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40012,
+        "question": "Pencipta lagu Indonesia Raya adalah ...",
+        "options": {
+          "a": "Ismail Marzuki",
+          "b": "W.R. Supratman",
+          "c": "C. Simanjuntak",
+          "d": "L. Manik"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40013,
+        "question": "Sistem ekonomi Indonesia disebut ...",
+        "options": {
+          "a": "Liberal",
+          "b": "Komando",
+          "c": "Pancasila",
+          "d": "Kapitalis"
+        },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 40014,
+        "question": "Peninggalan kerajaan Hindu terbesar di Indonesia adalah ...",
+        "options": {
+          "a": "Borobudur",
+          "b": "Prambanan",
+          "c": "Trowulan",
+          "d": "Muara Takus"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40015,
+        "question": "Pahlawan yang dikenal sebagai Bapak Pendidikan Indonesia adalah ...",
+        "options": {
+          "a": "Ki Hajar Dewantara",
+          "b": "Ahmad Dahlan",
+          "c": "Dewi Sartika",
+          "d": "Kartini"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40016,
+        "question": "Pertempuran besar antara Indonesia dan Belanda di Surabaya terjadi pada ...",
+        "options": {
+          "a": "10 Oktober 1945",
+          "b": "10 November 1945",
+          "c": "17 Agustus 1945",
+          "d": "1 Maret 1949"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40017,
+        "question": "Pulau Dewata adalah sebutan untuk ...",
+        "options": {
+          "a": "Jawa",
+          "b": "Bali",
+          "c": "Lombok",
+          "d": "Sumatera"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40018,
+        "question": "Kerajaan Islam pertama di Indonesia adalah ...",
+        "options": {
+          "a": "Demak",
+          "b": "Samudera Pasai",
+          "c": "Mataram",
+          "d": "Banten"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40019,
+        "question": "Pakaian adat dari Jawa Tengah disebut ...",
+        "options": {
+          "a": "Kebaya",
+          "b": "Baju Bodo",
+          "c": "Ulee Balang",
+          "d": "Batik"
+        },
+        "correctAnswer": "d",
+        "image": ""
+      },
+      {
+        "id": 40020,
+        "question": "Penemu benua Amerika adalah ...",
+        "options": {
+          "a": "Vasco da Gama",
+          "b": "Christopher Columbus",
+          "c": "Ferdinand Magellan",
+          "d": "James Cook"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      }
     ],
     "normal": [
-      { "id": 101, "question": "Satuan SI untuk gaya adalah...", "options": { "a": "Joule", "b": "Newton", "c": "Watt", "d": "Pascal" }, "correctAnswer": "b", "image": "" },
-      { "id": 102, "question": "Perubahan wujud padat menjadi gas tanpa melalui cair disebut...", "options": { "a": "Menguap", "b": "Melebur", "c": "Menyublim", "d": "Mengkristal" }, "correctAnswer": "c", "image": "" },
-      { "id": 103, "question": "Organel tempat berlangsungnya fotosintesis adalah...", "options": { "a": "Mitokondria", "b": "Kloroplas", "c": "Ribosom", "d": "Inti sel" }, "correctAnswer": "b", "image": "" },
-      { "id": 104, "question": "Gas yang paling banyak terdapat di atmosfer Bumi adalah...", "options": { "a": "Oksigen", "b": "Nitrogen", "c": "Karbon dioksida", "d": "Argon" }, "correctAnswer": "b", "image": "" },
-      { "id": 105, "question": "Enzim pencernaan yang terdapat pada air liur adalah...", "options": { "a": "Pepsin", "b": "Tripsin", "c": "Amilase (ptialin)", "d": "Lipase" }, "correctAnswer": "c", "image": "" },
-      { "id": 106, "question": "Rumus kimia garam dapur adalah...", "options": { "a": "KCl", "b": "NaCl", "c": "Na2CO3", "d": "CaCl2" }, "correctAnswer": "b", "image": "" },
-      { "id": 107, "question": "Planet bercincin yang paling mencolok terlihat adalah...", "options": { "a": "Jupiter", "b": "Saturnus", "c": "Uranus", "d": "Neptunus" }, "correctAnswer": "b", "image": "" },
-      { "id": 108, "question": "Rumus energi potensial gravitasi adalah...", "options": { "a": "mgh", "b": "½mv²", "c": "F/s", "d": "P×t" }, "correctAnswer": "a", "image": "" },
-      { "id": 109, "question": "Bagian telinga yang berfungsi menjaga keseimbangan adalah...", "options": { "a": "Koklea", "b": "Gendang telinga", "c": "Saluran setengah lingkaran", "d": "Tulang sanggurdi" }, "correctAnswer": "c", "image": "" },
-      { "id": 110, "question": "Karat pada besi terbentuk karena reaksi...", "options": { "a": "Netralisasi", "b": "Oksidasi", "c": "Reduksi", "d": "Pengendapan" }, "correctAnswer": "b", "image": "" },
-      { "id": 111, "question": "Cacat mata rabun dekat (hipermetropi) dikoreksi dengan lensa...", "options": { "a": "Cekung (konkaf)", "b": "Cembung (konveks)", "c": "Silinder", "d": "Prisma" }, "correctAnswer": "b", "image": "" },
-      { "id": 112, "question": "Bagian sel yang mengatur keluar-masuknya zat adalah...", "options": { "a": "Dinding sel", "b": "Membran sel", "c": "Sitosol", "d": "Vakuola" }, "correctAnswer": "b", "image": "" },
-      { "id": 113, "question": "Perpindahan panas yang tidak memerlukan medium adalah...", "options": { "a": "Konduksi", "b": "Konveksi", "c": "Radiasi", "d": "Evaporasi" }, "correctAnswer": "c", "image": "" },
-      { "id": 114, "question": "Urutan takson dari yang terbesar ke terkecil adalah...", "options": { "a": "Filum–Kingdom–Kelas–Ordo–Famili–Genus–Spesies", "b": "Kingdom–Filum–Kelas–Ordo–Famili–Genus–Spesies", "c": "Kingdom–Kelas–Filum–Ordo–Famili–Genus–Spesies", "d": "Kingdom–Filum–Ordo–Kelas–Famili–Genus–Spesies" }, "correctAnswer": "b", "image": "" },
-      { "id": 115, "question": "Besaran di bawah ini yang termasuk skalar adalah...", "options": { "a": "Gaya", "b": "Percepatan", "c": "Momentum", "d": "Energi" }, "correctAnswer": "d", "image": "" },
-      { "id": 116, "question": "Peristiwa berikut yang merupakan perubahan kimia adalah...", "options": { "a": "Es mencair", "b": "Air menguap", "c": "Besi berkarat", "d": "Kapur barus menyublim" }, "correctAnswer": "c", "image": "" },
-      { "id": 117, "question": "Benda akan terapung dalam zat cair apabila...", "options": { "a": "Massa jenis benda lebih kecil dari zat cair", "b": "Massa jenis benda lebih besar dari zat cair", "c": "Benda berbentuk ringan", "d": "Benda berukuran kecil" }, "correctAnswer": "a", "image": "" },
-      { "id": 118, "question": "Respirasi aerob pada sel eukariotik terutama berlangsung di...", "options": { "a": "Inti sel", "b": "Mitokondria", "c": "Kloroplas", "d": "Ribosom" }, "correctAnswer": "b", "image": "" },
-      { "id": 119, "question": "Jumlah kromosom pada sel tubuh (somatik) manusia adalah...", "options": { "a": "23", "b": "24", "c": "46", "d": "48" }, "correctAnswer": "c", "image": "" },
-      { "id": 120, "question": "Lapisan ozon terutama terdapat pada lapisan atmosfer...", "options": { "a": "Troposfer", "b": "Stratosfer", "c": "Mesosfer", "d": "Termosfer" }, "correctAnswer": "b", "image": "" }
+      {
+        "id": 40101,
+        "question": "Peristiwa Rengasdengklok terjadi karena ...",
+        "options": {
+          "a": "Perbedaan pendapat tentang waktu proklamasi",
+          "b": "Perselisihan antara golongan tua dan muda",
+          "c": "Perlawanan terhadap Jepang",
+          "d": "Perundingan dengan Belanda"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40102,
+        "question": "Pemimpin perlawanan rakyat Bali terhadap Belanda adalah ...",
+        "options": {
+          "a": "Pattimura",
+          "b": "Imam Bonjol",
+          "c": "Diponegoro",
+          "d": "I Gusti Ketut Jelantik"
+        },
+        "correctAnswer": "d",
+        "image": ""
+      },
+      {
+        "id": 40103,
+        "question": "Sistem tanam paksa (Cultuurstelsel) diperkenalkan oleh ...",
+        "options": {
+          "a": "Van den Bosch",
+          "b": "Daendels",
+          "c": "Raffles",
+          "d": "Coen"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40104,
+        "question": "Perjanjian yang mengakhiri Perang Dunia I adalah ...",
+        "options": {
+          "a": "Versailles",
+          "b": "San Francisco",
+          "c": "Postdam",
+          "d": "Linggarjati"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40105,
+        "question": "Lembaga keuangan internasional yang memberikan pinjaman untuk pembangunan adalah ...",
+        "options": {
+          "a": "IMF",
+          "b": "World Bank",
+          "c": "WTO",
+          "d": "ADB"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40106,
+        "question": "Pahlawan nasional yang mendirikan organisasi Budi Utomo adalah ...",
+        "options": {
+          "a": "Wahidin Sudirohusodo",
+          "b": "Soetomo",
+          "c": "Tjipto Mangoenkoesoemo",
+          "d": "Douwes Dekker"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40107,
+        "question": "Pertempuran Ambarawa terjadi antara Indonesia melawan ...",
+        "options": {
+          "a": "Belanda",
+          "b": "Inggris",
+          "c": "Jepang",
+          "d": "Portugis"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40108,
+        "question": "Peninggalan sejarah berupa prasasti yang menggunakan bahasa Sansekerta umumnya berasal dari kerajaan ...",
+        "options": {
+          "a": "Islam",
+          "b": "Hindu-Buddha",
+          "c": "Kristen",
+          "d": "Animisme"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40109,
+        "question": "Peristiwa Bandung Lautan Api terjadi pada tahun ...",
+        "options": {
+          "a": "1945",
+          "b": "1946",
+          "c": "1947",
+          "d": "1948"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40110,
+        "question": "Tokoh yang merumuskan konsep Pancasila sebagai dasar negara adalah ...",
+        "options": {
+          "a": "Soekarno",
+          "b": "Moh. Hatta",
+          "c": "Soepomo",
+          "d": "Yamin"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40111,
+        "question": "Perjanjian Renville ditandatangani di atas kapal perang negara ...",
+        "options": {
+          "a": "Belanda",
+          "b": "Inggris",
+          "c": "Amerika",
+          "d": "Australia"
+        },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 40112,
+        "question": "Pertempuran 10 November 1945 diperingati sebagai ...",
+        "options": {
+          "a": "Hari Pahlawan",
+          "b": "Hari Kemerdekaan",
+          "c": "Hari Kebangkitan Nasional",
+          "d": "Hari Kesaktian Pancasila"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40113,
+        "question": "Pemerintah Darurat Republik Indonesia (PDRI) dipimpin oleh ...",
+        "options": {
+          "a": "Soekarno",
+          "b": "Sjafruddin Prawiranegara",
+          "c": "Sudirman",
+          "d": "Hatta"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40114,
+        "question": "Konferensi Asia Afrika dilaksanakan di kota ...",
+        "options": {
+          "a": "Jakarta",
+          "b": "Bandung",
+          "c": "Bogor",
+          "d": "Yogyakarta"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40115,
+        "question": "Sistem ekonomi yang dianut Indonesia berdasarkan ...",
+        "options": {
+          "a": "UUD 1945 Pasal 33",
+          "b": "UUD 1945 Pasal 27",
+          "c": "UUD 1945 Pasal 29",
+          "d": "UUD 1945 Pasal 30"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40116,
+        "question": "Perang Diponegoro terjadi pada tahun ...",
+        "options": {
+          "a": "1825-1830",
+          "b": "1810-1815",
+          "c": "1835-1840",
+          "d": "1845-1850"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40117,
+        "question": "Lagu \"Halo-Halo Bandung\" diciptakan untuk memperingati peristiwa ...",
+        "options": {
+          "a": "Bandung Lautan Api",
+          "b": "Konferensi Asia Afrika",
+          "c": "Pertempuran Ambarawa",
+          "d": "Pertempuran Surabaya"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40118,
+        "question": "Pahlawan nasional yang dikenal dengan sebutan Singa Afrika adalah ...",
+        "options": {
+          "a": "Nelson Mandela",
+          "b": "Patrice Lumumba",
+          "c": "Kwame Nkrumah",
+          "d": "Mohammed Ali Jinnah"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40119,
+        "question": "Peristiwa sejarah yang mengawali penjajahan Jepang di Indonesia adalah ...",
+        "options": {
+          "a": "Penyerangan Pearl Harbor",
+          "b": "Penyerbuan Singapura",
+          "c": "Pendaratan di Tarakan",
+          "d": "Kapitulasi Kalijati"
+        },
+        "correctAnswer": "d",
+        "image": ""
+      },
+      {
+        "id": 40120,
+        "question": "Tokoh yang menjabat sebagai Wakil Presiden pertama Indonesia adalah ...",
+        "options": {
+          "a": "Moh. Hatta",
+          "b": "Soeharto",
+          "c": "Adam Malik",
+          "d": "Sjafruddin Prawiranegara"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      }
     ],
     "sulit": [
-      { "id": 30101, "question": "Pembelahan sel yang menghasilkan gamet dengan jumlah kromosom setengahnya adalah …", "options": { "a": "Mitosis", "b": "Meiosis", "c": "Amitosis", "d": "Fragmentasi" }, "correctAnswer": "b", "image": "" },
-      { "id": 30102, "question": "Hukum Newton yang dirumuskan F = m·a adalah …", "options": { "a": "Hukum Newton I", "b": "Hukum Newton II", "c": "Hukum Newton III", "d": "Hukum Gravitasi" }, "correctAnswer": "b", "image": "" },
-      { "id": 30103, "question": "Ikatan ion terjadi karena …", "options": { "a": "Berbagi pasangan elektron", "b": "Serah-terima elektron", "c": "Gaya van der Waals", "d": "Ikatan hidrogen" }, "correctAnswer": "b", "image": "" },
-      { "id": 30104, "question": "Larutan dengan pH = 2 bersifat …", "options": { "a": "Netral", "b": "Asam lemah", "c": "Asam kuat", "d": "Basa kuat" }, "correctAnswer": "c", "image": "" },
-      { "id": 30105, "question": "Benda di depan lensa cembung pada jarak > 2f membentuk bayangan yang …", "options": { "a": "Maya, tegak, diperbesar", "b": "Nyata, terbalik, diperkecil", "c": "Nyata, tegak, diperkecil", "d": "Maya, terbalik, diperbesar" }, "correctAnswer": "b", "image": "" },
-      { "id": 30106, "question": "Contoh reaksi endoterm adalah …", "options": { "a": "Pembekuan air", "b": "Fotosintesis", "c": "Pembakaran kertas", "d": "Netralisasi HCl–NaOH" }, "correctAnswer": "b", "image": "" },
-      { "id": 30107, "question": "Yang BUKAN memengaruhi laju reaksi adalah …", "options": { "a": "Suhu", "b": "Luas permukaan", "c": "Konsentrasi", "d": "Warna larutan" }, "correctAnswer": "d", "image": "" },
-      { "id": 30108, "question": "Contoh gelombang elektromagnetik adalah …", "options": { "a": "Gelombang bunyi", "b": "Gelombang air", "c": "Cahaya tampak", "d": "Gelombang seismik" }, "correctAnswer": "c", "image": "" },
-      { "id": 30109, "question": "Transpor aktif pada membran sel ditandai dengan …", "options": { "a": "Tanpa energi", "b": "Menuruni gradien konsentrasi", "c": "Menggunakan energi melawan gradien", "d": "Difusi sederhana" }, "correctAnswer": "c", "image": "" },
-      { "id": 30110, "question": "Jika V=12 V dan R=4 Ω, arus menurut Hukum Ohm adalah …", "options": { "a": "2 A", "b": "3 A", "c": "4 A", "d": "6 A" }, "correctAnswer": "b", "image": "" },
-      { "id": 30111, "question": "Daya listrik alat 220 V, arus 2 A. Daya yang digunakan adalah …", "options": { "a": "110 W", "b": "220 W", "c": "440 W", "d": "660 W" }, "correctAnswer": "c", "image": "" },
-      { "id": 30112, "question": "Organel penghasil ATP terbanyak pada sel eukariotik adalah …", "options": { "a": "Kloroplas", "b": "Mitokondria", "c": "Ribosom", "d": "Badan Golgi" }, "correctAnswer": "b", "image": "" },
-      { "id": 30113, "question": "Persilangan Aa × Aa menghasilkan genotipe aa dengan peluang …", "options": { "a": "1/4", "b": "1/2", "c": "3/4", "d": "1/3" }, "correctAnswer": "a", "image": "" },
-      { "id": 30114, "question": "Hukum Archimedes menyatakan gaya apung sama dengan …", "options": { "a": "Volume benda", "b": "Berat fluida yang dipindahkan", "c": "Massa jenis benda", "d": "Tekanan udara luar" }, "correctAnswer": "b", "image": "" },
-      { "id": 30115, "question": "Kecepatan cahaya di vakum mendekati …", "options": { "a": "3×10^6 m/s", "b": "3×10^7 m/s", "c": "3×10^8 m/s", "d": "3×10^9 m/s" }, "correctAnswer": "c", "image": "" },
-      { "id": 30116, "question": "Di pegunungan air mendidih pada suhu yang … dibanding permukaan laut.", "options": { "a": "Sama (100°C)", "b": "Lebih rendah", "c": "Lebih tinggi", "d": "Tidak mendidih" }, "correctAnswer": "b", "image": "" },
-      { "id": 30117, "question": "Difraksi cahaya terjadi ketika cahaya …", "options": { "a": "Melewati celah sempit", "b": "Dipantulkan", "c": "Diserap", "d": "Dipolarisasi" }, "correctAnswer": "a", "image": "" },
-      { "id": 30118, "question": "Pada gas ideal PV=nRT, jika suhu (K) digandakan dan volume tetap, maka tekanan …", "options": { "a": "Tetap", "b": "Menjadi 2 kali", "c": "Menjadi 1/2", "d": "Menjadi 1/3" }, "correctAnswer": "b", "image": "" },
-      { "id": 30119, "question": "Reaksi netralisasi asam kuat dan basa kuat menghasilkan …", "options": { "a": "Asam + basa", "b": "Oksida + air", "c": "Gas + endapan", "d": "Garam + air" }, "correctAnswer": "d", "image": "" },
-      { "id": 30120, "question": "Bagian hemoglobin yang mengikat O₂ adalah …", "options": { "a": "Rantai globin", "b": "Ion Fe²⁺ pada heme", "c": "Membran eritrosit", "d": "Plasma darah" }, "correctAnswer": "b", "image": "" }
+      {
+        "id": 40201,
+        "question": "Perjanjian Bongaya tahun 1667 adalah perjanjian antara VOC dengan kerajaan ...",
+        "options": {
+          "a": "Gowa",
+          "b": "Aceh",
+          "c": "Banten",
+          "d": "Mataram"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40202,
+        "question": "Pemberontakan PKI Madiun tahun 1948 dipimpin oleh ...",
+        "options": {
+          "a": "Tan Malaka",
+          "b": "Musso",
+          "c": "Amir Syarifuddin",
+          "d": "Semaun"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40203,
+        "question": "Peristiwa Kudatuli (Kerusuhan 27 Juli) terjadi pada tahun ...",
+        "options": {
+          "a": "1996",
+          "b": "1998",
+          "c": "1999",
+          "d": "2000"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40204,
+        "question": "Pemimpin pemberontakan PRRI/Permesta adalah ...",
+        "options": {
+          "a": "Kolonel Ventje Sumual",
+          "b": "Letkol Ahmad Husein",
+          "c": "Kapten Andi Azis",
+          "d": "Letkol Slamet Rijadi"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40205,
+        "question": "Perjanjian yang mengakhiri konfrontasi Indonesia-Malaysia adalah ...",
+        "options": {
+          "a": "Perjanjian Jakarta",
+          "b": "Perjanjian Bangkok",
+          "c": "Perjanjian New York",
+          "d": "Perjanjian Linggarjati"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40206,
+        "question": "Pemimpin gerakan DI/TII Jawa Barat adalah ...",
+        "options": {
+          "a": "Kartosuwiryo",
+          "b": "Daud Beureueh",
+          "c": "Amir Fatah",
+          "d": "Ibnu Hadjar"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40207,
+        "question": "Peristiwa Malari (Malapetaka 15 Januari) terjadi pada tahun ...",
+        "options": {
+          "a": "1974",
+          "b": "1975",
+          "c": "1976",
+          "d": "1977"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40208,
+        "question": "Tokoh yang dikenal sebagai Bapak Koperasi Indonesia adalah ...",
+        "options": {
+          "a": "Moh. Hatta",
+          "b": "Soekarno",
+          "c": "Sjafruddin Prawiranegara",
+          "d": "Soedjatmoko"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40209,
+        "question": "Peristiwa sejarah yang dikenal sebagai \"Supersemar\" terjadi pada tanggal ...",
+        "options": {
+          "a": "11 Maret 1966",
+          "b": "1 Oktober 1965",
+          "c": "21 Mei 1998",
+          "d": "17 Agustus 1945"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40210,
+        "question": "Pemimpin pemberontakan Andi Azis di Makassar adalah ...",
+        "options": {
+          "a": "Kapten Andi Azis",
+          "b": "Kolonel Kawilarang",
+          "c": "Letkol Slamet Rijadi",
+          "d": "Kolonel Ahmad Husein"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40211,
+        "question": "Perjanjian yang mengakhiri Perang Aceh adalah ...",
+        "options": {
+          "a": "Perjanjian Plakat Panjang",
+          "b": "Perjanjian Bongaya",
+          "c": "Perjanjian Linggarjati",
+          "d": "Perjanjian Renville"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40212,
+        "question": "Pemimpin perlawanan rakyat Maluku terhadap Portugis adalah ...",
+        "options": {
+          "a": "Pattimura",
+          "b": "Sultan Hairun",
+          "c": "Sultan Baabullah",
+          "d": "Kapitan Paulus Tiahahu"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40213,
+        "question": "Peristiwa sejarah yang dikenal sebagai \"Tragedi Trisakti\" terjadi pada tahun ...",
+        "options": {
+          "a": "1998",
+          "b": "1999",
+          "c": "2000",
+          "d": "2001"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40214,
+        "question": "Pemimpin pemberontakan RMS (Republik Maluku Selatan) adalah ...",
+        "options": {
+          "a": "Christiaan Soumokil",
+          "b": "Andi Azis",
+          "c": "Kapten Raymond Westerling",
+          "d": "Letkol Slamet Rijadi"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40215,
+        "question": "Perjanjian yang mengakui kedaulatan Indonesia secara penuh dari Belanda adalah ...",
+        "options": {
+          "a": "KMB",
+          "b": "Linggarjati",
+          "c": "Renville",
+          "d": "Roem-Royen"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40216,
+        "question": "Pemimpin perlawanan rakyat Singaparna terhadap Jepang adalah ...",
+        "options": {
+          "a": "K.H. Zainal Mustafa",
+          "b": "Cut Nyak Dien",
+          "c": "Teuku Umar",
+          "d": "Imam Bonjol"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40217,
+        "question": "Peristiwa sejarah yang dikenal sebagai \"Gerakan 30 September\" terjadi pada tahun ...",
+        "options": {
+          "a": "1965",
+          "b": "1966",
+          "c": "1967",
+          "d": "1968"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40218,
+        "question": "Pemimpin pemberontakan PRRI di Sumatera Barat adalah ...",
+        "options": {
+          "a": "Letkol Ahmad Husein",
+          "b": "Kolonial Ventje Sumual",
+          "c": "Kapten Andi Azis",
+          "d": "Letkol Slamet Rijadi"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 40219,
+        "question": "Perjanjian yang mengakhiri Perang Padri adalah ...",
+        "options": {
+          "a": "Perjanjian Plakat Panjang",
+          "b": "Perjanjian Masang",
+          "c": "Perjanjian Bongaya",
+          "d": "Perjanjian Linggarjati"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 40220,
+        "question": "Pemimpin perlawanan rakyat Bali terhadap Belanda yang dikenal dengan Puputan Jagaraga adalah ...",
+        "options": {
+          "a": "I Gusti Ketut Jelantik",
+          "b": "Dewa Agung Istri Kanya",
+          "c": "Ida Made Rai",
+          "d": "I Gusti Ngurah Rai"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      }
     ]
   },
-  "utbk": {
+  "tebak_receh": {
     "mudah": [
-      { "id": 10001, "question": "Lanjutan deret: 2, 4, 6, 8, … ?", "options": { "a": "9", "b": "10", "c": "12", "d": "14" }, "correctAnswer": "b", "image": "" },
-      { "id": 10002, "question": "Nilai x pada 3x + 9 = 24 adalah …", "options": { "a": "3", "b": "5", "c": "6", "d": "9" }, "correctAnswer": "b", "image": "" },
-      { "id": 10003, "question": "Sinonim kata “cepat” adalah …", "options": { "a": "lekas", "b": "lambat", "c": "terburu-buru", "d": "pelan" }, "correctAnswer": "a", "image": "" },
-      { "id": 10004, "question": "Antonim kata “tinggi” adalah …", "options": { "a": "panjang", "b": "berat", "c": "rendah", "d": "lebar" }, "correctAnswer": "c", "image": "" },
-      { "id": 10005, "question": "Semua kucing adalah mamalia. Miko seekor kucing. Maka Miko adalah …", "options": { "a": "reptil", "b": "unggas", "c": "mamalia", "d": "amfibi" }, "correctAnswer": "c", "image": "" },
-      { "id": 10006, "question": "Harga barang Rp150.000 didiskon 20%. Harga setelah diskon adalah …", "options": { "a": "Rp120.000", "b": "Rp125.000", "c": "Rp130.000", "d": "Rp135.000" }, "correctAnswer": "a", "image": "" },
-      { "id": 10007, "question": "Perbandingan A:B = 2:3. Jika total A+B = 50, maka nilai B = …", "options": { "a": "20", "b": "25", "c": "30", "d": "35" }, "correctAnswer": "c", "image": "" },
-      { "id": 10008, "question": "Rata-rata dari 4, 6, dan 8 adalah …", "options": { "a": "5", "b": "6", "c": "7", "d": "8" }, "correctAnswer": "b", "image": "" },
-      { "id": 10009, "question": "“Sekali mendayung, dua tiga pulau terlampaui” bermakna …", "options": { "a": "Pekerjaan sulit dilakukan", "b": "Satu tindakan mencapai beberapa tujuan", "c": "Melakukan sesuatu terburu-buru", "d": "Perjalanan yang sangat jauh" }, "correctAnswer": "b", "image": "" },
-      { "id": 10010, "question": "Analogi: Dokter : Rumah Sakit = Guru : …", "options": { "a": "Buku", "b": "Sekolah", "c": "Kelas", "d": "Murid" }, "correctAnswer": "b", "image": "" },
-      { "id": 10011, "question": "15% dari 200 adalah …", "options": { "a": "20", "b": "25", "c": "30", "d": "35" }, "correctAnswer": "c", "image": "" },
-      { "id": 10012, "question": "Jika hari ini Selasa, maka 3 hari lagi adalah …", "options": { "a": "Kamis", "b": "Jumat", "c": "Sabtu", "d": "Minggu" }, "correctAnswer": "b", "image": "" },
-      { "id": 10013, "question": "Mata uang resmi Indonesia adalah …", "options": { "a": "Ringgit", "b": "Rupiah", "c": "Baht", "d": "Dollar" }, "correctAnswer": "b", "image": "" },
-      { "id": 10014, "question": "Sebuah koin dilempar sekali. Peluang muncul sisi “angka” adalah …", "options": { "a": "1/2", "b": "1/3", "c": "1/4", "d": "2/3" }, "correctAnswer": "a", "image": "" },
-      { "id": 10015, "question": "Sebuah mobil menempuh 120 km dalam 3 jam. Kecepatannya adalah …", "options": { "a": "30 km/jam", "b": "35 km/jam", "c": "40 km/jam", "d": "45 km/jam" }, "correctAnswer": "c", "image": "" },
-      { "id": 10016, "question": "Bentuk paling sederhana dari 12/18 adalah …", "options": { "a": "3/4", "b": "2/3", "c": "4/6", "d": "6/9" }, "correctAnswer": "b", "image": "" },
-      { "id": 10017, "question": "Deret huruf: A, C, E, G, …", "options": { "a": "H", "b": "I", "c": "J", "d": "K" }, "correctAnswer": "b", "image": "" },
-      { "id": 10018, "question": "Bentuk baku yang benar adalah …", "options": { "a": "resiko", "b": "risiko", "c": "risko", "d": "riskho" }, "correctAnswer": "b", "image": "" },
-      { "id": 10019, "question": "Median dari data 2, 3, 5, 7, 11 adalah …", "options": { "a": "3", "b": "5", "c": "7", "d": "11" }, "correctAnswer": "b", "image": "" },
-      { "id": 10020, "question": "Volume balok dengan p=2 cm, l=3 cm, t=4 cm adalah …", "options": { "a": "18 cm³", "b": "20 cm³", "c": "24 cm³", "d": "28 cm³" }, "correctAnswer": "c", "image": "" }
-    ],
-    "normal": [
-      { "id": 20001, "question": "15% dari 240 adalah …", "options": { "a": "32", "b": "36", "c": "40", "d": "42" }, "correctAnswer": "b", "image": "" },
-      { "id": 20002, "question": "Nilai x pada 5x − 10 = 20 adalah …", "options": { "a": "4", "b": "5", "c": "6", "d": "7" }, "correctAnswer": "c", "image": "" },
-      { "id": 20003, "question": "FPB dari 18 dan 24 adalah …", "options": { "a": "12", "b": "8", "c": "6", "d": "4" }, "correctAnswer": "c", "image": "" },
-      { "id": 20004, "question": "Median dari 1, 3, 5, 7, 9 adalah …", "options": { "a": "3", "b": "5", "c": "7", "d": "9" }, "correctAnswer": "b", "image": "" },
-      { "id": 20005, "question": "Lanjutan deret: 3, 6, 9, 12, …", "options": { "a": "15", "b": "16", "c": "17", "d": "18" }, "correctAnswer": "a", "image": "" },
-      { "id": 20006, "question": "Perbandingan A:B = 2:5, jika A+B=84 maka B = …", "options": { "a": "20", "b": "24", "c": "40", "d": "60" }, "correctAnswer": "d", "image": "" },
-      { "id": 20007, "question": "Peluang muncul bilangan genap saat melempar dadu sekali adalah …", "options": { "a": "1/2", "b": "1/3", "c": "1/6", "d": "2/3" }, "correctAnswer": "a", "image": "" },
-      { "id": 20008, "question": "Luas persegi panjang 6 cm × 8 cm adalah …", "options": { "a": "40 cm²", "b": "48 cm²", "c": "52 cm²", "d": "56 cm²" }, "correctAnswer": "b", "image": "" },
-      { "id": 20009, "question": "Rata-rata dari 10, 15, 20 adalah …", "options": { "a": "13", "b": "15", "c": "16", "d": "18" }, "correctAnswer": "b", "image": "" },
-      { "id": 20010, "question": "KPK dari 6 dan 8 adalah …", "options": { "a": "12", "b": "16", "c": "24", "d": "48" }, "correctAnswer": "c", "image": "" },
-      { "id": 20011, "question": "1/3 + 1/6 = …", "options": { "a": "1/3", "b": "2/3", "c": "3/5", "d": "1/2" }, "correctAnswer": "d", "image": "" },
-      { "id": 20012, "question": "Dua sudut segitiga 50° dan 60°. Sudut ketiganya adalah …", "options": { "a": "70°", "b": "60°", "c": "50°", "d": "80°" }, "correctAnswer": "a", "image": "" },
-      { "id": 20013, "question": "Deret kuadrat: 1, 4, 9, 16, …", "options": { "a": "20", "b": "22", "c": "24", "d": "25" }, "correctAnswer": "d", "image": "" },
-      { "id": 20014, "question": "Sederhanakan 12/18 menjadi …", "options": { "a": "3/4", "b": "2/3", "c": "4/6", "d": "6/9" }, "correctAnswer": "b", "image": "" },
-      { "id": 20015, "question": "Harga Rp200.000 didiskon 25%. Harga setelah diskon …", "options": { "a": "150000", "b": "155000", "c": "160000", "d": "165000" }, "correctAnswer": "a", "image": "" },
-      { "id": 20016, "question": "Analogi: Dokter : Pasien = Guru : …", "options": { "a": "Kelas", "b": "Murid", "c": "Sekolah", "d": "Buku" }, "correctAnswer": "b", "image": "" },
-      { "id": 20017, "question": "Bilangan prima terbesar yang < 20 adalah …", "options": { "a": "17", "b": "18", "c": "19", "d": "20" }, "correctAnswer": "c", "image": "" },
-      { "id": 20018, "question": "Bunga sederhana 10% per tahun untuk Rp1.000.000 selama 2 tahun adalah …", "options": { "a": "200000", "b": "100000", "c": "150000", "d": "250000" }, "correctAnswer": "a", "image": "" },
-      { "id": 20019, "question": "0,25 dalam bentuk pecahan adalah …", "options": { "a": "1/2", "b": "1/4", "c": "2/5", "d": "3/10" }, "correctAnswer": "b", "image": "" },
-      { "id": 20020, "question": "2x = 3x − 5, maka x = …", "options": { "a": "2", "b": "3", "c": "4", "d": "5" }, "correctAnswer": "d", "image": "" }
-    ],
-    "sulit": [
-      { "id": 20101, "question": "Sistem: 2x+3y=13 dan x−y=1. (x, y) = …", "options": { "a": "(3, 2)", "b": "(16/5, 11/5)", "c": "(13/5, 8/5)", "d": "(4, 1)" }, "correctAnswer": "b", "image": "" },
-      { "id": 20102, "question": "Akar-akar persamaan x² − 5x + 6 = 0 adalah …", "options": { "a": "{1, 6}", "b": "{2, 3}", "c": "{3, 4}", "d": "{2, 6}" }, "correctAnswer": "b", "image": "" },
-      { "id": 20103, "question": "Peluang dua koin muncul dua gambar (head) sekaligus adalah …", "options": { "a": "1/2", "b": "1/3", "c": "1/4", "d": "3/4" }, "correctAnswer": "c", "image": "" },
-      { "id": 20104, "question": "Banyak permutasi huruf pada kata KATA adalah …", "options": { "a": "8", "b": "12", "c": "16", "d": "24" }, "correctAnswer": "b", "image": "" },
-      { "id": 20105, "question": "Diagonal persegi panjang 6 cm × 8 cm adalah …", "options": { "a": "9 cm", "b": "10 cm", "c": "11 cm", "d": "12 cm" }, "correctAnswer": "b", "image": "" },
-      { "id": 20106, "question": "C(6, 2) = …", "options": { "a": "12", "b": "15", "c": "18", "d": "30" }, "correctAnswer": "b", "image": "" },
-      { "id": 20107, "question": "Jika f(x)=2x²−3x, maka f(3)= …", "options": { "a": "6", "b": "7", "c": "9", "d": "12" }, "correctAnswer": "c", "image": "" },
-      { "id": 20108, "question": "(3/4) ÷ (9/16) = …", "options": { "a": "2/3", "b": "1", "c": "4/3", "d": "16/27" }, "correctAnswer": "c", "image": "" },
-      { "id": 20109, "question": "Kecepatan rata-rata jika 150 km ditempuh 2,5 jam adalah …", "options": { "a": "50 km/jam", "b": "55 km/jam", "c": "60 km/jam", "d": "65 km/jam" }, "correctAnswer": "c", "image": "" },
-      { "id": 20110, "question": "Deret 2, 5, 10, 17, 26, … nilai berikutnya …", "options": { "a": "33", "b": "35", "c": "36", "d": "37" }, "correctAnswer": "d", "image": "" },
-      { "id": 20111, "question": "log₂(32) = …", "options": { "a": "4", "b": "5", "c": "6", "d": "3" }, "correctAnswer": "b", "image": "" },
-      { "id": 20112, "question": "Rata-rata tertimbang nilai 70, 80, 90 dengan bobot 2, 3, 5 adalah …", "options": { "a": "80", "b": "82", "c": "83", "d": "85" }, "correctAnswer": "c", "image": "" },
-      { "id": 20113, "question": "Peluang mengambil 1 kartu As dari 52 kartu adalah …", "options": { "a": "1/4", "b": "1/13", "c": "4/13", "d": "1/52" }, "correctAnswer": "b", "image": "" },
-      { "id": 20114, "question": "Banyak pembagi positif dari 36 adalah …", "options": { "a": "6", "b": "8", "c": "9", "d": "12" }, "correctAnswer": "c", "image": "" },
-      { "id": 20115, "question": "Penyelesaian ketaksamaan 3x − 7 > 5 adalah …", "options": { "a": "x > 3", "b": "x > 4", "c": "x < 4", "d": "x ≥ 4" }, "correctAnswer": "b", "image": "" },
-      { "id": 20116, "question": "Luas lingkaran berjari-jari 7 cm (π=22/7) adalah …", "options": { "a": "144 cm²", "b": "147 cm²", "c": "154 cm²", "d": "176 cm²" }, "correctAnswer": "c", "image": "" },
-      { "id": 20117, "question": "Deret Fibonacci 1, 1, 2, 3, 5, 8, … berikutnya …", "options": { "a": "11", "b": "12", "c": "13", "d": "15" }, "correctAnswer": "c", "image": "" },
-      { "id": 20118, "question": "Determinan matriks [[2,1],[3,4]] adalah …", "options": { "a": "5", "b": "6", "c": "7", "d": "8" }, "correctAnswer": "a", "image": "" },
-      { "id": 20119, "question": "Jumlah 10 bilangan asli pertama adalah …", "options": { "a": "45", "b": "50", "c": "55", "d": "60" }, "correctAnswer": "c", "image": "" },
-      { "id": 20120, "question": "Jika x,y bilangan bulat positif dan xy=36, nilai minimum x+y adalah …", "options": { "a": "10", "b": "12", "c": "13", "d": "18" }, "correctAnswer": "b", "image": "" }
-    ]
-  }
-}
+      {
+        "id": 50001,
+        "question": "Binatang yang suka mengeluarkan bau busuk ketika terancam?",
+        "options": {
+          "a": "Sigung",
+          "b": "Trenggiling",
+          "c": "Landak",
+          "d": "Kelelawar"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 50002,
+        "question": "Makanan khas Indonesia yang terbuat dari kedelai fermentasi?",
+        "options": {
+          "a": "Tempe",
+          "b": "Tahu",
+          "c": "Oncom",
+          "d": "Tape"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 50003,
+        "question": "Benda yang digunakan untuk membuka pintu?",
+        "options": {
+          "a": "Gembok",
+          "b": "Kunci",
+          "c": "Gagang",
+          "d": "Kaca"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 50004,
+        "question": "Warna campuran merah dan kuning?",
+        "options": {
+          "a": "Ungu",
+          "b": "Hijau",
+          "c": "Oranye",
+          "d": "Coklat"
+        },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 50005,
+        "question": "Alat untuk memotong kertas?",
+        "options": {
+          "a": "Gunting",
+          "b": "Pisau",
+          "c": "Cutter",
+          "d": "Kapak"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 50006,
+        "question": "Buah yang kulitnya berduri?",
+        "options": {
+          "a": "Durian",
+          "b": "Rambutan",
+          "c": "Mangga",
+          "d": "Pisang"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 50007,
+        "question": "Planet terdekat dengan Matahari?",
+        "options": {
+          "a": "Venus",
+          "b": "Bumi",
+          "c": "Mars",
+          "d": "Merkurius"
+        },
+        "correctAnswer": "d",
+        "image": ""
+      },
+      {
+        "id": 50008,
+        "question": "Ibu kota negara Jepang?",
+        "options": {
+          "a": "Seoul",
+          "b": "Beijing",
+          "c": "Tokyo",
+          "d": "Bangkok"
+        },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 50009,
+        "question": "Hewan yang memiliki belalai panjang?",
+        "options": {
+          "a": "Gajah",
+          "b": "Jerapah",
+          "c": "Zebra",
+          "d": "Singa"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 50010,
+        "question": "Benda yang digunakan untuk melihat benda jauh?",
+        "options": {
+          "a": "Mikroskop",
+          "b": "Teleskop",
+          "c": "Teropong",
+          "d": "Kacamata"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 50011,
+        "question": "Minuman yang terbuat dari biji kopi?",
+        "options": {
+          "a": "Teh",
+          "b": "Kopi",
+          "c": "Susu",
+          "d": "Jus"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 50012,
+        "question": "Alat untuk mengukur waktu?",
+        "options": {
+          "a": "Termometer",
+          "b": "Jam",
+          "c": "Timbangan",
+          "d": "Penggaris"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 50013,
+        "question": "Benda yang digunakan untuk menulis di papan tulis?",
+        "options": {
+          "a": "Pulpen",
+          "b": "Pensil",
+          "c": "Spidol",
+          "d": "Kapur"
+        },
+        "correctAnswer": "d",
+        "image": ""
+      },
+      {
+        "id": 50014,
+        "question": "Hewan yang dikenal sebagai raja hutan?",
+        "options": {
+          "a": "Harimau",
+          "b": "Singa",
+          "c": "Serigala",
+          "d": "Beruang"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 50015,
+        "question": "Buah yang berwarna ungu dan sering dibuat jus?",
+        "options": {
+          "a": "Anggur",
+          "b": "Jeruk",
+          "c": "Apel",
+          "d": "Pir"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 50016,
+        "question": "Alat untuk menyiram tanaman?",
+        "options": {
+          "a": "Ember",
+          "b": "Gayung",
+          "c": "Selang",
+          "d": "Penyiram"
+        },
+        "correctAnswer": "d",
+        "image": ""
+      },
+      {
+        "id": 50017,
+        "question": "Negara yang berbentuk seperti sepatu boot?",
+        "options": {
+          "a": "Yunani",
+          "b": "Italia",
+          "c": "Prancis",
+          "d": "Spanyol"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 50018,
+        "question": "Hewan yang bisa mengubah warna kulitnya?",
+        "options": {
+          "a": "Bunglon",
+          "b": "Ular",
+          "c": "Kadal",
+          "d": "Katak"
+        },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 50019,
+        "question": "Benda yang digunakan untuk membawa barang belanjaan?",
+        "options": {
+          "a": "Keranjang",
+          "b": "Tas",
+          "c": "Kardus",
+          "d": "Plastik"
+        },
+        
