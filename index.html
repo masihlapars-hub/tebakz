@@ -5,12 +5,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tebak Tebakan</title>
 <style>
-  :root{
-    --primary:#4a6fa5; --secondary:#6b8cbc; --bg:#f5f7fa; --text:#333; --card:#fff;
-  }
-  .dark{ --primary:#7b1fa2; --secondary:#9c27b0; --bg:#121212; --text:#eaeaea; --card:#1e1e1e; }
+  /* ===== 8 tema (4 terang + 4 gelap) ===== */
+  .theme-light-1{ --primary:#4a6fa5; --secondary:#6b8cbc; --bg:#f5f7fa; --text:#333; --card:#fff; }
+  .theme-light-2{ --primary:#6d4c41; --secondary:#8d6e63; --bg:#f5f5f5; --text:#212121; --card:#fff; }
+  .theme-light-3{ --primary:#388e3c; --secondary:#4caf50; --bg:#e8f5e9; --text:#1b5e20; --card:#fff; }
+  .theme-light-4{ --primary:#1976d2; --secondary:#2196f3; --bg:#e3f2fd; --text:#0d47a1; --card:#fff; }
+
+  .theme-dark-1 { --primary:#7b1fa2; --secondary:#9c27b0; --bg:#121212; --text:#eaeaea; --card:#1e1e1e; }
+  .theme-dark-2 { --primary:#d32f2f; --secondary:#f44336; --bg:#1a1a1a; --text:#ffcdd2; --card:#2d2d2d; }
+  .theme-dark-3 { --primary:#00796b; --secondary:#009688; --bg:#1a1a1a; --text:#b2dfdb; --card:#2d2d2d; }
+  .theme-dark-4 { --primary:#2c3e50; --secondary:#34495e; --bg:#1a1a2e; --text:#ecf0f1; --card:#16213e; }
+
+  /* default saat pertama load */
+  body{ margin:0; background:var(--bg); color:var(--text); transition:.2s }
+
   *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
-  body{margin:0;background:var(--bg);color:var(--text);transition:.2s}
   header{background:var(--primary);color:#fff}
   nav{max-width:1200px;margin:auto;display:flex;gap:16px;align-items:center;justify-content:space-between;padding:14px 20px}
   .logo{font-weight:700;font-size:22px}
@@ -43,10 +52,11 @@
   .muted{opacity:.7}
   .right{display:flex;gap:8px;align-items:center}
   .hidden{display:none}
+  .theme-btn.selected{background:var(--primary);color:#fff;border-color:var(--primary)}
   @media(max-width:720px){ .nav .right{display:none} }
 </style>
 </head>
-<body>
+<body class="theme-light-1">
   <header>
     <nav>
       <div class="logo">Tebak Tebakan</div>
@@ -194,11 +204,11 @@
   </main>
 
 <script>
-/* ========== STATE DASAR ========== */
+/* ===== STATE ===== */
 const ADMIN_PASSWORD = "281105";
 
 const app = {
-  player: {name:"", avatar:"", theme:"light"},
+  player: {name:"", avatar:"", theme:"theme-light-1"},
   scores: [],
   categories: [
     {id:"ipa",name:"IPA",desc:"Ilmu Pengetahuan Alam"},
@@ -229,8 +239,14 @@ const app = {
     "./static/avatars/a975a06b73c871fd961c088eb19ed64a (1).jpg"
   ],
   themes: [
-    {id:"light",name:"Terang 1",class:""},
-    {id:"dark", name:"Gelap 1",class:"dark"}
+    {id:"theme-light-1",name:"Terang 1"},
+    {id:"theme-light-2",name:"Terang 2"},
+    {id:"theme-light-3",name:"Terang 3"},
+    {id:"theme-light-4",name:"Terang 4"},
+    {id:"theme-dark-1", name:"Gelap 1"},
+    {id:"theme-dark-2", name:"Gelap 2"},
+    {id:"theme-dark-3", name:"Gelap 3"},
+    {id:"theme-dark-4", name:"Gelap 4"}
   ],
   questions: {
     ipa:{mudah:[
@@ -244,13 +260,12 @@ const app = {
   current:{cat:"",lvl:"", list:[], i:0, answers:[], start:0}
 };
 
-/* ========== UTIL ========== */
+/* ===== UTIL ===== */
 const $ = sel => document.querySelector(sel);
 const $$ = sel => Array.from(document.querySelectorAll(sel));
 const escapeHTML = s => (s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
 
-/* ========== NAV & INIT ========== */
-function show(id){ $$(".page").forEach(p=>p.classList.remove("active")); $("#"+id).classList.add("active"); }
+/* ===== STORAGE ===== */
 function save(){ localStorage.setItem("tebakz", JSON.stringify({player:app.player,scores:app.scores,questions:app.questions})); }
 function load(){
   try{
@@ -259,17 +274,29 @@ function load(){
       const d = JSON.parse(raw);
       if(d.player) app.player = d.player;
       if(Array.isArray(d.scores)) app.scores = d.scores;
-      if(d.questions) mergeQuestions(d.questions); // local merge
+      if(d.questions) mergeQuestions(d.questions);
     }
   }catch(e){}
 }
 
+/* ===== THEME ===== */
+function applyTheme(id){
+  const all = app.themes.map(t=>t.id);
+  document.body.classList.remove(...all);
+  document.body.classList.add(id);
+  app.player.theme=id; save();
+  // highlight button
+  $$("#themeWrap .theme-btn").forEach(b=>b.classList.toggle("selected", b.dataset.id===id));
+}
+
+/* ===== NAV + INIT ===== */
+function show(id){ $$(".page").forEach(p=>p.classList.remove("active")); $("#"+id).classList.add("active"); }
 document.addEventListener("click",e=>{
   const g=e.target.dataset.goto; if(g){ show(g); if(g==="scores") renderScores(); if(g==="home") renderCats(); }
 });
 
 $("#logoutBtn").onclick=()=>{
-  if(confirm("Yakin logout?")){ app.player={name:"",avatar:"",theme:"light"}; save(); show("login"); renderLogin(); }
+  if(confirm("Yakin logout?")){ app.player={name:"",avatar:"",theme:"theme-light-1"}; applyTheme("theme-light-1"); save(); show("login"); renderLogin(); }
 };
 
 $("#adminLink").onclick=()=>{
@@ -280,12 +307,14 @@ $("#adminLink").onclick=()=>{
 
 document.addEventListener("DOMContentLoaded", async ()=>{
   load();
-  await pullQuestionsJSON(); // baca questions.json di repo (kalau ada)
+  // set theme on first load
+  applyTheme(app.player.theme || "theme-light-1");
+  await pullQuestionsJSON();
   renderLogin();
   renderCats();
 });
 
-/* ========== LOGIN UI ========== */
+/* ===== LOGIN UI ===== */
 function renderLogin(){
   $("#playerName").value = app.player.name||"";
   $("#hiName").textContent = app.player.name||"Pemain";
@@ -301,9 +330,11 @@ function renderLogin(){
 
   const tW=$("#themeWrap"); tW.innerHTML="";
   app.themes.forEach(t=>{
-    const b=document.createElement("button"); b.className="btn outline"; b.textContent=t.name;
-    b.onclick=()=>{ document.body.classList.toggle("dark", t.id==="dark"); app.player.theme=t.id; save(); }
-    if(app.player.theme===t.id) document.body.classList.toggle("dark", t.id==="dark");
+    const b=document.createElement("button");
+    b.className="btn outline theme-btn";
+    b.textContent=t.name; b.dataset.id=t.id;
+    if(app.player.theme===t.id) b.classList.add("selected");
+    b.onclick=()=>applyTheme(t.id);
     tW.appendChild(b);
   });
 
@@ -314,7 +345,7 @@ function renderLogin(){
   };
 }
 
-/* ========== HOME (KATEGORI) ========== */
+/* ===== HOME ===== */
 function renderCats(){
   const wrap=$("#cats"); wrap.innerHTML="";
   app.categories.forEach(c=>{
@@ -332,7 +363,7 @@ function renderCats(){
   });
 }
 
-/* ========== QUIZ ========== */
+/* ===== QUIZ ===== */
 function startQuiz(cat,lvl){
   const bank = app.questions[cat]?.[lvl];
   const list = (Array.isArray(bank)&&bank.length)? bank : [{id:Date.now(),question:`Contoh soal ${cat} (${lvl})`,options:{a:"A",b:"B",c:"C",d:"D"},correctAnswer:"a",image:""}];
@@ -394,7 +425,7 @@ function finishQuiz(){
   show("result");
 }
 
-/* ========== SCORES ========== */
+/* ===== SCORES ===== */
 function renderScores(){
   const tb=$("#scoreTable tbody"); tb.innerHTML="";
   $("#emptyScore").style.display = app.scores.length?"none":"block";
@@ -406,9 +437,8 @@ function renderScores(){
 }
 $("#resetScores").onclick=()=>{ if(confirm("Hapus semua top score?")){ app.scores=[]; save(); renderScores(); } };
 
-/* ========== ADMIN ========== */
+/* ===== ADMIN ===== */
 function renderAdmin(){
-  // kategori dropdown
   const s=$("#aCat"); s.innerHTML="";
   app.categories.forEach(c=>{ const o=document.createElement("option"); o.value=c.id; o.textContent=c.name; s.appendChild(o); });
 
@@ -471,31 +501,30 @@ function renderAdminList(fCat=null,fLvl=null){
   });
 }
 
+/* ===== HELPERS ===== */
 function ensureCat(cat){
   if(!app.questions[cat]) app.questions[cat]={mudah:[],normal:[],sulit:[]};
   ["mudah","normal","sulit"].forEach(k=>{ if(!Array.isArray(app.questions[cat][k])) app.questions[cat][k]=[]; });
 }
-
 function mergeQuestions(src){
   Object.entries(src||{}).forEach(([cat,levels])=>{
     ensureCat(cat);
     ["mudah","normal","sulit"].forEach(k=>{
-      if(Array.isArray(levels?.[k])) app.questions[cat][k] = levels[k]; // replace (lebih rapi)
+      if(Array.isArray(levels?.[k])) app.questions[cat][k] = levels[k];
     });
   });
 }
 
-/* ========== BACA questions.json DI REPO ========== */
+/* ===== BACA questions.json DI REPO ===== */
 async function pullQuestionsJSON(){
   try{
-    // relative path supaya jalan di subfolder (mis. /tebakz/)
     const res = await fetch("questions.json?ts="+Date.now(), {cache:"no-store"});
     if(res.ok){
       const data=await res.json();
       mergeQuestions(data);
       save();
     }
-  }catch(e){ /* skip kalau ga ada file */ }
+  }catch(e){ /* abaikan kalau tidak ada */ }
 }
 </script>
 </body>
