@@ -295,7 +295,7 @@
       { "id": 60220, "question": "Teknologi untuk membuat virtual machine di cloud adalah ...", "options": { "a": "Docker", "b": "Kubernetes", "c": "VMware", "d": "VirtualBox" }, "correctAnswer": "a", "image": "" }
     ]
   },
-  "islam": {
+  "agama islam": {
   "mudah": [
     {"id":10001,"question":"Rukun Islam yang pertama adalah ...","options":{"a":"Syahadat","b":"Shalat","c":"Zakat","d":"Puasa"},"correctAnswer":"a","image":""},
     {"id":10002,"question":"Kitab suci umat Islam adalah ...","options":{"a":"Al-Qur'an","b":"Injil","c":"Taurat","d":"Tripitaka"},"correctAnswer":"a","image":""},
