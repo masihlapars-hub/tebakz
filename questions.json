@@ -883,7 +883,7 @@
       {"id":17220,"question":"Logika proposisi digunakan dalam ...","options":{"a":"Matematika dan ilmu komputer","b":"Biologi","c":"Geografi","d":"Sejarah"},"correctAnswer":"a","image":""}
     ]
   },
-  "MTK": {
+  "mtk": {
     "mudah": [
       {"id":21001,"question":"Hasil dari 7 + 8 adalah ...","options":{"a":"14","b":"15","c":"16","d":"17"},"correctAnswer":"b","image":""},
       {"id":21002,"question":"Hasil dari 12 × 5 adalah ...","options":{"a":"50","b":"55","c":"60","d":"65"},"correctAnswer":"c","image":""},
