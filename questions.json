@@ -611,7 +611,7 @@
       {"id":13220,"question":"Konsep Ahimsa dalam Hindu berarti ...","options":{"a":"Tidak menyakiti makhluk hidup","b":"Berbuat amal","c":"Berdoa","d":"Berpuasa"},"correctAnswer":"a","image":""}
     ]
   },
-  "agama budha": {
+  "agama buddha": {
     "mudah": [
       {"id":14001,"question":"Kitab suci umat Buddha adalah ...","options":{"a":"Tripitaka","b":"Veda","c":"Al-Qur'an","d":"Injil"},"correctAnswer":"a","image":""},
       {"id":14002,"question":"Pendiri agama Buddha adalah ...","options":{"a":"Siddharta Gautama","b":"Krishna","c":"Yesus","d":"Muhammad"},"correctAnswer":"a","image":""},
