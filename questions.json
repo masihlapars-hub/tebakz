@@ -1,0 +1,151 @@
+{
+  "utbk": {
+    "mudah": [
+      {
+        "id": 10001,
+        "question": "Lanjutan deret: 2, 4, 6, 8, … ?",
+        "options": { "a": "9", "b": "10", "c": "12", "d": "14" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 10002,
+        "question": "Nilai x pada 3x + 9 = 24 adalah …",
+        "options": { "a": "3", "b": "5", "c": "6", "d": "9" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 10003,
+        "question": "Sinonim kata “cepat” adalah …",
+        "options": { "a": "lekas", "b": "lambat", "c": "terburu-buru", "d": "pelan" },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 10004,
+        "question": "Antonim kata “tinggi” adalah …",
+        "options": { "a": "panjang", "b": "berat", "c": "rendah", "d": "lebar" },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 10005,
+        "question": "Semua kucing adalah mamalia. Miko seekor kucing. Maka Miko adalah …",
+        "options": { "a": "reptil", "b": "unggas", "c": "mamalia", "d": "amfibi" },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 10006,
+        "question": "Harga barang Rp150.000 didiskon 20%. Harga setelah diskon adalah …",
+        "options": { "a": "Rp120.000", "b": "Rp125.000", "c": "Rp130.000", "d": "Rp135.000" },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 10007,
+        "question": "Perbandingan A:B = 2:3. Jika total A+B = 50, maka nilai B = …",
+        "options": { "a": "20", "b": "25", "c": "30", "d": "35" },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 10008,
+        "question": "Rata-rata dari 4, 6, dan 8 adalah …",
+        "options": { "a": "5", "b": "6", "c": "7", "d": "8" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 10009,
+        "question": "“Sekali mendayung, dua tiga pulau terlampaui” bermakna …",
+        "options": {
+          "a": "Pekerjaan sulit dilakukan",
+          "b": "Satu tindakan mencapai beberapa tujuan",
+          "c": "Melakukan sesuatu terburu-buru",
+          "d": "Perjalanan yang sangat jauh"
+        },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 10010,
+        "question": "Analogi: Dokter : Rumah Sakit = Guru : …",
+        "options": { "a": "Buku", "b": "Sekolah", "c": "Kelas", "d": "Murid" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 10011,
+        "question": "15% dari 200 adalah …",
+        "options": { "a": "20", "b": "25", "c": "30", "d": "35" },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 10012,
+        "question": "Jika hari ini Selasa, maka 3 hari lagi adalah …",
+        "options": { "a": "Kamis", "b": "Jumat", "c": "Sabtu", "d": "Minggu" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 10013,
+        "question": "Mata uang resmi Indonesia adalah …",
+        "options": { "a": "Ringgit", "b": "Rupiah", "c": "Baht", "d": "Dollar" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 10014,
+        "question": "Sebuah koin dilempar sekali. Peluang muncul sisi “angka” adalah …",
+        "options": { "a": "1/2", "b": "1/3", "c": "1/4", "d": "2/3" },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 10015,
+        "question": "Sebuah mobil menempuh 120 km dalam 3 jam. Kecepatannya adalah …",
+        "options": { "a": "30 km/jam", "b": "35 km/jam", "c": "40 km/jam", "d": "45 km/jam" },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 10016,
+        "question": "Bentuk paling sederhana dari 12/18 adalah …",
+        "options": { "a": "3/4", "b": "2/3", "c": "4/6", "d": "6/9" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 10017,
+        "question": "Deret huruf: A, C, E, G, …",
+        "options": { "a": "H", "b": "I", "c": "J", "d": "K" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 10018,
+        "question": "Bentuk baku yang benar adalah …",
+        "options": { "a": "resiko", "b": "risiko", "c": "risko", "d": "riskho" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 10019,
+        "question": "Median dari data 2, 3, 5, 7, 11 adalah …",
+        "options": { "a": "3", "b": "5", "c": "7", "d": "11" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 10020,
+        "question": "Volume balok dengan p=2 cm, l=3 cm, t=4 cm adalah …",
+        "options": { "a": "18 cm³", "b": "20 cm³", "c": "24 cm³", "d": "28 cm³" },
+        "correctAnswer": "c",
+        "image": ""
+      }
+    ]
+  }
+}
