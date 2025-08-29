@@ -363,8 +363,7 @@
     {"id":10220,"question":"Al-Muwaththa’ adalah karya ...","options":{"a":"Imam Malik","b":"Imam Syafi'i","c":"Imam Bukhari","d":"Imam Ahmad"},"correctAnswer":"a","image":""}
   ]
 },
-{
-  "kristen": {
+  "agama kristen": {
     "mudah": [
       {"id":11001,"question":"Kitab suci umat Kristen adalah ...","options":{"a":"Alkitab","b":"Veda","c":"Tripitaka","d":"Al-Qur'an"},"correctAnswer":"a","image":""},
       {"id":11002,"question":"Hari kelahiran Yesus dirayakan pada ...","options":{"a":"Natal","b":"Paskah","c":"Pentakosta","d":"Adven"},"correctAnswer":"a","image":""},
@@ -433,7 +432,7 @@
     ]
   },
       {
-  "katolik": {
+  "agama katolik": {
     "mudah": [
       {"id":12001,"question":"Kitab suci umat Katolik adalah ...","options":{"a":"Alkitab","b":"Tripitaka","c":"Veda","d":"Al-Qur'an"},"correctAnswer":"a","image":""},
       {"id":12002,"question":"Pusat Gereja Katolik berada di ...","options":{"a":"Roma","b":"Yerusalem","c":"Konstantinopel","d":"Paris"},"correctAnswer":"a","image":""},
