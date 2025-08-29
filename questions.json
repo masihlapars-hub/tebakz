@@ -430,8 +430,7 @@
       {"id":11219,"question":"Yesus naik ke surga dari ...","options":{"a":"Bukit Zaitun","b":"Yerusalem","c":"Nazaret","d":"Betlehem"},"correctAnswer":"a","image":""},
       {"id":11220,"question":"Konsili Konstantinopel I (381) menegaskan ajaran ...","options":{"a":"Roh Kudus","b":"Maria","c":"Baptisan","d":"Perjamuan"},"correctAnswer":"a","image":""}
     ]
-  },
-      {
+  },  
   "agama katolik": {
     "mudah": [
       {"id":12001,"question":"Kitab suci umat Katolik adalah ...","options":{"a":"Alkitab","b":"Tripitaka","c":"Veda","d":"Al-Qur'an"},"correctAnswer":"a","image":""},
