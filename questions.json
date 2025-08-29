@@ -1,4 +1,148 @@
 {
+  "ipa": {
+    "normal": [
+      {
+        "id": 101,
+        "question": "Satuan SI untuk gaya adalah...",
+        "options": { "a": "Joule", "b": "Newton", "c": "Watt", "d": "Pascal" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 102,
+        "question": "Perubahan wujud padat menjadi gas tanpa melalui cair disebut...",
+        "options": { "a": "Menguap", "b": "Melebur", "c": "Menyublim", "d": "Mengkristal" },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 103,
+        "question": "Organel tempat berlangsungnya fotosintesis adalah...",
+        "options": { "a": "Mitokondria", "b": "Kloroplas", "c": "Ribosom", "d": "Inti sel" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 104,
+        "question": "Gas yang paling banyak terdapat di atmosfer Bumi adalah...",
+        "options": { "a": "Oksigen", "b": "Nitrogen", "c": "Karbon dioksida", "d": "Argon" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 105,
+        "question": "Enzim pencernaan yang terdapat pada air liur adalah...",
+        "options": { "a": "Pepsin", "b": "Tripsin", "c": "Amilase (ptialin)", "d": "Lipase" },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 106,
+        "question": "Rumus kimia garam dapur adalah...",
+        "options": { "a": "KCl", "b": "NaCl", "c": "Na2CO3", "d": "CaCl2" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 107,
+        "question": "Planet bercincin yang paling mencolok terlihat adalah...",
+        "options": { "a": "Jupiter", "b": "Saturnus", "c": "Uranus", "d": "Neptunus" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 108,
+        "question": "Rumus energi potensial gravitasi adalah...",
+        "options": { "a": "mgh", "b": "½mv²", "c": "F/s", "d": "P×t" },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 109,
+        "question": "Bagian telinga yang berfungsi menjaga keseimbangan adalah...",
+        "options": { "a": "Koklea", "b": "Gendang telinga", "c": "Saluran setengah lingkaran", "d": "Tulang sanggurdi" },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 110,
+        "question": "Karat pada besi terbentuk karena reaksi...",
+        "options": { "a": "Netralisasi", "b": "Oksidasi", "c": "Reduksi", "d": "Pengendapan" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 111,
+        "question": "Cacat mata rabun dekat (hipermetropi) dikoreksi dengan lensa...",
+        "options": { "a": "Cekung (konkaf)", "b": "Cembung (konveks)", "c": "Silinder", "d": "Prisma" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 112,
+        "question": "Bagian sel yang mengatur keluar-masuknya zat adalah...",
+        "options": { "a": "Dinding sel", "b": "Membran sel", "c": "Sitosol", "d": "Vakuola" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 113,
+        "question": "Perpindahan panas yang tidak memerlukan medium adalah...",
+        "options": { "a": "Konduksi", "b": "Konveksi", "c": "Radiasi", "d": "Evaporasi" },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 114,
+        "question": "Urutan takson dari yang terbesar ke terkecil adalah...",
+        "options": { "a": "Filum–Kingdom–Kelas–Ordo–Famili–Genus–Spesies", "b": "Kingdom–Filum–Kelas–Ordo–Famili–Genus–Spesies", "c": "Kingdom–Kelas–Filum–Ordo–Famili–Genus–Spesies", "d": "Kingdom–Filum–Ordo–Kelas–Famili–Genus–Spesies" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 115,
+        "question": "Besaran di bawah ini yang termasuk skalar adalah...",
+        "options": { "a": "Gaya", "b": "Percepatan", "c": "Momentum", "d": "Energi" },
+        "correctAnswer": "d",
+        "image": ""
+      },
+      {
+        "id": 116,
+        "question": "Peristiwa berikut yang merupakan perubahan kimia adalah...",
+        "options": { "a": "Es mencair", "b": "Air menguap", "c": "Besi berkarat", "d": "Kapur barus menyublim" },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 117,
+        "question": "Benda akan terapung dalam zat cair apabila...",
+        "options": { "a": "Massa jenis benda lebih kecil dari zat cair", "b": "Massa jenis benda lebih besar dari zat cair", "c": "Benda berbentuk ringan", "d": "Benda berukuran kecil" },
+        "correctAnswer": "a",
+        "image": ""
+      },
+      {
+        "id": 118,
+        "question": "Respirasi aerob pada sel eukariotik terutama berlangsung di...",
+        "options": { "a": "Inti sel", "b": "Mitokondria", "c": "Kloroplas", "d": "Ribosom" },
+        "correctAnswer": "b",
+        "image": ""
+      },
+      {
+        "id": 119,
+        "question": "Jumlah kromosom pada sel tubuh (somatik) manusia adalah...",
+        "options": { "a": "23", "b": "24", "c": "46", "d": "48" },
+        "correctAnswer": "c",
+        "image": ""
+      },
+      {
+        "id": 120,
+        "question": "Lapisan ozon terutama terdapat pada lapisan atmosfer...",
+        "options": { "a": "Troposfer", "b": "Stratosfer", "c": "Mesosfer", "d": "Termosfer" },
+        "correctAnswer": "b",
+        "image": ""
+      }
+    ]
+  },
   "utbk": {
     "mudah": [
       {
@@ -148,149 +292,4 @@
       }
     ]
   }
-},
-  "ipa": {
-    "normal": [
-      {
-        "id": 101,
-        "question": "Satuan SI untuk gaya adalah...",
-        "options": { "a": "Joule", "b": "Newton", "c": "Watt", "d": "Pascal" },
-        "correctAnswer": "b",
-        "image": ""
-      },
-      {
-        "id": 102,
-        "question": "Perubahan wujud padat menjadi gas tanpa melalui cair disebut...",
-        "options": { "a": "Menguap", "b": "Melebur", "c": "Menyublim", "d": "Mengkristal" },
-        "correctAnswer": "c",
-        "image": ""
-      },
-      {
-        "id": 103,
-        "question": "Organel tempat berlangsungnya fotosintesis adalah...",
-        "options": { "a": "Mitokondria", "b": "Kloroplas", "c": "Ribosom", "d": "Inti sel" },
-        "correctAnswer": "b",
-        "image": ""
-      },
-      {
-        "id": 104,
-        "question": "Gas yang paling banyak terdapat di atmosfer Bumi adalah...",
-        "options": { "a": "Oksigen", "b": "Nitrogen", "c": "Karbon dioksida", "d": "Argon" },
-        "correctAnswer": "b",
-        "image": ""
-      },
-      {
-        "id": 105,
-        "question": "Enzim pencernaan yang terdapat pada air liur adalah...",
-        "options": { "a": "Pepsin", "b": "Tripsin", "c": "Amilase (ptialin)", "d": "Lipase" },
-        "correctAnswer": "c",
-        "image": ""
-      },
-      {
-        "id": 106,
-        "question": "Rumus kimia garam dapur adalah...",
-        "options": { "a": "KCl", "b": "NaCl", "c": "Na2CO3", "d": "CaCl2" },
-        "correctAnswer": "b",
-        "image": ""
-      },
-      {
-        "id": 107,
-        "question": "Planet bercincin yang paling mencolok terlihat adalah...",
-        "options": { "a": "Jupiter", "b": "Saturnus", "c": "Uranus", "d": "Neptunus" },
-        "correctAnswer": "b",
-        "image": ""
-      },
-      {
-        "id": 108,
-        "question": "Rumus energi potensial gravitasi adalah...",
-        "options": { "a": "mgh", "b": "½mv²", "c": "F/s", "d": "P×t" },
-        "correctAnswer": "a",
-        "image": ""
-      },
-      {
-        "id": 109,
-        "question": "Bagian telinga yang berfungsi menjaga keseimbangan adalah...",
-        "options": { "a": "Koklea", "b": "Gendang telinga", "c": "Saluran setengah lingkaran", "d": "Tulang sanggurdi" },
-        "correctAnswer": "c",
-        "image": ""
-      },
-      {
-        "id": 110,
-        "question": "Karat pada besi terbentuk karena reaksi...",
-        "options": { "a": "Netralisasi", "b": "Oksidasi", "c": "Reduksi", "d": "Pengendapan" },
-        "correctAnswer": "b",
-        "image": ""
-      },
-      {
-        "id": 111,
-        "question": "Cacat mata rabun dekat (hipermetropi) dikoreksi dengan lensa...",
-        "options": { "a": "Cekung (konkaf)", "b": "Cembung (konveks)", "c": "Silinder", "d": "Prisma" },
-        "correctAnswer": "b",
-        "image": ""
-      },
-      {
-        "id": 112,
-        "question": "Bagian sel yang mengatur keluar-masuknya zat adalah...",
-        "options": { "a": "Dinding sel", "b": "Membran sel", "c": "Sitosol", "d": "Vakuola" },
-        "correctAnswer": "b",
-        "image": ""
-      },
-      {
-        "id": 113,
-        "question": "Perpindahan panas yang tidak memerlukan medium adalah...",
-        "options": { "a": "Konduksi", "b": "Konveksi", "c": "Radiasi", "d": "Evaporasi" },
-        "correctAnswer": "c",
-        "image": ""
-      },
-      {
-        "id": 114,
-        "question": "Urutan takson dari yang terbesar ke terkecil adalah...",
-        "options": { "a": "Filum–Kingdom–Kelas–Ordo–Famili–Genus–Spesies", "b": "Kingdom–Filum–Kelas–Ordo–Famili–Genus–Spesies", "c": "Kingdom–Kelas–Filum–Ordo–Famili–Genus–Spesies", "d": "Kingdom–Filum–Ordo–Kelas–Famili–Genus–Spesies" },
-        "correctAnswer": "b",
-        "image": ""
-      },
-      {
-        "id": 115,
-        "question": "Besaran di bawah ini yang termasuk skalar adalah...",
-        "options": { "a": "Gaya", "b": "Percepatan", "c": "Momentum", "d": "Energi" },
-        "correctAnswer": "d",
-        "image": ""
-      },
-      {
-        "id": 116,
-        "question": "Peristiwa berikut yang merupakan perubahan kimia adalah...",
-        "options": { "a": "Es mencair", "b": "Air menguap", "c": "Besi berkarat", "d": "Kapur barus menyublim" },
-        "correctAnswer": "c",
-        "image": ""
-      },
-      {
-        "id": 117,
-        "question": "Benda akan terapung dalam zat cair apabila...",
-        "options": { "a": "Massa jenis benda lebih kecil dari zat cair", "b": "Massa jenis benda lebih besar dari zat cair", "c": "Benda berbentuk ringan", "d": "Benda berukuran kecil" },
-        "correctAnswer": "a",
-        "image": ""
-      },
-      {
-        "id": 118,
-        "question": "Respirasi aerob pada sel eukariotik terutama berlangsung di...",
-        "options": { "a": "Inti sel", "b": "Mitokondria", "c": "Kloroplas", "d": "Ribosom" },
-        "correctAnswer": "b",
-        "image": ""
-      },
-      {
-        "id": 119,
-        "question": "Jumlah kromosom pada sel tubuh (somatik) manusia adalah...",
-        "options": { "a": "23", "b": "24", "c": "46", "d": "48" },
-        "correctAnswer": "c",
-        "image": ""
-      },
-      {
-        "id": 120,
-        "question": "Lapisan ozon terutama terdapat pada lapisan atmosfer...",
-        "options": { "a": "Troposfer", "b": "Stratosfer", "c": "Mesosfer", "d": "Termosfer" },
-        "correctAnswer": "b",
-        "image": ""
-      }
-    ]
-  }
-
+}
