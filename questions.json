@@ -159,7 +159,7 @@
       { "id": 40220, "question": "Pemimpin perlawanan rakyat Bali terhadap Belanda yang dikenal dengan Puputan Jagaraga adalah ...", "options": { "a": "I Gusti Ketut Jelantik", "b": "Dewa Agung Istri Kanya", "c": "Ida Made Rai", "d": "I Gusti Ngurah Rai" }, "correctAnswer": "a", "image": "" }
     ]
   },
-  "tebak_receh": {
+  "tebak-receh": {
     "mudah": [
       { "id": 50001, "question": "Binatang yang suka mengeluarkan bau busuk ketika terancam?", "options": { "a": "Sigung", "b": "Trenggiling", "c": "Landak", "d": "Kelelawar" }, "correctAnswer": "a", "image": "" },
       { "id": 50002, "question": "Makanan khas Indonesia yang terbuat dari kedelai fermentasi?", "options": { "a": "Tempe", "b": "Tahu", "c": "Oncom", "d": "Tape" }, "correctAnswer": "a", "image": "" },
@@ -294,5 +294,74 @@
       { "id": 60219, "question": "Framework untuk pengembangan aplikasi web yang menggunakan Python adalah ...", "options": { "a": "Django", "b": "Flask", "c": "Ruby on Rails", "d": "Spring" }, "correctAnswer": "a", "image": "" },
       { "id": 60220, "question": "Teknologi untuk membuat virtual machine di cloud adalah ...", "options": { "a": "Docker", "b": "Kubernetes", "c": "VMware", "d": "VirtualBox" }, "correctAnswer": "a", "image": "" }
     ]
-  }
+  },
+  "islam": {
+  "mudah": [
+    {"id":10001,"question":"Rukun Islam yang pertama adalah ...","options":{"a":"Syahadat","b":"Shalat","c":"Zakat","d":"Puasa"},"correctAnswer":"a","image":""},
+    {"id":10002,"question":"Kitab suci umat Islam adalah ...","options":{"a":"Al-Qur'an","b":"Injil","c":"Taurat","d":"Tripitaka"},"correctAnswer":"a","image":""},
+    {"id":10003,"question":"Jumlah shalat wajib dalam sehari adalah ...","options":{"a":"3","b":"4","c":"5","d":"6"},"correctAnswer":"c","image":""},
+    {"id":10004,"question":"Puasa wajib dilaksanakan pada bulan ...","options":{"a":"Ramadhan","b":"Syawal","c":"Muharram","d":"Rabiul Awal"},"correctAnswer":"a","image":""},
+    {"id":10005,"question":"Kiblat umat Islam menghadap ke ...","options":{"a":"Masjid Nabawi","b":"Ka'bah","c":"Masjid Al-Aqsa","d":"Masjid Istiqlal"},"correctAnswer":"b","image":""},
+    {"id":10006,"question":"Nabi terakhir yang diutus Allah adalah ...","options":{"a":"Nabi Musa","b":"Nabi Isa","c":"Nabi Ibrahim","d":"Nabi Muhammad"},"correctAnswer":"d","image":""},
+    {"id":10007,"question":"Hari raya kurban disebut ...","options":{"a":"Idul Fitri","b":"Idul Adha","c":"Maulid Nabi","d":"Asyura"},"correctAnswer":"b","image":""},
+    {"id":10008,"question":"Tempat ibadah umat Islam disebut ...","options":{"a":"Gereja","b":"Vihara","c":"Pura","d":"Masjid"},"correctAnswer":"d","image":""},
+    {"id":10009,"question":"Rukun Iman berjumlah ...","options":{"a":"4","b":"5","c":"6","d":"7"},"correctAnswer":"c","image":""},
+    {"id":10010,"question":"Zakat fitrah dibayarkan menjelang ...","options":{"a":"Idul Fitri","b":"Idul Adha","c":"Tahun Baru Hijriah","d":"Nuzulul Qur'an"},"correctAnswer":"a","image":""},
+    {"id":10011,"question":"Bahasa wahyu Al-Qur'an adalah ...","options":{"a":"Ibrani","b":"Latin","c":"Arab","d":"Suryani"},"correctAnswer":"c","image":""},
+    {"id":10012,"question":"Kota kelahiran Nabi Muhammad adalah ...","options":{"a":"Madinah","b":"Mekkah","c":"Thaif","d":"Yatsrib"},"correctAnswer":"b","image":""},
+    {"id":10013,"question":"Peristiwa hijrah Nabi menuju ...","options":{"a":"Yerusalem","b":"Madinah","c":"Kufah","d":"Damaskus"},"correctAnswer":"b","image":""},
+    {"id":10014,"question":"Haji wajib bagi yang ...","options":{"a":"Belum baligh","b":"Mampu","c":"Musafir","d":"Sakit"},"correctAnswer":"b","image":""},
+    {"id":10015,"question":"Ibadah wukuf dilakukan di ...","options":{"a":"Mina","b":"Arafah","c":"Muzdalifah","d":"Shafa"},"correctAnswer":"b","image":""},
+    {"id":10016,"question":"Surah pembuka Al-Qur'an adalah ...","options":{"a":"Al-Fatihah","b":"Al-Baqarah","c":"An-Nas","d":"Al-Ikhlas"},"correctAnswer":"a","image":""},
+    {"id":10017,"question":"Lafaz takbir Idul Fitri dimulai pada malam ...","options":{"a":"1 Ramadhan","b":"1 Muharram","c":"1 Syawal","d":"10 Dzulhijjah"},"correctAnswer":"c","image":""},
+    {"id":10018,"question":"Shalat tarawih dikerjakan pada malam bulan ...","options":{"a":"Rajab","b":"Ramadhan","c":"Dzulqa'dah","d":"Safar"},"correctAnswer":"b","image":""},
+    {"id":10019,"question":"Malam kemuliaan di bulan Ramadhan disebut ...","options":{"a":"Lailatul Qadar","b":"Lailatul Bara'ah","c":"Israk","d":"Mi'raj"},"correctAnswer":"a","image":""},
+    {"id":10020,"question":"Zakat mal dikeluarkan ketika terpenuhi ...","options":{"a":"Sedekah","b":"Nisab dan haul","c":"Uqubat","d":"Kafarat"},"correctAnswer":"b","image":""}
+  ],
+  "normal": [
+    {"id":10101,"question":"Wahyu pertama turun di Gua ...","options":{"a":"Hira","b":"Tsur","c":"Uhud","d":"Badr"},"correctAnswer":"a","image":""},
+    {"id":10102,"question":"Ayat pertama yang turun adalah ...","options":{"a":"Al-Fatihah","b":"Al-'Alaq 1-5","c":"Al-Muddatsir 1-7","d":"Al-Baqarah 1-3"},"correctAnswer":"b","image":""},
+    {"id":10103,"question":"Rukun haji yang paling utama adalah ...","options":{"a":"Thawaf","b":"Sa'i","c":"Wukuf di Arafah","d":"Mabit"},"correctAnswer":"c","image":""},
+    {"id":10104,"question":"Jumlah ayat dalam surah Al-Fatihah adalah ...","options":{"a":"5","b":"6","c":"7","d":"8"},"correctAnswer":"c","image":""},
+    {"id":10105,"question":"Perang Badar terjadi pada tahun ke-... H","options":{"a":"1","b":"2","c":"3","d":"4"},"correctAnswer":"b","image":""},
+    {"id":10106,"question":"Membaca Al-Fatihah tiap rakaat shalat hukumnya ...","options":{"a":"Sunnah","b":"Wajib","c":"Mubah","d":"Makruh"},"correctAnswer":"b","image":""},
+    {"id":10107,"question":"Golongan penerima zakat berjumlah ...","options":{"a":"7","b":"8","c":"9","d":"10"},"correctAnswer":"b","image":""},
+    {"id":10108,"question":"Tahun kelahiran Nabi dikenal sebagai ...","options":{"a":"Tahun Gajah","b":"Tahun Unta","c":"Tahun Badar","d":"Tahun Hijrah"},"correctAnswer":"a","image":""},
+    {"id":10109,"question":"Khalifah pertama setelah wafat Nabi adalah ...","options":{"a":"Umar","b":"Ali","c":"Abu Bakar","d":"Utsman"},"correctAnswer":"c","image":""},
+    {"id":10110,"question":"Lailatul Qadar dicari pada malam ...","options":{"a":"Awal Ramadhan","b":"Pertengahan","c":"Ganjil pada sepuluh terakhir","d":"Akhir Dzulhijjah"},"correctAnswer":"c","image":""},
+    {"id":10111,"question":"Hukum asal muamalah adalah ...","options":{"a":"Haram kecuali ada dalil","b":"Mubah kecuali ada dalil yang melarang","c":"Makruh","d":"Wajib"},"correctAnswer":"b","image":""},
+    {"id":10112,"question":"Kompilasi hadits Imam Bukhari berjudul ...","options":{"a":"Al-Muwaththa’","b":"Sunan Abu Dawud","c":"Shahih al-Bukhari","d":"Musnad Ahmad"},"correctAnswer":"c","image":""},
+    {"id":10113,"question":"Ijtihad adalah ...","options":{"a":"Meniru pendapat orang","b":"Usaha maksimal menggali hukum dari dalil","c":"Menetapkan hukum tanpa dalil","d":"Ijma'"},"correctAnswer":"b","image":""},
+    {"id":10114,"question":"Nisab zakat emas sekitar ... gram","options":{"a":"59.5","b":"85","c":"100","d":"45"},"correctAnswer":"b","image":""},
+    {"id":10115,"question":"Surah terpanjang dalam Al-Qur’an adalah ...","options":{"a":"Ali Imran","b":"An-Nisa","c":"Al-Baqarah","d":"At-Taubah"},"correctAnswer":"c","image":""},
+    {"id":10116,"question":"Hari raya setelah ibadah haji adalah ...","options":{"a":"Idul Fitri","b":"Idul Adha","c":"Asyura","d":"Maulid"},"correctAnswer":"b","image":""},
+    {"id":10117,"question":"Perintah zakat antara lain pada QS. ...","options":{"a":"Al-Baqarah 183","b":"At-Taubah 103","c":"An-Nas 1","d":"Al-Kafirun 1"},"correctAnswer":"b","image":""},
+    {"id":10118,"question":"Doa pembuka khutbah yang dianjurkan adalah ...","options":{"a":"Khutbah wada’","b":"Khutbatul hajah","c":"Tasyahhud awal","d":"Qunut"},"correctAnswer":"b","image":""},
+    {"id":10119,"question":"Qadha shalat fardhu hukumnya ...","options":{"a":"Wajib","b":"Sunnah","c":"Makruh","d":"Haram"},"correctAnswer":"a","image":""},
+    {"id":10120,"question":"Amil zakat adalah ...","options":{"a":"Penerima zakat","b":"Pengelola zakat","c":"Pembayar zakat","d":"Mustahik fakir saja"},"correctAnswer":"b","image":""}
+  ],
+  "sulit": [
+    {"id":10201,"question":"Hadits mutawatir adalah hadits yang ...","options":{"a":"Diriwayatkan banyak perawi tiap tingkatan","b":"Sanad terputus","c":"Satu perawi saja","d":"Munkar"},"correctAnswer":"a","image":""},
+    {"id":10202,"question":"Mazhab yang paling menekankan qiyas ...","options":{"a":"Maliki","b":"Hanafi","c":"Hanbali","d":"Syafi'i"},"correctAnswer":"b","image":""},
+    {"id":10203,"question":"Rukun wudhu menurut jumhur berjumlah ...","options":{"a":"4","b":"5","c":"6","d":"7"},"correctAnswer":"a","image":""},
+    {"id":10204,"question":"Haji tamattu' adalah ...","options":{"a":"Gabung haji-umrah satu ihram","b":"Umrah dulu tahallul, lalu ihram haji","c":"Haji tanpa wukuf","d":"Haji hanya di Mina"},"correctAnswer":"b","image":""},
+    {"id":10205,"question":"Jumlah ayat surah Al-Baqarah adalah ...","options":{"a":"286","b":"285","c":"280","d":"290"},"correctAnswer":"a","image":""},
+    {"id":10206,"question":"Maqasid al-shariah mencakup hifz ad-din, an-nafs, al-aql, an-nasl, dan ...","options":{"a":"al-maal","b":"al-lughah","c":"al-bayt","d":"as-sunnah"},"correctAnswer":"a","image":""},
+    {"id":10207,"question":"Ijma' adalah ...","options":{"a":"Kesepakatan para mujtahid pada suatu masa atas hukum syara'","b":"Qiyas pada nash","c":"Perbedaan pendapat","d":"Adat"},"correctAnswer":"a","image":""},
+    {"id":10208,"question":"Perang Uhud terjadi pada tahun ke-... H","options":{"a":"2","b":"3","c":"4","d":"5"},"correctAnswer":"b","image":""},
+    {"id":10209,"question":"Hukum asal benda adalah ...","options":{"a":"Haram","b":"Mubah","c":"Makruh","d":"Sunnah"},"correctAnswer":"b","image":""},
+    {"id":10210,"question":"Nasikh-mansukh berarti ...","options":{"a":"Makkiyah-Madaniyah","b":"Ayat menghapus hukum ayat lain","c":"Perbedaan qira’at","d":"Asbabun nuzul"},"correctAnswer":"b","image":""},
+    {"id":10211,"question":"Jumlah juz mushaf standar adalah ...","options":{"a":"30","b":"20","c":"15","d":"60"},"correctAnswer":"a","image":""},
+    {"id":10212,"question":"Tahlil secara bahasa berarti ...","options":{"a":"Menyucikan","b":"Membesarkan","c":"Mengucap 'la ilaha illallah'","d":"Memuji"},"correctAnswer":"c","image":""},
+    {"id":10213,"question":"Kaidah 'al-yaqin la yazulu ...' dilanjutkan ...","options":{"a":"bisy-syakk","b":"bil-qath’","c":"bil-ijtihad","d":"bil-qiyas"},"correctAnswer":"a","image":""},
+    {"id":10214,"question":"Dalam faraidh, cucu dari anak laki-laki terhalang oleh ...","options":{"a":"Ayah","b":"Kakek","c":"Anak laki-laki","d":"Saudara"},"correctAnswer":"c","image":""},
+    {"id":10215,"question":"Takbir shalat jenazah menurut mazhab Syafi'i berjumlah ...","options":{"a":"3","b":"4","c":"5","d":"6"},"correctAnswer":"b","image":""},
+    {"id":10216,"question":"'Qira'ah sab'ah' merujuk ...","options":{"a":"Tujuh cara bacaan Al-Qur’an mutawatir","b":"Tujuh juz","c":"Tujuh surah panjang","d":"Tujuh maqam"},"correctAnswer":"a","image":""},
+    {"id":10217,"question":"Perang Khandaq juga disebut Perang ...","options":{"a":"Ahzab","b":"Hunain","c":"Tabuk","d":"Yarmuk"},"correctAnswer":"a","image":""},
+    {"id":10218,"question":"Jual beli salam hukumnya ...","options":{"a":"Haram","b":"Mubah","c":"Sunnah","d":"Makruh"},"correctAnswer":"b","image":""},
+    {"id":10219,"question":"Masa haul zakat mal minimal ...","options":{"a":"6 bulan","b":"1 tahun hijriah","c":"2 tahun","d":"40 hari"},"correctAnswer":"b","image":""},
+    {"id":10220,"question":"Al-Muwaththa’ adalah karya ...","options":{"a":"Imam Malik","b":"Imam Syafi'i","c":"Imam Bukhari","d":"Imam Ahmad"},"correctAnswer":"a","image":""}
+  ]
 }
+}
+
