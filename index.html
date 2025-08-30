@@ -207,6 +207,43 @@
 /* ===== STATE ===== */
 const ADMIN_PASSWORD = "281105";
 
+/* ====== ⬇⬇⬇ PUBLIC SCORE CONFIG (TAMBAHAN) ⬇⬇⬇ ====== */
+const SCORE_API = "https://domainmu.com/scoreboard.php"; // <-- GANTI INI ke URL scoreboard.php kamu. Boleh dikosongkan "" untuk lokal only.
+
+async function pushScorePublic(rec){
+  if(!SCORE_API) return false;
+  try{
+    const res = await fetch(SCORE_API,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(rec)
+    });
+    return res.ok;
+  }catch(e){ return false; }
+}
+
+async function fetchScoresPublic(){
+  if(!SCORE_API) return null;
+  try{
+    const res = await fetch(SCORE_API,{cache:'no-store'});
+    if(!res.ok) return null;
+    const data = await res.json();
+    return Array.isArray(data?.scores) ? data.scores : null;
+  }catch(e){ return null; }
+}
+
+async function resetScoresPublic(){
+  if(!SCORE_API) return false;
+  try{
+    const res = await fetch(
+      SCORE_API + "?reset=1&key=" + encodeURIComponent(ADMIN_PASSWORD),
+      { method:'POST' }
+    );
+    return res.ok;
+  }catch(e){ return false; }
+}
+/* ====== ⬆⬆⬆ END PUBLIC SCORE CONFIG (TAMBAHAN) ⬆⬆⬆ ====== */
+
 const app = {
   player: {name:"", avatar:"", theme:"theme-light-1"},
   scores: [],
@@ -406,6 +443,7 @@ function renderQ(){
   };
 }
 
+/* ===== finishQuiz() — DIUBAH: kirim ke server publik + simpan lokal ===== */
 function finishQuiz(){
   const {list,answers,start,cat,lvl}=app.current;
   let score=0;
@@ -423,26 +461,54 @@ function finishQuiz(){
     cont.appendChild(box);
   });
 
-  const rec={name:app.player.name||"Pemain",score,total:list.length,category:cat,level:lvl,ms:Math.max(1,Date.now()-start),date:new Date().toISOString()};
+  const rec={
+    name:app.player.name||"Pemain",
+    score,
+    total:list.length,
+    category:cat,
+    level:lvl,
+    ms:Math.max(1,Date.now()-start),
+    date:new Date().toISOString()
+  };
+
+  // Lokal (offline fallback)
   app.scores.push(rec);
   app.scores.sort((a,b)=> b.score-a.score || a.ms-b.ms || new Date(a.date)-new Date(b.date));
   app.scores=app.scores.slice(0,100);
   save();
 
+  // Publik (server)
+  pushScorePublic(rec);
+
   show("result");
 }
 
 /* ===== SCORES ===== */
-function renderScores(){
+/* renderScores() — DIUBAH: coba baca publik dulu, kalau gagal pakai lokal */
+async function renderScores(){
+  const remote = await fetchScoresPublic();         // array | null
+  const list = remote || app.scores;                // fallback ke lokal
+
   const tb=$("#scoreTable tbody"); tb.innerHTML="";
-  $("#emptyScore").style.display = app.scores.length?"none":"block";
-  app.scores.forEach((s,i)=>{
+  $("#emptyScore").style.display = list.length?"none":"block";
+  list.forEach((s,i)=>{
     const tr=document.createElement("tr");
-    tr.innerHTML=`<td>${i+1}</td><td>${escapeHTML(s.name)}</td><td>${s.score}</td><td>${s.score}/${s.total}</td><td>${s.category.toUpperCase()}</td><td>${s.level}</td><td>${Math.round(s.ms/1000)} dtk</td><td>${new Date(s.date).toLocaleString("id-ID")}</td>`;
+    tr.innerHTML=`<td>${i+1}</td><td>${escapeHTML(s.name||"")}</td><td>${s.score}</td><td>${s.score}/${s.total}</td><td>${(s.category||"").toUpperCase()}</td><td>${s.level||""}</td><td>${Math.round((s.ms||0)/1000)} dtk</td><td>${new Date(s.date).toLocaleString("id-ID")}</td>`;
     tb.appendChild(tr);
   });
 }
-$("#resetScores").onclick=()=>{ if(confirm("Hapus semua top score?")){ app.scores=[]; save(); renderScores(); } };
+
+/* Tombol reset — DIUBAH: reset publik jika ada, kalau gagal reset lokal */
+$("#resetScores").onclick=async ()=>{
+  if(!confirm("Hapus semua top score?")) return;
+  const pass = prompt("Password admin:");
+  if(pass!==ADMIN_PASSWORD) return alert("Password salah.");
+
+  const ok = await resetScoresPublic();
+  if(!ok){ app.scores=[]; save(); }
+  await renderScores();
+  alert(ok ? "Top score publik dihapus." : "Top score lokal dihapus.");
+};
 
 /* ===== ADMIN ===== */
 function renderAdmin(){
